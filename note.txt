@@ -1,0 +1,2 @@
+ - npx prisma generate --schema=src/db/prisma
+ - npx prisma db push --schema=src/db/prisma
