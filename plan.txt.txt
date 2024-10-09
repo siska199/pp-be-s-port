@@ -1,0 +1,5 @@
+Tech stack:
+- Express
+- Prisma
+- Mongodb
+- Typescript
