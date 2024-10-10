@@ -1,7 +1,8 @@
-import express from 'express';
-import skillProjectRoute from './skill/skill-project-route';
-export default ()=>{
-    const router = express.Router()
-    skillProjectRoute(router)
-    return router
-}
+import authRoute from "@routes/auth/auth-route";
+import express from "express";
+const router = express.Router();
+
+export default () => {
+  authRoute(router);
+  return router;
+};

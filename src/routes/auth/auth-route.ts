@@ -1,6 +1,7 @@
-import { register } from '@controllers/auth/auth-controller';
-import express from 'express';
+import { register } from "@controllers/auth/auth-controller";
+import express from "express";
 
-export default (router:express.Router)=>{
-    router.post('/auth/register',register)
-}
+export default (router: express.Router) => {
+  console.log("come here");
+  router.post("/auth/register", register);
+};
