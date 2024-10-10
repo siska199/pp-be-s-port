@@ -4,7 +4,8 @@
   "description": "The backend repository for s-port website",
   "main": "index.ts",
   "scripts": {
-    "start": "npx nodemon"
+    "start": "npx nodemon",
+    "prisma:push": "npx prisma generate --schema=src/db/prisma && npx prisma db push --schema=src/db/prisma"
   },
   "repository": {
     "type": "git",

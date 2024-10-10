@@ -5,10 +5,10 @@ import { generateTimeExpired } from "@helpers/function";
 import { successResponse } from "@helpers/response";
 import { generateToken, generateTokenJwt } from "@helpers/token";
 import { CustomError } from "@middleware/error-handler";
-import { getUserByEMail } from "@query/user/user-query";
+import { getUserByEMail, insertUser } from "@query/user/user-query";
 import { Request, Response } from "express";
 
-interface TPayloadRegister {
+export interface TPayloadRegister {
   email: string;
   password: string;
   last_name: string;
@@ -27,11 +27,12 @@ export const register = catchErrors(async (req: Request, res: Response) => {
 
   if (userExist) throw new CustomError("This email already has been used", 400);
 
-  const hashPassword = encryptBycrypt(password);
+  const hashPassword = await encryptBycrypt(password);
   const verifiedToken = generateToken();
   const expiredVerifiedToken = generateTimeExpired();
 
-  const userCreate = await prisma.user.create({
+  console.log(hashPassword);
+  const userCreate = await insertUser({
     ...req.body,
     password: hashPassword,
     verified_token: verifiedToken,

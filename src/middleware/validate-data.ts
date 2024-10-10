@@ -5,8 +5,9 @@ const validateData = (schema: z.ZodObject<any, any>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req.body);
+      return next();
     } catch (error) {
-      next(error);
+      return next(error);
     }
   };
 };
