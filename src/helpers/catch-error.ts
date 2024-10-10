@@ -1,14 +1,15 @@
-import { TRequestAuthRoute } from "@types";
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 
-type AsyncController = (
-  req: TRequestAuthRoute,
+type TAsyncController<TReq extends Request = Request> = (
+  req: TReq,
   res: Response,
   next: NextFunction
 ) => Promise<any>;
 
 const catchErrors =
-  (controller: AsyncController): AsyncController =>
+  <TReq extends Request = Request>(
+    controller: TAsyncController<TReq>
+  ): TAsyncController<TReq> =>
   async (req, res, next) => {
     try {
       await controller(req, res, next);

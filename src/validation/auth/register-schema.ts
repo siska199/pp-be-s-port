@@ -14,6 +14,7 @@ const registerSchema = z.object({
       message: validation.password.message,
     }
   ),
+  id_profession: zStringRequired({ name: "ID Profession" }),
 });
 
 export default registerSchema;

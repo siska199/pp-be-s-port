@@ -1,16 +1,23 @@
 import prisma from "@db/prisma";
 import catchErrors from "@helpers/catch-error";
 import { dycriptBycrypt, encryptBycrypt } from "@helpers/encryption";
+import { generateTimeExpired } from "@helpers/function";
 import { successResponse } from "@helpers/response";
-import {
-  generateTimeExpired,
-  generateToken,
-  generateTokenJwt,
-} from "@helpers/token";
+import { generateToken, generateTokenJwt } from "@helpers/token";
 import { CustomError } from "@middleware/error-handler";
+import { getUserByEMail } from "@query/user/user-query";
+import { Request, Response } from "express";
 
-export const register = catchErrors(async (req, res) => {
-  const { email, password, profession } = req.body;
+interface TPayloadRegister {
+  email: string;
+  password: string;
+  last_name: string;
+  first_name: string;
+  id_profession: string;
+}
+
+export const register = catchErrors(async (req: Request, res: Response) => {
+  const { email, password, ...payload } = req.body as TPayloadRegister;
 
   const userExist = await prisma.user.findUnique({
     where: {
@@ -44,11 +51,7 @@ export const register = catchErrors(async (req, res) => {
 export const login = catchErrors(async (req, res) => {
   const { email, password } = req.body;
 
-  const userExist = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+  const userExist = await getUserByEMail(email);
 
   const isPasswordValid = await dycriptBycrypt({
     encryptData: userExist?.password as string,
@@ -58,7 +61,7 @@ export const login = catchErrors(async (req, res) => {
   if (!userExist || !isPasswordValid)
     throw new CustomError("Invalid Credentials", 400);
 
-  const tokenJwtAuth = generateTokenJwt({
+  const token = generateTokenJwt({
     id_user: userExist.id,
   });
 
@@ -69,7 +72,7 @@ export const login = catchErrors(async (req, res) => {
     data: {
       ...userExist,
       password: undefined,
-      token: tokenJwtAuth,
+      token,
     },
   });
 });
