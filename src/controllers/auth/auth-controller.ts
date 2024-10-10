@@ -31,5 +31,8 @@ export const register = catchErrors(async (req, res) => {
     res,
     code: 200,
     message: "Successfully Created User",
+    data: {
+      ...userCreate._doc,
+    },
   });
 });
