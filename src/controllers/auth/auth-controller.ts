@@ -1,20 +1,35 @@
+import prisma from "@db/prisma";
 import catchErrors from "@helpers/catch-error";
-import { validateMandatoryFields } from "@helpers/validation";
+import { encryptBycrypt } from "@helpers/encryption";
+import { generateTimeExpired, generateToken } from "@helpers/function";
+import { successMessage } from "@helpers/message";
 import { CustomError } from "@middleware/error-handler";
 
 export const register = catchErrors(async (req, res) => {
-  const { first_name, last_name, email, password } = req.body;
+  const { first_name, last_name, email, password, profession } = req.body;
 
-  if ([first_name, last_name, email, password]?.some((data) => !data)) {
-    const message = validateMandatoryFields({
-      first_name,
-      last_name,
+  const userExist = await prisma.user.findUnique({
+    where: {
       email,
-      password,
-    });
-    throw new  CustomError(message, 400);
-  }
+    },
+  });
 
+  if (userExist) throw new CustomError("This email already has been used", 400);
 
+  const hashPassword = encryptBycrypt(password);
+  const verifiedToken = generateToken();
+  const expiredVerifiedToken = generateTimeExpired();
 
+  const userCreate = await prisma.user.create({
+    ...req.body,
+    password: hashPassword,
+    verified_token: verifiedToken,
+    expired_verified_token: expiredVerifiedToken,
+  });
+
+  successMessage({
+    res,
+    code: 200,
+    message: "Successfully Created User",
+  });
 });

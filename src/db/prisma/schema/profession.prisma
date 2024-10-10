@@ -2,7 +2,8 @@ model Profession{
     id                      String @id @default(uuid())
     name                    String @unique
     personal_information    PersonalInformation[]
-    
+    users                   User[]
+
     @@map("profession")
 
 }
