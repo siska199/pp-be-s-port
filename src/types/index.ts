@@ -5,6 +5,6 @@ export interface TGeneralObject {
   [key: string]: any;
 }
 
-export interface TRequestAuthRoute extends Request{
-  user : User
+export interface TRequestAuthRoute extends Request {
+  user?: User;
 }

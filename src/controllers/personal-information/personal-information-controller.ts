@@ -1,65 +1,66 @@
 import prisma from "@db/prisma";
 import catchErrors from "@helpers/catch-error";
+import message from "@helpers/message";
 import { successResponse } from "@helpers/response";
+import { getPersonalInfoByIdUser } from "@query/user/personal-information-query";
 import { TRequestAuthRoute } from "@types";
 import { Response } from "express";
 
-export const getPersonalInformation = catchErrors(
+export const getPersonalInformation = catchErrors<TRequestAuthRoute>(
   async (req: TRequestAuthRoute, res: Response) => {
-    const id = req.params.id;
     const userAuth = req.user;
 
-    const personalInformationUser = await prisma.personalInformation.findFirst({
-      where: {
-        id_user: userAuth.id,
-        id,
-      },
-    });
+    const personalInformationUser = await getPersonalInfoByIdUser(
+      userAuth?.id || ""
+    );
+
     successResponse({
       res,
       data: personalInformationUser,
-      message: "Successfully Get Data Personal information",
+      message: message.success.getData,
     });
   }
 );
 
-export const editPersonalInformation = catchErrors(
+export const editPersonalInformation = catchErrors<TRequestAuthRoute>(
   async (req: TRequestAuthRoute, res: Response) => {
     const id = req.params.id;
     const userAuth = req.user;
-    const body = req.body;
+    const payload = req.body;
 
     const updatePersonalInformation = await prisma.personalInformation.update({
       where: {
         id,
-        id_user: userAuth.id,
+        id_user: userAuth?.id,
       },
       data: {
-        ...body,
+        ...payload,
       },
     });
 
     successResponse({
       res,
       data: updatePersonalInformation,
-      message: "Successfully edit data personal information",
+      message: message.success.editData,
     });
   }
 );
 
-export const deletePersonalInformation = catchErrors(async (req, res) => {
-  const id = req.params.id;
-  const userAuth = req.user;
+export const deletePersonalInformation = catchErrors<TRequestAuthRoute>(
+  async (req, res) => {
+    const id = req.params.id;
+    const userAuth = req.user;
 
-  await prisma.personalInformation.delete({
-    where: {
-      id,
-      id_user: userAuth.id,
-    },
-  });
+    await prisma.personalInformation.delete({
+      where: {
+        id,
+        id_user: userAuth?.id,
+      },
+    });
 
-  successResponse({
-    res,
-    message: "Successfully delete data",
-  });
-});
+    successResponse({
+      res,
+      message: message.success.deleteData,
+    });
+  }
+);

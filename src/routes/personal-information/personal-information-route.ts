@@ -6,11 +6,7 @@ import authentication from "@middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {
-  router.get(
-    "/personal-information/:id",
-    authentication,
-    getPersonalInformation
-  );
+  router.get("/personal-information", authentication, getPersonalInformation);
   router.post(
     "/personal-information/:id",
     authentication,
