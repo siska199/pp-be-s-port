@@ -1,7 +1,8 @@
+import { TRequestAuthRoute } from "@types";
 import { Request, Response, NextFunction } from "express";
 
 type AsyncController = (
-  req: Request,
+  req: TRequestAuthRoute,
   res: Response,
   next: NextFunction
 ) => Promise<any>;

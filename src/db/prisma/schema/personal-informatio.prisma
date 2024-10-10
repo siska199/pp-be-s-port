@@ -3,9 +3,12 @@ model PersonalInformation {
     profesional_image   String  @db.VarChar(2083)
     first_name          String  @db.VarChar(50)
     last_name           String  @db.VarChar(50)
-    id_profession       String @db.VarChar(32)
+    id_profession       String  @db.VarChar(32)
+    
+    id_user             String  @unique @db.VarChar(32)
 
     profession          Profession @relation(fields:[id_profession], references: [id])
-
+    user                User       @relation(fields: [id_user], references: [id])
+    
     @@map("personal_information")
 }

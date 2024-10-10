@@ -1,12 +1,16 @@
 import prisma from "@db/prisma";
 import catchErrors from "@helpers/catch-error";
-import { encryptBycrypt } from "@helpers/encryption";
-import { generateTimeExpired, generateToken } from "@helpers/function";
-import { successMessage } from "@helpers/message";
+import { dycriptBycrypt, encryptBycrypt } from "@helpers/encryption";
+import { successResponse } from "@helpers/response";
+import {
+  generateTimeExpired,
+  generateToken,
+  generateTokenJwt,
+} from "@helpers/token";
 import { CustomError } from "@middleware/error-handler";
 
 export const register = catchErrors(async (req, res) => {
-  const { first_name, last_name, email, password, profession } = req.body;
+  const { email, password, profession } = req.body;
 
   const userExist = await prisma.user.findUnique({
     where: {
@@ -27,12 +31,45 @@ export const register = catchErrors(async (req, res) => {
     expired_verified_token: expiredVerifiedToken,
   });
 
-  successMessage({
+  successResponse({
     res,
-    code: 200,
     message: "Successfully Created User",
     data: {
-      ...userCreate._doc,
+      ...userCreate,
+      password: undefined,
+    },
+  });
+});
+
+export const login = catchErrors(async (req, res) => {
+  const { email, password } = req.body;
+
+  const userExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  const isPasswordValid = await dycriptBycrypt({
+    encryptData: userExist?.password as string,
+    unEncryptData: password,
+  });
+
+  if (!userExist || !isPasswordValid)
+    throw new CustomError("Invalid Credentials", 400);
+
+  const tokenJwtAuth = generateTokenJwt({
+    id_user: userExist.id,
+  });
+
+  successResponse({
+    res,
+    code: 200,
+    message: "Successfully login",
+    data: {
+      ...userExist,
+      password: undefined,
+      token: tokenJwtAuth,
     },
   });
 });
