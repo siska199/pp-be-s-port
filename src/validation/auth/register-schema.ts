@@ -1,20 +1,12 @@
-import validation, { messageError } from "@validation";
-import { zStringRequired } from "@validation/reusable-shema";
+import { zEmail, zPassword, zString } from "@validation/reusable-shema";
 import z from "zod";
 
 const registerSchema = z.object({
-  first_name: zStringRequired({ name: "first Name" }),
-  last_name: zStringRequired({ name: "Last Name" }),
-  email: zStringRequired({ name: "Email" }).refine((val) =>
-    validation.email.regex.test(val)
-  ),
-  password: zStringRequired({ name: "Password" }).refine(
-    (val) => validation.password.regex.test(val),
-    {
-      message: validation.password.message,
-    }
-  ),
-  id_profession: zStringRequired({ name: "ID Profession" }),
+  first_name: zString({ name: "first Name" }),
+  last_name: zString({ name: "Last Name" }),
+  email: zEmail(),
+  password: zPassword(),
+  id_profession: zString({ name: "ID Profession" }),
 });
 
 export default registerSchema;

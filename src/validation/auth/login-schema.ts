@@ -1,11 +1,11 @@
-import { zStringRequired } from "@validation/reusable-shema";
+import { zString } from "@validation/reusable-shema";
 import z from "zod";
 
 const loginSchema = z.object({
-  email: zStringRequired({
+  email: zString({
     name: "Email",
   }),
-  password: zStringRequired({
+  password: zString({
     name: "Password",
   }),
 });

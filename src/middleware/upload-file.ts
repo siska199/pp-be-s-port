@@ -5,8 +5,8 @@ import multer, { FileFilterCallback } from "multer";
 
 type TFileValidationRules = {
   types: string[];
-  size: number;
-  mandatory?: boolean;
+  size?: number;
+  folder?: string;
 };
 
 type TFileRules = Record<string, TFileValidationRules>;
@@ -33,7 +33,10 @@ const upload = (fileRules: TFileRules) => {
       const { types } = rules;
       const isAllowedType = types
         .map((type) => type.toLowerCase())
-        .includes(file.mimetype.toLowerCase());
+        .filter((type) => {
+          return file.mimetype.toLowerCase()?.includes(type);
+        })[0];
+
       if (!isAllowedType) {
         return cb(
           new Error(
@@ -66,20 +69,24 @@ const upload = (fileRules: TFileRules) => {
             const fileSize = file.buffer.length;
             const rules = fileRules[field];
 
-            if (fileSize > rules.size * 1024 * 1024)
+            if (fileSize > (rules?.size || 5) * 1024 * 1024)
               next(
                 new CustomError(
                   `File size exceeds the limit for ${field}. Maximum size is ${rules.size} MB.`,
                   400
                 )
               );
-            const result = await uploadFileToCloudinary(file);
-            req.body[field] = result;
+            const result = await uploadFileToCloudinary(
+              file,
+              fileRules[field].folder
+            );
+            req.body[field] = result?.public_id;
             uploadResults[field] = uploadResults[field] || [];
             uploadResults[field].push(result);
           }
         }
       }
+      next();
     });
   };
 };
