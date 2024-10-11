@@ -31,7 +31,6 @@ export const register = catchErrors(async (req: Request, res: Response) => {
   const verifiedToken = generateToken();
   const expiredVerifiedToken = generateTimeExpired();
 
-  console.log(hashPassword);
   const userCreate = await insertUser({
     ...req.body,
     password: hashPassword,
@@ -65,7 +64,6 @@ export const login = catchErrors(async (req, res) => {
   const token = generateTokenJwt({
     id_user: userExist.id,
   });
-
   successResponse({
     res,
     code: 200,
