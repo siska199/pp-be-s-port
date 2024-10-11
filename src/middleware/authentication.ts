@@ -25,9 +25,9 @@ const authentication = (
         return next();
       }
     });
+  } else {
+    throw new CustomError("Unautorized", 401);
   }
-
-  throw new CustomError("Unautorized", 401);
 };
 
 export default authentication;
