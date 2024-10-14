@@ -2,12 +2,18 @@ model SkillUser {
     id                  String  @id @default(uuid())
     year_of_experiance  Int     @db.Int
     level               Level
-    
+    created_at          DateTime @default(now())
+    updated_at          DateTime @updatedAt
+
     id_user             String  @db.VarChar(36)
     id_skill            String  @db.VarChar(36)
 
     user                User @relation(fields: [id_user], references: [id])
     skill               Skill @relation(fields: [id_skill], references: [id])
+
+    skillsProject          SkillProject[]
+
+    @@map("skill_user")
 }
 
 

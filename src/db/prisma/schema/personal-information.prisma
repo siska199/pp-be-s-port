@@ -14,8 +14,8 @@ model PersonalInformation {
     about_me            String  @db.LongText
     bio                 String  @db.VarChar(255)
 
-    createdAt           DateTime @default(now())
-    updatedAt           DateTime @updatedAt
+    created_at          DateTime @default(now())
+    updated_at          DateTime @updatedAt
     
     id_profession       String  @db.VarChar(36)
     id_user             String  @unique @db.VarChar(36)

@@ -1,0 +1,9 @@
+model RelatedImageMenuProject{
+    id                  String      @id @default(uuid())
+    image               String      @db.VarChar(2083)
+    name                String      @db.VarChar(255)
+    id_menu_project     String      @db.VarChar(36)
+
+    menu_project        MenuProject @relation(fields:[id_menu_project], references:[id])
+
+}

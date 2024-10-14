@@ -1,8 +1,8 @@
 model Profession{
     id                      String @id @default(uuid())
     name                    String @unique
-    createdAt               DateTime @default(now())
-    updatedAt               DateTime @updatedAt
+    created_at              DateTime @default(now())
+    updated_at              DateTime @updatedAt
 
     personal_information    PersonalInformation[]
     users                   User[]

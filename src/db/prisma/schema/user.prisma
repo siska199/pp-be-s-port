@@ -11,16 +11,17 @@ model User {
     verified_token          String?  @db.VarChar(255)
     expired_verified_token  DateTime 
     
-    createdAt               DateTime @default(now())
-    updatedAt               DateTime @updatedAt
+    created_at               DateTime @default(now())
+    updated_at               DateTime @updatedAt
     
     id_profession           String   @db.VarChar(36)
     id_peronal_information  String?  @db.VarChar(36)
 
     profession              Profession  @relation(fields: [id_profession],references: [id])
+    personal_information    PersonalInformation?
     experience_metrics      ExperianceMetric[]
     social_links            SocialLink[]
-    personal_information    PersonalInformation?
+    projects                Project[]
     skills                  SkillUser[]
     @@map("user")
 }

@@ -1,0 +1,13 @@
+model Experiance {
+    id              String @id @default(uuid())
+    
+    id_company      String @db.VarChar(36)
+    id_profession   String @db.VarChar(36)
+   
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt
+
+    projects        Project[]
+
+    @@map("experiance")
+}

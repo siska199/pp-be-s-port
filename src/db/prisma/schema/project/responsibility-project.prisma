@@ -1,0 +1,13 @@
+model ResponsibilityProject {
+    id          String    @unique @default(uuid())
+    description String    @db.VarChar(255)
+    
+    id_project  String    @db.VarChar(36)
+
+    project     Project @relation(references:[id],fields:[id])
+
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt
+
+    @@map("responsibility_project")
+}

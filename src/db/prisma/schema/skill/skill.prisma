@@ -1,9 +1,13 @@
 model Skill {
     id              String @id      @default(uuid())
     name            String @unique  @db.VarChar(255)
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt
+
     id_category     String          @db.VarChar(36)
 
     category        CategorySkill @relation(fields: [id_category], references: [id])
     skillsUser      SkillUser[]
+    
     @@map("skill")
 }
