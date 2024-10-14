@@ -7,6 +7,7 @@ model Skill {
 
     id_category     String          @db.VarChar(36)
     category        CategorySkill   @relation(fields: [id_category], references: [id])
+    
     skillsUser      SkillUser[]
     
     @@map("skill")

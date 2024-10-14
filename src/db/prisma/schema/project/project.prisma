@@ -1,8 +1,8 @@
 model Project {
-    id                          String @id @default(uuid())
-    title                       String @db.VarChar(255)
-    thumbnail                   String @db.VarChar(2083)
-    description                 String @db.LongText
+    id                          String      @id @default(uuid())
+    title                       String      @db.VarChar(255)
+    thumbnail                   String      @db.VarChar(2083)
+    description                 String      @db.LongText
     category                    CategoryProject
     type                        TypeProject
 
@@ -10,13 +10,18 @@ model Project {
     responsibilities_project    ResponsibilityProject[]  
     tech_stacks                 SkillProject[]
 
-    id_experiance               String @db.VarChar(36)
-    id_user                     String @db.VarChar(36)
-    id_company                  String @db.VarChar(36)
-
-    company                     Company @relation(fields: [id_company], references: [id])
-    user                        User  @relation(fields: [id_user], references: [id])
+    id_experiance               String      @db.VarChar(36)
     experiance                  Experiance  @relation(fields: [id_experiance], references: [id])
+
+    id_user                     String      @db.VarChar(36)
+    user                        User        @relation(fields: [id_user], references: [id])
+
+    id_company                  String      @db.VarChar(36)
+    company                     Company     @relation(fields: [id_company], references: [id])
+    
+    created_at                  DateTime    @default(now())
+    updated_at                  DateTime    @updatedAt
+
     @@map("project")
 }
 

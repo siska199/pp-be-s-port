@@ -1,13 +1,16 @@
 model Experiance {
-    id              String @id @default(uuid())
+    id              String      @id @default(uuid())
     
-    id_company      String @db.VarChar(36)
-    id_profession   String @db.VarChar(36)
-   
-    created_at      DateTime @default(now())
-    updated_at      DateTime @updatedAt
+    id_company      String      @db.VarChar(36)
+    company         Company     @relation(fields: [id_company], references: [id])
 
-    projects        Project[]
+    id_profession   String      @db.VarChar(36)
+    profession      Profession  @relation(fields: [id_profession], references: [id])
+
+    projects        Project[]   
+
+    created_at      DateTime    @default(now())
+    updated_at      DateTime    @updatedAt
 
     @@map("experiance")
 }

@@ -6,14 +6,12 @@ model Education {
     id_university   String      @db.VarChar(36) @unique
     id_major        String      @db.VarChar(36) @unique
 
-    created_at      DateTime    @default(now())
-    updated_at      DateTime    @updatedAt
-
-
     user            User        @relation(fields: [id_user],references: [id])
     university      University  @relation(fields: [id_university],references: [id])
     major           Major       @relation(fields: [id_major], references: [id])
-    
+
+    created_at      DateTime    @default(now())
+    updated_at      DateTime    @updatedAt
     @@map("education")
 
 }

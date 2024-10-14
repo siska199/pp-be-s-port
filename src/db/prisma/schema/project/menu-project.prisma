@@ -1,17 +1,16 @@
 model MenuProject{
-    id                  String @default(uuid()) @unique
-    name                String @db.VarChar(255)
-    description         String  @db.LongText
+    id                  String      @default(uuid()) @unique
+    name                String      @db.VarChar(255)
+    description         String      @db.LongText
+
+    id_project          String      @db.VarChar(36)
+    project             Project     @relation(fields:[id_project],references:[id] )
 
     related_images      RelatedImageMenuProject[]
     features_project    FeatureMenuProject[]
 
-    id_project          String @db.VarChar(36)
-
-    project             Project @relation(fields:[id_project],references:[id] )
-
-    created_at          DateTime @default(now())
-    updated_at          DateTime @updatedAt
+    created_at          DateTime    @default(now())
+    updated_at          DateTime    @updatedAt
 
     @@map("menu_project")
 }

@@ -1,13 +1,12 @@
 model ExperianceMetric {
-    id          String  @id @default(uuid())
-    total       Int     @default(0)
+    id          String      @id @default(uuid())
+    total       Int         @default(0)
 
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+    id_user     String      @db.VarChar(36)
+    user        User        @relation(fields: [id_user], references: [id])
 
-    id_user     String  @db.VarChar(36)
-    user        User    @relation(fields: [id_user], references: [id])
-
+    created_at  DateTime    @default(now())
+    updated_at  DateTime    @updatedAt
     @@map("experiance_metric")
 }
 
