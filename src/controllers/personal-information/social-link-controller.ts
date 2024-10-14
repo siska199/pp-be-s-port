@@ -16,7 +16,7 @@ export const getSocialLinks = catchErrors(
       skip,
       take,
       where: {
-        id_user: userAuth.id,
+        id_user: userAuth?.id,
       },
     });
 
@@ -30,12 +30,12 @@ export const getSocialLinks = catchErrors(
 
 export const getSocialLink = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const userAuth = req.user;
+    const id_user = req.user?.id;
     const id = req.params.id;
 
     const socialLinkUser = await prisma.socialLink.findFirst({
       where: {
-        id_user: userAuth.id,
+        id_user,
         id,
       },
     });
@@ -50,14 +50,14 @@ export const getSocialLink = catchErrors(
 
 export const editSocialLink = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const userAuth = req.user;
+    const id_user = req.user?.id;
     const id = req.params.id;
     const body = req.body;
 
     const updateSocialLink = await prisma.socialLink.update({
       where: {
         id,
-        id_user: userAuth.id,
+        id_user,
       },
       data: body,
     });
@@ -73,12 +73,12 @@ export const editSocialLink = catchErrors(
 export const deleteSocialLink = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const id = req.params.id;
-    const userAuth = req.user;
+    const id_user = req.user?.id;
 
     await prisma.socialLink.delete({
       where: {
         id,
-        id_user: userAuth.id,
+        id_user,
       },
     });
   }

@@ -1,10 +1,8 @@
 import catchErrors from "@helpers/catch-error";
 import message from "@helpers/message";
 import { successResponse } from "@helpers/response";
-import {
-  getListProfessions,
-  insertBulkProfession,
-} from "@query/profession/profession-query";
+import { getListProfessions, insertBulkProfession } from "@query/region/profession/profession-query";
+
 import { TRequestAuthRoute } from "@types";
 
 export const getProfessions = catchErrors(async (req, res) => {

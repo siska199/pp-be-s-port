@@ -5,10 +5,10 @@ import { successResponse } from "@helpers/response";
 import {
   createPersonalInfo,
   getPersonalInfoByIdUser,
-} from "@query/user/personal-information-query";
+} from "@query/personal-information/personal-information-query";
 import { TRequestAuthRoute } from "@types";
 import { Response } from "express";
-import { updatePersonalInfo } from "@query/user/personal-information-query";
+import { updatePersonalInfo } from "@query/personal-information/personal-information-query";
 import { CustomError } from "@middleware/error-handler";
 import {
   deleteImageFromCloudinary,
