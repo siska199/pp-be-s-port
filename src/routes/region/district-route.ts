@@ -1,4 +1,4 @@
-import { getDistricts } from "@controllers/district/district-controller";
+import { getDistricts } from "@controllers/region/district-controller";
 import express from "express";
 
 export default (router: express.Router) => {

@@ -1,4 +1,4 @@
-import { getPostalCodes } from "@controllers/postal-code/postal-code-controller";
+import { getPostalCodes } from "@controllers/region/postal-code-controller";
 import express from "express";
 
 export default (router: express.Router) => {

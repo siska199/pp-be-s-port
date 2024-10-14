@@ -1,4 +1,4 @@
-import { getCities } from "@controllers/city/city-controller";
+import { getCities } from "@controllers/region/city-controller";
 import express from "express";
 
 export default (router: express.Router) => {
