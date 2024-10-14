@@ -1,0 +1,9 @@
+model Company {
+    id              String      @unique @db.VarChar(36)
+    name            String      @db.VarChar(255)
+    created_at      DateTime    @default(now())
+    updated_at      DateTime    @updatedAt
+
+    projects        Project[]
+
+}

@@ -12,7 +12,9 @@ model Project {
 
     id_experiance               String @db.VarChar(36)
     id_user                     String @db.VarChar(36)
+    id_company                  String @db.VarChar(36)
 
+    company                     Company @relation(fields: [id_company], references: [id])
     user                        User  @relation(fields: [id_user], references: [id])
     experiance                  Experiance  @relation(fields: [id_experiance], references: [id])
     @@map("project")
