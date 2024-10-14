@@ -3,10 +3,12 @@ model PersonalInformation {
     professional_image  String  @db.VarChar(2083)
     first_name          String  @db.VarChar(50)
     last_name           String  @db.VarChar(50)
+    
     province            String  @db.VarChar(255)
     city                String  @db.VarChar(255)
     district            String  @db.VarChar(255)
     postal_code         String  @db.VarChar(5)
+    
     phone_number        String  @db.VarChar(15)
     email               String  @db.VarChar(255)
     about_me            String  @db.LongText
