@@ -3,6 +3,7 @@ import catchErrors from "@helpers/catch-error";
 import message from "@helpers/message";
 import { successResponse } from "@helpers/response";
 import {
+  deleteSkill,
   getListSkill,
   getSkillById,
   insertBulkSkill,
@@ -31,18 +32,6 @@ export const getSkill = catchErrors(async (req: Request, res: Response) => {
   });
 });
 
-export const editSkill = catchErrors(async (req: Request, res: Response) => {
-  const idSkill = req.params.id;
-  const payload = req.body;
-  await updateSkill({ idSkill, payload });
-
-  successResponse({
-    res,
-    data: payload,
-    message: message.success.editData,
-  });
-});
-
 export const addSkill = catchErrors(async (req: Request, res: Response) => {
   const payload = req.body;
   await insertSkill(payload);
@@ -60,5 +49,26 @@ export const addSkillBulk = catchErrors(async (req: Request, res: Response) => {
   successResponse({
     res,
     message: message?.success?.addData,
+  });
+});
+
+export const editSkill = catchErrors(async (req: Request, res: Response) => {
+  const idSkill = req.params.id;
+  const payload = req.body;
+  await updateSkill({ idSkill, payload });
+
+  successResponse({
+    res,
+    data: payload,
+    message: message.success.editData,
+  });
+});
+
+export const removeSkill = catchErrors(async (req: Request, res: Response) => {
+  const idSkill = req.params.id;
+  await deleteSkill(idSkill);
+  successResponse({
+    res,
+    message: message.success.deleteData,
   });
 });

@@ -26,3 +26,6 @@ export const deleteSkill = async (idSkill: string) =>
   await prisma.skill.delete({
     where: { id: idSkill },
   });
+
+
+  

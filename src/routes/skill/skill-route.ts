@@ -1,12 +1,12 @@
-import { getSkills } from "@controllers/skill/skill-controller";
+import { addSkill, editSkill, getSkill, getSkills, removeSkill } from "@controllers/skill/skill-controller";
 import express from "express";
 export default (router: express.Router) => {
 
   router.get("/skills", getSkills);
-  router.get("/skill/:id");
-  router.post("/skill");
-  router.put("/skill/:id");
-  router.delete("/skill/:id");
+  router.post("/skill", addSkill);
+  router.get("/skill/:id", getSkill);
+  router.put("/skill/:id",editSkill);
+  router.delete("/skill/:id", removeSkill);
 
   return router;
 };
