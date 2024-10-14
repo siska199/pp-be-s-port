@@ -1,8 +1,8 @@
 model CategorySkill {
-    id          String  @id         @default(uuid())
-    name        String  @unique     @db.VarChar(255) 
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt
+    id          String      @id         @default(uuid())
+    name        String      @unique     @db.VarChar(255) 
+    created_at  DateTime    @default(now())
+    updated_at  DateTime    @updatedAt
 
     skills      Skill[]
 

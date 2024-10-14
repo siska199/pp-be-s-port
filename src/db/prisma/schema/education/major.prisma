@@ -1,0 +1,9 @@
+model Major{
+    id         String   @id @default(uuid())
+    name       String   @db.VarChar(255) @unique
+
+    education   Education?
+
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt  
+}

@@ -1,0 +1,19 @@
+model Education {
+    id              String      @unique @default(uuid()) 
+    description     String      @db.LongText
+
+    id_user         String      @db.VarChar(36) @unique
+    id_university   String      @db.VarChar(36) @unique
+    id_major        String      @db.VarChar(36) @unique
+
+    created_at      DateTime    @default(now())
+    updated_at      DateTime    @updatedAt
+
+
+    user            User        @relation(fields: [id_user],references: [id])
+    university      University  @relation(fields: [id_university],references: [id])
+    major           Major       @relation(fields: [id_major], references: [id])
+    
+    @@map("education")
+
+}

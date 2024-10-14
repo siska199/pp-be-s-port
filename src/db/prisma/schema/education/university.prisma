@@ -1,0 +1,10 @@
+model University{
+    id         String   @id @default(uuid())
+    name       String   @db.VarChar(255) @unique
+    image      String   @db.VarChar(2083)
+
+    education   Education?
+
+    created_at  DateTime @default(now())
+    updated_at  DateTime @updatedAt  
+}
