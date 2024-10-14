@@ -1,10 +1,11 @@
 model SocialLink{
     id          String @id @default(uuid())
-    id_user     String @db.VarChar(32)
     name        String @db.VarChar(255)
     url         String @db.VarChar(2083)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+
+    id_user     String @db.VarChar(36)
     
     user User @relation(fields: [id_user], references: [id])
 

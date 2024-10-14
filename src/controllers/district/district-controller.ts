@@ -1,7 +1,7 @@
 import catchErrors from "@helpers/catch-error";
 import message from "@helpers/message";
 import { successResponse } from "@helpers/response";
-import { getListDistrict } from "@query/region/district/district-query";
+import { getListDistrict } from "@query/region/district-query";
 
 export const getDistricts = catchErrors(async (req, res) => {
   const cityCode = req.query.city_code as string;

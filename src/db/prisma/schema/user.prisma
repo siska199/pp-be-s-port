@@ -13,13 +13,14 @@ model User {
     
     createdAt               DateTime @default(now())
     updatedAt               DateTime @updatedAt
-    id_profession           String   @db.VarChar(255)
-    id_peronal_information  String?  @db.VarChar(255)
+    
+    id_profession           String   @db.VarChar(36)
+    id_peronal_information  String?  @db.VarChar(36)
 
     profession              Profession  @relation(fields: [id_profession],references: [id])
     experience_metrics      ExperianceMetric[]
     social_links            SocialLink[]
     personal_information    PersonalInformation?
-
+    skills                  SkillUser[]
     @@map("user")
 }

@@ -17,8 +17,8 @@ model PersonalInformation {
     createdAt           DateTime @default(now())
     updatedAt           DateTime @updatedAt
     
-    id_profession       String  @db.VarChar(255)
-    id_user             String  @unique @db.VarChar(255)
+    id_profession       String  @db.VarChar(36)
+    id_user             String  @unique @db.VarChar(36)
 
     profession          Profession @relation(fields:[id_profession], references: [id])
     user                User       @relation(fields: [id_user], references: [id])
