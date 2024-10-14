@@ -11,10 +11,10 @@ import personalInfoSchema from "@validation/auth/personal-information-schema";
 import express from "express";
 
 export default (router: express.Router) => {
-  router.get("/personal-information", authentication, getPersonalInformation);
+  router.get("/personal-information", authentication(), getPersonalInformation);
   router.post(
     "/personal-information",
-    authentication,
+    authentication(),
     upload({
       professional_image: {
         types: ["jpg", "jpeg", "png"],
@@ -26,7 +26,7 @@ export default (router: express.Router) => {
   );
   router.put(
     "/personal-information/:id",
-    authentication,
+    authentication(),
     upload({
       professional_image: {
         types: ["jpg", "png"],
@@ -38,7 +38,7 @@ export default (router: express.Router) => {
   );
   router.delete(
     "/personal-information/:id",
-    authentication,
+    authentication(),
     deletePersonalInformation
   );
 };

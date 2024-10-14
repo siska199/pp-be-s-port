@@ -3,31 +3,36 @@ import { CustomError } from "@middleware/error-handler";
 import { User } from "@prisma/client";
 import { getUserById } from "@query/user/user-query";
 import { TRequestAuthRoute } from "@types";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 
-const authentication = (
-  req: TRequestAuthRoute,
-  res: Response,
-  next: NextFunction
-) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader) {
-    const token = authHeader?.split(" ")[1];
+const getTokeFromHeader = (authHeader?: string) => {
+  const token = authHeader?.split(" ")[1];
+  if (!token) throw new CustomError("Unauthorized", 401);
+  return token;
+};
+
+const verifyToken = (token: string): Promise<User> => {
+  return new Promise((resolve, reject) => {
     jwt.verify(token, CONFIG.SECRET_KEY, async (err, payload) => {
       if (err) throw new CustomError("Invalid Token", 403);
 
       if (payload && typeof payload === "object" && payload.id_user) {
-        const idUser = payload.id_user as string;
-        const user = await getUserById(idUser);
+        const user = await getUserById(payload.id_user);
         if (!user) throw new CustomError("Invalid Token", 403);
-        req.user = user;
-        return next();
+
+        resolve(user);
       }
     });
-  } else {
-    throw new CustomError("Unautorized", 401);
-  }
+  });
+};
+
+const authentication = () => {
+  return async (req: TRequestAuthRoute, res: Response, next: NextFunction) => {
+    const token = getTokeFromHeader(req.headers.authorization);
+    const user = await verifyToken(token as string);
+    req.user = user;
+  };
 };
 
 export default authentication;

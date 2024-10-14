@@ -4,6 +4,7 @@ import { successResponse } from "@helpers/response";
 import {
   getListCategorySkill,
   insertBulkCategorySkill,
+  insertCagetorySkill,
 } from "@query/category-skill/category-skill-query";
 import { TRequestAuthRoute } from "@types";
 import { Response } from "express";
@@ -19,11 +20,17 @@ export const getCategoriesSkill = catchErrors(
   }
 );
 
+export const addCategorySkill = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const categorySkill = req.body;
+    await insertCagetorySkill(categorySkill);
 
-export const addCategorySkill = catchErrors(async(req: TRequestAuthRoute, res: Response)=>{
-  const categorySkill = req.body
-  
-})
+    successResponse({
+      res,
+      message: message.success.addData,
+    });
+  }
+);
 
 export const addBulkCategorySkill = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
