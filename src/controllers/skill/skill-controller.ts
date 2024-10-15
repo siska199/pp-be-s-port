@@ -1,4 +1,3 @@
-import prisma from "@db/prisma";
 import catchErrors from "@helpers/catch-error";
 import message from "@helpers/message";
 import { successResponse } from "@helpers/response";
@@ -6,14 +5,14 @@ import {
   deleteSkill,
   getListSkill,
   getSkillById,
-  insertBulkSkill,
   insertSkill,
+  insertSkillBulk,
   updateSkill,
 } from "@query/skill/skill-query";
 import { Request, Response } from "express";
 
 export const getSkills = catchErrors(async (req: Request, res: Response) => {
-  const skills = getListSkill();
+  const skills = await getListSkill();
   successResponse({
     res,
     data: skills,
@@ -44,7 +43,7 @@ export const addSkill = catchErrors(async (req: Request, res: Response) => {
 
 export const addSkillBulk = catchErrors(async (req: Request, res: Response) => {
   const payload = req.body;
-  await insertBulkSkill(payload);
+  await insertSkillBulk(payload);
 
   successResponse({
     res,

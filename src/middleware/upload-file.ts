@@ -26,7 +26,7 @@ const upload = (fileRules: TFileRules) => {
 
       if (!rules) {
         return cb(
-          new Error(`No validation rules defined for field: ${fieldname}`)
+          new CustomError(`No validation rules defined for field: ${fieldname}`)
         );
       }
 
@@ -39,7 +39,7 @@ const upload = (fileRules: TFileRules) => {
 
       if (!isAllowedType) {
         return cb(
-          new Error(
+          new CustomError(
             `Invalid file type for ${fieldname}. Allowed types: ${types.join(
               ", "
             )}`

@@ -12,7 +12,7 @@ const personalInfoSchema = (mandatory: boolean = true) =>
     postal_code: zString({ name: "Postal Code", max: 255, mandatory }),
     phone_number: zPhoneNumber(mandatory),
     email: zEmail(mandatory),
-    about_me: zString({ name: "About Me", min: 150, max: 500, mandatory }),
+    about_me: zString({ name: "About Me", min: 150, max: 1000, mandatory }),
     bio: zString({ name: "Bio", mandatory }),
     id_profession: zString({ name: "Profession", mandatory }),
   });

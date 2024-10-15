@@ -15,11 +15,11 @@ const getTokeFromHeader = (authHeader?: string) => {
 const verifyToken = (token: string): Promise<User> => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, CONFIG.SECRET_KEY, async (err, payload) => {
-      if (err) throw new CustomError("Invalid Token", 403);
+      if (err) return reject(new CustomError("Invalid Token", 403));
 
       if (payload && typeof payload === "object" && payload.id_user) {
         const user = await getUserById(payload.id_user);
-        if (!user) throw new CustomError("Invalid Token", 403);
+        if (!user) return reject(new CustomError("Invalid Token", 403))
 
         resolve(user);
       }
@@ -29,9 +29,14 @@ const verifyToken = (token: string): Promise<User> => {
 
 const authentication = () => {
   return async (req: TRequestAuthRoute, res: Response, next: NextFunction) => {
-    const token = getTokeFromHeader(req.headers.authorization);
-    const user = await verifyToken(token as string);
-    req.user = user;
+    try {
+      const token = getTokeFromHeader(req.headers.authorization);
+      const user = await verifyToken(token as string);
+      req.user = user;
+      return next()
+    } catch (error) {
+      next(error);
+    }
   };
 };
 

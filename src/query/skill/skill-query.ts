@@ -11,7 +11,7 @@ export const getSkillById = async (idSkill: string) =>
 export const insertSkill = async (payload: Skill) =>
   await prisma.skill.create({ data: payload });
 
-export const insertBulkSkill = async (payload: Skill[]) =>
+export const insertSkillBulk = async (payload: Skill[]) =>
   await prisma.skill.createMany({ data: payload });
 
 export const updateSkill = async (params: {
@@ -26,6 +26,3 @@ export const deleteSkill = async (idSkill: string) =>
   await prisma.skill.delete({
     where: { id: idSkill },
   });
-
-
-  
