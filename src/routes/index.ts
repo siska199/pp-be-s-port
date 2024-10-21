@@ -1,5 +1,6 @@
 import authRoute from "@routes/auth/auth-route";
 import categorySkillRoute from "@routes/category-skill/category-skill-route";
+import majorRoute from "@routes/education/major-route";
 
 import personalInformationRoute from "@routes/personal-information/personal-information-route";
 import professionRoute from "@routes/profession/profession-route";
@@ -23,5 +24,6 @@ export default () => {
   categorySkillRoute(router);
   skillRoute(router);
   skillUserRoute(router);
+  majorRoute(router);
   return router;
 };
