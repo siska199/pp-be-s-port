@@ -2,7 +2,7 @@ import {
   addBulkCategorySkill,
   addCategorySkill,
   getCategoriesSkill,
-} from "@controllers/category-skill/category-skill-controller";
+} from "@controllers/skill/category-skill-controller";
 import authentication from "@middleware/authentication";
 import express from "express";
 

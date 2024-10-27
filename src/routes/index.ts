@@ -1,5 +1,5 @@
 import authRoute from "@routes/auth/auth-route";
-import categorySkillRoute from "@routes/category-skill/category-skill-route";
+import categorySkillRoute from "@routes/skill/category-skill-route";
 import majorRoute from "@routes/education/major-route";
 
 import personalInformationRoute from "@routes/personal-information/personal-information-route";

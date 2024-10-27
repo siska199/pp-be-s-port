@@ -7,3 +7,9 @@ export const getListCity = async (provinceCode: string) => {
   const data = await response.json();
   return data.data;
 };
+
+
+export const getCityByName  = async(cityName:string)=>{
+  const cities = await getListCity
+
+}

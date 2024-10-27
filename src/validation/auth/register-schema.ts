@@ -7,6 +7,6 @@ const registerSchema = z.object({
   email: zEmail(),
   password: zPassword(),
   id_profession: zString({ name: "ID Profession" }),
-});
+})?.strict()
 
 export default registerSchema;

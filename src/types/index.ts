@@ -8,3 +8,8 @@ export interface TGeneralObject {
 export interface TRequestAuthRoute extends Request {
   user?: User;
 }
+
+export interface TOption {
+  name: string;
+  code: string;
+}

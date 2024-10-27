@@ -1,32 +1,33 @@
 import validation, { messageError } from "@validation";
-import z, { ZodString } from "zod";
+import z, { ZodOptional, ZodString } from "zod";
 
-interface TParamsString {
+export const zString = <TMandatory extends boolean = true>(params: {
   name: string;
   min?: number;
   max?: number;
-  mandatory?: boolean;
-}
+  mandatory?: TMandatory;
+}): TMandatory extends true ? ZodString : ZodOptional<ZodString> => {
+  const { name, max = 255, min = 1, mandatory = true } = params;
 
-export const zString = ({
-  name,
-  max = 255,
-  min = 1,
-  mandatory = true,
-}: TParamsString): ZodString | z.ZodOptional<ZodString> => {
-  const stringSchema = z.string().max(max, {
+  let stringSchema: ZodString | ZodOptional<ZodString> = z.string().max(max, {
     message: messageError.maxCharacter(name, max),
   });
 
   if (mandatory) {
-    return stringSchema
-      .nonempty({ message: messageError.required(name) })
+    stringSchema = stringSchema
+      .nonempty({
+        message: messageError.required(name),
+      })
       .min(min, {
         message: messageError.minCharacter(name, min),
       });
+  } else {
+    stringSchema = stringSchema.optional();
   }
 
-  return stringSchema.optional();
+  return stringSchema as TMandatory extends true
+    ? ZodString
+    : ZodOptional<ZodString>;
 };
 
 interface TParamsNumber {
@@ -70,6 +71,19 @@ export const zEmail = (mandatory = true) => {
       message: validation.email.message,
     }
   );
+};
+
+export const zEnum = <TEnum extends [string, ...string[]]>(params: {
+  name: string;
+  enum: TEnum;
+  mandatory?: boolean;
+}): z.ZodEnum<TEnum> | z.ZodOptional<z.ZodEnum<TEnum>> => {
+  const { enum: enumValues, mandatory, name } = params;
+  const enumSchema = z.enum(enumValues, {
+    message: messageError.required(name),
+  });
+
+  return mandatory ? enumSchema : enumSchema.optional();
 };
 
 export const zPhoneNumber = (mandatory = true) => {

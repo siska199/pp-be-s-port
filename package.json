@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "npx nodemon",
+    "prisma:migrate": "npx prisma migrate --schema=src/db/prisma",
     "prisma:push": "npx prisma generate --schema=src/db/prisma && npx prisma db push --schema=src/db/prisma"
   },
   "repository": {

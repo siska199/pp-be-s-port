@@ -7,11 +7,11 @@ import {
 import authentication from "@middleware/authentication";
 import upload from "@middleware/upload-file";
 import validateData from "@middleware/validate-data";
-import personalInfoSchema from "@validation/auth/personal-information-schema";
+import personalInfoSchema from "@validation/personal-information/personal-information-schema";
 import express from "express";
 
 export default (router: express.Router) => {
-  router.get("/personal-information", authentication(), getPersonalInformation);
+  router.get("/personal-informations", authentication(), getPersonalInformation);
   router.post(
     "/personal-information",
     authentication(),

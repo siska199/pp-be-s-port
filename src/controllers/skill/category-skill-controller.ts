@@ -5,7 +5,7 @@ import {
   getListCategorySkill,
   insertBulkCategorySkill,
   insertCagetorySkill,
-} from "@query/category-skill/category-skill-query";
+} from "@query/skill/category-skill-query";
 import { TRequestAuthRoute } from "@types";
 import { Response } from "express";
 

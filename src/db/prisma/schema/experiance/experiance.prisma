@@ -7,6 +7,11 @@ model Experiance {
     id_profession   String      @db.VarChar(36)
     profession      Profession  @relation(fields: [id_profession], references: [id])
 
+    start_at        DateTime
+    end_at          DateTime
+
+    description     String      @db.LongText
+
     projects        Project[]   
 
     created_at      DateTime    @default(now())
@@ -14,3 +19,4 @@ model Experiance {
 
     @@map("experiance")
 }
+

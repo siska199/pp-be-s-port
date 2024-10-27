@@ -1,12 +1,26 @@
 import prisma from "@db/prisma";
 import { SkillUser } from "@prisma/client";
 
-export const getListSkillUser = async (idUser: string) =>
-  await prisma.skillUser.findMany({
+interface TParamsGetListSkillUser {
+  idUser: string;
+  queryObject: {
+    page_no: number;
+    items_perpage: number;
+  };
+}
+
+export const getListSkillUser = async (params: TParamsGetListSkillUser) => {
+  const { queryObject, idUser } = params;
+  const { page_no, items_perpage } = queryObject;
+
+  return await prisma.skillUser.findMany({
+    skip: page_no * items_perpage,
+    take: items_perpage,
     where: {
       id_user: idUser,
     },
   });
+};
 
 export const getSkillUserById = async (params: {
   id: string;
