@@ -1,16 +1,7 @@
 import prisma from "@db/prisma";
 import { PersonalInformation } from "@prisma/client";
 
-interface TGetPersonalInfoDTO
-  extends Partial<
-    Omit<PersonalInformation, "id" | "created_at" | "updated_at">
-  > {
-  profession?: string;
-}
-
-export const getPersonalInfoByIdUser = async (
-  id_user: string
-): Promise<TGetPersonalInfoDTO> => {
+export const getPersonalInfoByIdUser = async (id_user: string) => {
   const personalInfo = await prisma.personalInformation.findFirst({
     where: {
       id_user,
@@ -24,24 +15,8 @@ export const getPersonalInfoByIdUser = async (
     },
   });
 
-  const personalInfoDTO: TGetPersonalInfoDTO = {
-    professional_image: personalInfo?.professional_image,
-    first_name: personalInfo?.first_name,
-    last_name: personalInfo?.last_name,
-    province: personalInfo?.province,
-    city: personalInfo?.city,
-    district: personalInfo?.district,
-    postal_code: personalInfo?.postal_code,
-    phone_number: personalInfo?.phone_number,
-    email: personalInfo?.email,
-    about_me: personalInfo?.about_me,
-    bio: personalInfo?.bio,
-    profession: personalInfo?.profession?.name,
-    id_profession: personalInfo?.id_profession,
-  };
-  return personalInfoDTO;
+  return personalInfo;
 };
-
 interface TCreatePersonalInfoDTO
   extends Omit<PersonalInformation, "id" | "created_at" | "updated_at"> {}
 

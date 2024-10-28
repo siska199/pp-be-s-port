@@ -1,7 +1,7 @@
 import prisma from "@db/prisma";
 import { SkillUser } from "@prisma/client";
 
-interface TParamsGetListSkillUser {
+export interface TParamsGetListSkillUser {
   idUser: string;
   queryObject: {
     page_no: number;

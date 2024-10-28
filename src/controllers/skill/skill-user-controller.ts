@@ -6,6 +6,7 @@ import {
   getListSkillUser,
   getSkillUserById,
   insertSkillUser,
+  TParamsGetListSkillUser,
   updateSkillUser,
 } from "@query/skill/skill-user-query";
 import { TRequestAuthRoute } from "@types";
@@ -14,7 +15,12 @@ import { Request, Response } from "express";
 export const getSkillsUser = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const idUser = req.user?.id as string;
-    const skillsUser = await getListSkillUser(idUser);
+    const queryObject = {
+      page_no: Number(req.query.page_no),
+      items_perpage: Number(req.query.items_perpage),
+    };
+
+    const skillsUser = await getListSkillUser({ idUser, queryObject });
     successResponse({
       res,
       data: skillsUser,

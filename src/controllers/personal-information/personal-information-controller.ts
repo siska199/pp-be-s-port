@@ -45,7 +45,7 @@ export const addPersonaInformation = catchErrors<TRequestAuthRoute>(
     const id_user = req.user?.id as string;
 
     const personalInformation = await getPersonalInfoByIdUser(id_user);
-    if (personalInformation)
+    if (personalInformation?.id)
       throw new CustomError(
         "A personal information record already exists for this user.",
         400

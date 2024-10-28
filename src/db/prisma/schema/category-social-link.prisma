@@ -1,0 +1,3 @@
+model CategorySocialLink {
+    id      String @id @default(uuid())
+}

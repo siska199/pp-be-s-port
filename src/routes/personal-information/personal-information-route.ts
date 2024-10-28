@@ -11,7 +11,6 @@ import personalInfoSchema from "@validation/personal-information/personal-inform
 import express from "express";
 
 export default (router: express.Router) => {
-  router.get("/personal-informations", authentication(), getPersonalInformation);
   router.post(
     "/personal-information",
     authentication(),
