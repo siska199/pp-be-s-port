@@ -3,7 +3,7 @@ import {
   addMajor,
   getMajor,
   getMajors,
-} from "@controllers/education/major-controller";
+} from "@controllers/education/education-major-controller";
 import express from "express";
 
 export default (router: express.Router) => {
