@@ -15,8 +15,8 @@ model PersonalInformation {
     bio                 String      @db.VarChar(255)
 
     
-    id_profession       String      @db.VarChar(36)
-    profession          MasterProfession  @relation(fields: [id_profession], references: [id])
+    id_profession       String              @db.VarChar(36)
+    profession          MasterProfession    @relation(fields: [id_profession], references: [id])
 
     id_user             String      @unique @db.VarChar(36)
     user                User        @relation(fields: [id_user], references: [id])
