@@ -1,0 +1,16 @@
+model MasterEducationSchool{
+    id          String              @id @default(uuid())
+    name        String              @db.VarChar(255) @unique
+    image       String              @db.VarChar(2083)
+
+
+    id_level    String              @db.VarChar(255)
+
+    education   Education?
+    level       MasterEducationLevel      @relation(fields: [id_level], references: [id])
+
+    created_at  DateTime            @default(now())
+    updated_at  DateTime            @updatedAt  
+
+    @@map("education_school")
+}

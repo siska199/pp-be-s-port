@@ -1,0 +1,26 @@
+model SkillUser {
+    id                  String      @id @default(uuid())
+
+    id_skill            String      @db.VarChar(36)
+    skill               MasterSkill       @relation(fields: [id_skill], references: [id])
+
+    year_of_experiance  Int         @db.Int
+    level               Level
+
+    id_user             String      @db.VarChar(36)
+    user                User        @relation(fields: [id_user], references: [id])
+
+    projectTechStacks   ProjectTechStack[]
+
+    created_at          DateTime    @default(now())
+    updated_at          DateTime    @updatedAt
+
+    @@map("skill_user")
+}
+
+
+enum Level{
+    BEGINNER
+    INTERMEDIET
+    ADVANCE
+}

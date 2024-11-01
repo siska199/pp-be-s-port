@@ -1,0 +1,24 @@
+model Education {
+    id              String          @id @default(uuid()) 
+    gpa             Float           @db.Float()
+    description     String          @db.LongText
+
+    id_user         String          @db.VarChar(36) @unique
+    id_level        String          @db.VarChar(36) @unique
+    id_major        String          @db.VarChar(36) @unique
+    id_school       String          @db.VarChar(36) @unique
+
+    user            User            @relation(fields: [id_user],references: [id])
+    level           MasterEducationLevel  @relation(fields: [id_level],references: [id])
+    major           MasterEducationMajor  @relation(fields: [id_major], references: [id])
+    school          MasterEducationSchool @relation(fields: [id_school], references: [id])
+
+
+    start_at        DateTime
+    end_at          DateTime
+
+    created_at      DateTime        @default(now())
+    updated_at      DateTime        @updatedAt
+    @@map("education")
+
+}

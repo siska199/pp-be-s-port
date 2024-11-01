@@ -1,0 +1,15 @@
+model SocialLink{
+    id          String      @id @default(uuid())
+    name        String      @db.VarChar(255)
+    url         String      @db.VarChar(2083)
+
+
+    id_user     String      @db.VarChar(36)
+    user        User        @relation(fields: [id_user], references: [id])
+
+    created_at  DateTime    @default(now())
+    updated_at  DateTime    @updatedAt
+    
+    @@unique(name:"userSocialLink",[name, id_user])
+    @@map("social_link")
+}
