@@ -1,4 +1,4 @@
-import { zEmail, zPhoneNumber, zString } from "@validation/reusable-shema";
+import { zEmail, zPhoneNumber, zString } from "@_lib/validation/reusable-shema";
 import z from "zod";
 
 const personalInfoSchema = (mandatory: boolean = true) =>

@@ -1,13 +1,13 @@
 model MasterProfession{
-    id                      String @id @default(uuid())
-    name                    String @unique
+    id                      String      @id @default(uuid())
+    name                    String      @db.VarChar(255) @unique
 
     personal_information    PersonalInformation[]
     users                   User[]
     experiances             Experiance[]
 
-    created_at              DateTime @default(now())
-    updated_at              DateTime @updatedAt
+    created_at              DateTime    @default(now())
+    updated_at              DateTime    @updatedAt
     
     @@map("master_profession")
 }

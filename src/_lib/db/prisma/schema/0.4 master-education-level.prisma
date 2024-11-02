@@ -2,7 +2,7 @@ model MasterEducationLevel {
     id                  String                  @id @default(uuid())
     name                String                  @unique  @db.VarChar(255) 
 
-    majors              MasterEducationMajor[]  @relation("MasterMajorEducationLevel")
+    majors              MasterLevelMajorEducation[]
 
     educations          Education[]
     education_schools   MasterEducationSchool[]

@@ -2,12 +2,11 @@ import {
   addPersonaInformation,
   deletePersonalInformation,
   editPersonalInformation,
-  getPersonalInformation,
-} from "@controllers/2. personal-information/personal-information-controller";
-import authentication from "@middleware/authentication";
-import upload from "@middleware/upload-file";
-import validateData from "@middleware/validate-data";
-import personalInfoSchema from "@validation/personal-information/personal-information-schema";
+} from "@2. controllers/2. personal-information/personal-information-controller";
+import authentication from "@_lib/middleware/authentication";
+import upload from "@_lib/middleware/upload-file";
+import validateData from "@_lib/middleware/validate-data";
+import personalInfoSchema from "@_lib/validation/personal-information/personal-information-schema";
 import express from "express";
 
 export default (router: express.Router) => {
