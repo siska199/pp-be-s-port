@@ -1,4 +1,4 @@
-import { zString } from "@validation/reusable-shema";
+import { zString } from "@_lib/validation/reusable-shema";
 import z from "zod";
 
 const loginSchema = z

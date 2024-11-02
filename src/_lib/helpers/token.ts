@@ -1,5 +1,6 @@
-import CONFIG from "@config";
-import { TGeneralObject } from "@types";
+
+import CONFIG from "@_lib/config";
+import { TGeneralObject } from "@_lib/types";
 import jwt from "jsonwebtoken";
 
 export const generateToken = () => {

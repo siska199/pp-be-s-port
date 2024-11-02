@@ -1,23 +1,14 @@
-import prisma from "@_lib/db/prisma";
 import catchErrors from "@_lib/helpers/catch-error";
-import { CustomError } from "@_lib/middleware/error-handler";
-import { Request, Response } from "express";
-import { createUserDto, getUserBy_Dto } from "../../3. dto/1. user/user-dto";
 import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
-import { generateToken, generateTokenJwt } from "@_lib/helpers/token";
 import { generateTimeExpired } from "@_lib/helpers/function";
 import { successResponse } from "@_lib/helpers/response";
-
-export interface TPayloadRegister {
-  email: string;
-  password: string;
-  last_name: string;
-  first_name: string;
-  id_profession: string;
-}
+import { generateToken, generateTokenJwt } from "@_lib/helpers/token";
+import { CustomError } from "@_lib/middleware/error-handler";
+import { Request, Response } from "express";
+import { createUserDto, getUserBy_Dto } from "@3. dto/1. user/user-dto";
 
 export const register = catchErrors(async (req: Request, res: Response) => {
-  const { email, password, ...payload } = req.body as TPayloadRegister;
+  const { email, password, ..._ } = req.body;
 
   const userExist = await getUserBy_Dto({ email });
 
@@ -48,7 +39,6 @@ export const login = catchErrors(async (req, res) => {
   const { email, password } = req.body;
 
   const userExist = await getUserBy_Dto({ email });
-
   const isPasswordValid = await dycriptBycrypt({
     encryptData: userExist?.password as string,
     unEncryptData: password,

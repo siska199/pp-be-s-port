@@ -96,3 +96,29 @@ export const zPhoneNumber = (mandatory = true) => {
 
   return mandatory ? phoneSchema : phoneSchema.optional(); // Return optional if not mandatory
 };
+
+export const zLink = (params: { mandatory?: boolean }) => {
+  const { mandatory } = params;
+  const linkSchema = zString({ name: "Link", max: 2083 })?.url({
+    message: messageError.url,
+  });
+  return mandatory ? linkSchema : linkSchema?.optional();
+};
+
+export const zDate = (params: { name: string; mandatory?: boolean }) => {
+  const { name, mandatory = true } = params;
+  const dateSchema = z
+    .string()
+    .nonempty(messageError.required(name))
+    .datetime({ message: "Invalid Date" })
+    .refine(
+      (date) => {
+        return validation.dateUtc.regex.test(date);
+      },
+      {
+        message: validation.dateUtc.message,
+      }
+    );
+
+  return mandatory ? dateSchema : dateSchema.optional();
+};

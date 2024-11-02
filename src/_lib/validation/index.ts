@@ -12,6 +12,7 @@ export const messageError = {
   password:
     "Password must be at least 8 characters long and contain at least one uppercase letter",
   url: "Please enter a valid URL. Ensure it starts with http:// or https://",
+  dateUtc: "Date must be in UTC format (ISO 8601)",
 };
 
 const validation = {
@@ -26,6 +27,10 @@ const validation = {
   url: {
     regex: /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
     message: messageError.url,
+  },
+  dateUtc: {
+    regex: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/,
+    message: messageError.dateUtc,
   },
 };
 

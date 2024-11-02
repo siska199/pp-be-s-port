@@ -4,10 +4,11 @@
   "description": "The backend repository for s-port website",
   "main": "index.ts",
   "scripts": {
-    "start": "npx nodemon",
-    "prisma:migrate": "npx prisma migrate --schema=src/_lib/db/prisma",
-    "prisma:reset": "npx prisma migrate reset --schema=src/_lib/db/prisma",
-    "prisma:push": "npx prisma generate --schema=src/_lib/db/prisma && npx prisma db push --schema=src/_lib/db/prisma"
+    "start": "npx nodemon"
+  },
+  "prisma": {
+    "schema": "src/_lib/db/prisma",
+    "seed": "ts-node src/_lib/db/prisma/seed.ts"
   },
   "repository": {
     "type": "git",
