@@ -1,8 +1,8 @@
-import CONFIG from "@config";
-import { CustomError } from "@middleware/error-handler";
+import { getUserBy_Dto } from "@3. dto/1. user/user-dto";
+import CONFIG from "@_lib/config";
+import { CustomError } from "@_lib/middleware/error-handler";
+import { TRequestAuthRoute } from "@_lib/types";
 import { User } from "@prisma/client";
-import { getUserById } from "@query/user/user-query";
-import { TRequestAuthRoute } from "@types";
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 
@@ -18,8 +18,8 @@ const verifyToken = (token: string): Promise<User> => {
       if (err) return reject(new CustomError("Invalid Token", 403));
 
       if (payload && typeof payload === "object" && payload.id_user) {
-        const user = await getUserById(payload.id_user);
-        if (!user) return reject(new CustomError("Invalid Token", 403))
+        const user = await getUserBy_Dto({ id: payload.id_user });
+        if (!user) return reject(new CustomError("Invalid Token", 403));
 
         resolve(user);
       }
@@ -33,7 +33,7 @@ const authentication = () => {
       const token = getTokeFromHeader(req.headers.authorization);
       const user = await verifyToken(token as string);
       req.user = user;
-      return next()
+      return next();
     } catch (error) {
       next(error);
     }

@@ -1,4 +1,4 @@
-import CONFIG from "@config";
+import CONFIG from "@_lib/config";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
 cloudinary.config({

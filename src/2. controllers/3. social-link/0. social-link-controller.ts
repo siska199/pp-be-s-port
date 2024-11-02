@@ -1,7 +1,7 @@
-import prisma from "@db/prisma";
-import catchErrors from "@helpers/catch-error";
-import { successResponse } from "@helpers/response";
-import { TRequestAuthRoute } from "@types";
+import prisma from "@_lib/db/prisma";
+import catchErrors from "@_lib/helpers/catch-error";
+import { successResponse } from "@_lib/helpers/response";
+import { TRequestAuthRoute } from "@_lib/types";
 import { Response } from "express";
 
 export const getSocialLinks = catchErrors(

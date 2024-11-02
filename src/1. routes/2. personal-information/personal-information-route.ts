@@ -2,7 +2,7 @@ import {
   addPersonaInformation,
   deletePersonalInformation,
   editPersonalInformation,
-} from "@2. controllers/2. personal-information/personal-information-controller";
+} from "@2. controllers/2. personal-information/0. personal-information-controller";
 import authentication from "@_lib/middleware/authentication";
 import upload from "@_lib/middleware/upload-file";
 import validateData from "@_lib/middleware/validate-data";

@@ -1,4 +1,4 @@
-import prisma from "@db/prisma";
+import prisma from "@_lib/db/prisma";
 import { PersonalInformation } from "@prisma/client";
 
 export const getPersonalInfoByIdUser = async (id_user: string) => {

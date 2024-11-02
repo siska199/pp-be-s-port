@@ -1,4 +1,4 @@
-import prisma from "@db/prisma";
+import prisma from "@_lib/db/prisma";
 import { SkillUser } from "@prisma/client";
 
 export interface TParamsGetListSkillUser {

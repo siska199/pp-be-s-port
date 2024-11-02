@@ -1,20 +1,20 @@
-import prisma from "@db/prisma";
-import catchErrors from "@helpers/catch-error";
-import message from "@helpers/message";
-import { successResponse } from "@helpers/response";
 import {
   createPersonalInfo,
   getPersonalInfoByIdUser,
-} from "@query/personal-information/personal-information-query";
-import { TRequestAuthRoute } from "@types";
-import { Response } from "express";
-import { updatePersonalInfo } from "@query/personal-information/personal-information-query";
-import { CustomError } from "@middleware/error-handler";
+  updatePersonalInfo,
+} from "@3. dto/2. personal-information/personal-information-dto";
+import prisma from "@_lib/db/prisma";
+import catchErrors from "@_lib/helpers/catch-error";
 import {
   deleteImageFromCloudinary,
   getImageUrlFromClaudinary,
-} from "@helpers/claudinary";
+} from "@_lib/helpers/claudinary";
+import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
+import { CustomError } from "@_lib/middleware/error-handler";
+import { TRequestAuthRoute } from "@_lib/types";
 import { PersonalInformation } from "@prisma/client";
+import { Response } from "express";
 
 export const getPersonalInformation = catchErrors<TRequestAuthRoute>(
   async (req: TRequestAuthRoute, res: Response) => {

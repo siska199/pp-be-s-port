@@ -1,7 +1,7 @@
 import {
   addBulkProfession,
   getProfessions,
-} from "@controllers/0.2 master-profesi/profession-controller";
+} from "@2. controllers/0.2 master-profession/0. master-profession-controller";
 import express from "express";
 
 export default (router: express.Router) => {

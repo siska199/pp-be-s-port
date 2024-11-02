@@ -1,5 +1,5 @@
+import { zEnum, zNumber, zString } from "@_lib/validation/reusable-shema";
 import { Level } from "@prisma/client";
-import { zEnum, zNumber, zString } from "@validation/reusable-shema";
 import zod from "zod";
 
 const skillUserSchema = (mandatory: boolean = true) =>
