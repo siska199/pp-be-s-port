@@ -1,11 +1,10 @@
+import { createUserDto, getUserBy_Dto } from "@3. dto/1. user/user-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
-import { generateTimeExpired } from "@_lib/helpers/function";
 import { successResponse } from "@_lib/helpers/response";
-import { generateToken, generateTokenJwt } from "@_lib/helpers/token";
+import { generateTokenJwt } from "@_lib/helpers/token";
 import { CustomError } from "@_lib/middleware/error-handler";
 import { Request, Response } from "express";
-import { createUserDto, getUserBy_Dto } from "@3. dto/1. user/user-dto";
 
 export const register = catchErrors(async (req: Request, res: Response) => {
   const { email, password, ..._ } = req.body;
@@ -15,14 +14,10 @@ export const register = catchErrors(async (req: Request, res: Response) => {
   if (userExist) throw new CustomError("This email already has been used", 400);
 
   const hashPassword = await encryptBycrypt(password);
-  const verifiedToken = generateToken();
-  const expiredVerifiedToken = generateTimeExpired();
 
   const userCreate = await createUserDto({
     ...req.body,
     password: hashPassword,
-    verified_token: verifiedToken,
-    expired_verified_token: expiredVerifiedToken,
   });
 
   successResponse({

@@ -7,10 +7,6 @@ model User {
     phone_number            String?     @db.VarChar(15)
     image                   String?     @db.VarChar(255)
     
-    is_verified             Boolean?     @default(false)
-    verified_token          String?     @db.VarChar(255)
-    expired_verified_token  DateTime? 
-    
     id_profession           String?      @db.VarChar(36)
 
     profession              MasterProfession?  @relation(fields: [id_profession],references: [id])

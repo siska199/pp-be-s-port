@@ -10,7 +10,7 @@ model Experiance {
     start_at        DateTime
     end_at          DateTime
 
-    description     String      @db.LongText
+    description     String      @db.Text
 
     projects        Project[]   
 

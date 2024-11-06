@@ -26,9 +26,6 @@ export const createUserDto = async (payload: User) => {
     password: payload.password,
     phone_number: payload.phone_number,
     image: payload.image,
-    is_verified: payload.is_verified,
-    verified_token: payload.verified_token,
-    expired_verified_token: payload.expired_verified_token,
     id_profession: payload.id_profession,
   };
 

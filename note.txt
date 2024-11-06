@@ -3,3 +3,32 @@
  - npx prisma generate --schema=src/db/prisma
  - npx prisma db push --schema=src/db/prisma
  - npx prisma db seed
+
+
+
+ ---Running Postgress in Dockerfile:
+ if you running postgress in dockerfile the host should be named as <service name: postgress> if in your local a.ka not using dockerfile
+ you can use localhost
+
+
+ ---Command associate with postgres containerization:
+ >>create postgres container from image:
+ docker run -d --name <postgres_container_name> -p 5432:5432 <postgres_image>
+ 
+ Access Postgres container
+ >> docker exec -it <container_name_or_id> psql -U postgres -c "CREATE DATABASE s_port;"
+
+ >> docker <container_name> exec -it bash
+ >> psql -U postgres
+ >> \l -> see all available databse
+ >> \c <database_name> -> connect to specific database
+ >> \dt -> list all availabel table
+ >> CREATE DATABASE s_port;
+
+
+ Get network info container:
+ >>docker inspect <container_id> 
+
+
+
+

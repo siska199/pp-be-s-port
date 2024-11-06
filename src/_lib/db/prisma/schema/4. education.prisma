@@ -1,7 +1,7 @@
 model Education {
     id              String          @id @default(uuid()) 
-    gpa             Float           @db.Float()
-    description     String          @db.LongText
+    gpa             Float           @db.DoublePrecision()
+    description     String          @db.Text
 
     id_user         String          @db.VarChar(36) @unique
     id_level        String          @db.VarChar(36) @unique

@@ -11,7 +11,7 @@ model PersonalInformation {
     
     phone_number        String      @db.VarChar(15)
     email               String      @db.VarChar(255)
-    about_me            String      @db.LongText
+    about_me            String      @db.Text
     bio                 String      @db.VarChar(255)
 
     
