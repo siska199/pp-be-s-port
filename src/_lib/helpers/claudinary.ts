@@ -7,13 +7,15 @@ cloudinary.config({
   api_secret: CONFIG.CLAUDINARY_API_SECRET,
 });
 
+const baseFolder = CONFIG.DB_NAME;
+
 const uploadFileToCloudinary = async (
   file: Express.Multer.File,
   folder?: string
 ): Promise<UploadApiResponse | undefined> => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { resource_type: "auto", folder: folder },
+      { resource_type: "auto", folder: `${baseFolder}/${folder}` },
       (error, result) => {
         if (error) {
           reject(new Error(`Error uploading to Cloudinary: ${error.message}`));

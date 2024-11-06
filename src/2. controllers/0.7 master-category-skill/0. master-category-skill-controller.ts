@@ -1,44 +1,36 @@
-import catchErrors from "@helpers/catch-error";
-import message from "@helpers/message";
-import { successResponse } from "@helpers/response";
 import {
-  getListCategorySkill,
-  insertBulkCategorySkill,
-  insertCagetorySkill,
-} from "@query/skill/category-skill-query";
-import { TRequestAuthRoute } from "@types";
-import { Response } from "express";
+  createBulkMasterCategorySkillDto,
+  createMasterCategorySkillDto,
+  getListMasterCategorySkillDto,
+} from "@3. dto/0.7 master-category-skill/master-category-skill-dto";
+import catchErrors from "@_lib/helpers/catch-error";
+import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
 
-export const getCategoriesSkill = catchErrors(
-  async (req: TRequestAuthRoute, res: Response) => {
-    const cotegoriesSkill = await getListCategorySkill();
-    successResponse({
-      res,
-      data: cotegoriesSkill,
-      message: message.success.getData,
-    });
-  }
-);
+export const getListmasterCategorySkill = catchErrors(async (req, res) => {
+  const cotegoriesSkill = await getListMasterCategorySkillDto();
+  successResponse({
+    res,
+    data: cotegoriesSkill,
+    message: message.success.getData,
+  });
+});
 
-export const addCategorySkill = catchErrors(
-  async (req: TRequestAuthRoute, res: Response) => {
-    const categorySkill = req.body;
-    await insertCagetorySkill(categorySkill);
+export const addMasterCategorySkill = catchErrors(async (req, res) => {
+  const categorySkill = req.body;
+  await createMasterCategorySkillDto(categorySkill);
 
-    successResponse({
-      res,
-      message: message.success.addData,
-    });
-  }
-);
+  successResponse({
+    res,
+    message: message.success.addData,
+  });
+});
 
-export const addBulkCategorySkill = catchErrors(
-  async (req: TRequestAuthRoute, res: Response) => {
-    const categoriesSkill = req.body;
-    await insertBulkCategorySkill(categoriesSkill);
-    successResponse({
-      res,
-      message: message.success.addData,
-    });
-  }
-);
+export const addBulkMasterCategorySkill = catchErrors(async (req, res) => {
+  const categoriesSkill = req.body;
+  await createBulkMasterCategorySkillDto(categoriesSkill);
+  successResponse({
+    res,
+    message: message.success.addData,
+  });
+});

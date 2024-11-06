@@ -13,6 +13,7 @@ const CONFIG = {
   API_POSTCODE_ID: process.env.API_POSTCODE_ID as string,
   EMAIL_ADMIN_S_PORT: process.env.EMAIL_ADMIN_S_PORT as string,
   PASSWORD_ADMIN_S_PORT: process.env.PASSWORD_ADMIN_S_PORT as string,
+  DB_NAME: process.env.POSTGRES_DB as string,
 };
 
 export default CONFIG;

@@ -12,11 +12,12 @@ services:
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
       - POSTGRES_DB=$POSTGRES_DB
     ports:
-      - $POSTGRES_PORT:$POSTGRES_PORT
+      - $POSTGRES_PORT:5432
     volumes:
       - db:/var/lib/postgres
     networks:
       - s_port_network
+
   server:
     build:
       context: .
@@ -24,19 +25,21 @@ services:
     depends_on:
       db:
         condition: service_started
+    container_name: c-s-port-container
     env_file:
       - .env
     ports:
       - "5000:5000"
     volumes:
-      - .:/kyuuchan199/s-port/server
-      - /kyuuchan199/s-port/server/node_modules
+      - ./:/kyuuchan199/s-port/server
+      - node_modules:/kyuuchan199/s-port/server/node_modules
     networks:
       - s_port_network
     command: ["sh", "-c", "npx prisma db push && npm run start"] # Run prisma db push after container starts
 
 volumes:
   db:
+  node_modules:
 
 networks:
   s_port_network:

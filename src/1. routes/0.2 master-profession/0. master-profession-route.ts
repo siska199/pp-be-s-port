@@ -1,10 +1,10 @@
 import {
-  addBulkProfession,
-  getProfessions,
+  addBulkMasterProfession,
+  getListMasterProfession,
 } from "@2. controllers/0.2 master-profession/0. master-profession-controller";
 import express from "express";
 
 export default (router: express.Router) => {
-  router.get("/professions", getProfessions);
-  router.post("/profession-bulk", addBulkProfession);
+  router.get("/professions", getListMasterProfession);
+  router.post("/professions", addBulkMasterProfession);
 };

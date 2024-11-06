@@ -1,12 +1,13 @@
-import catchErrors from "@helpers/catch-error";
-import message from "@helpers/message";
-import { successResponse } from "@helpers/response";
-import { getListProfessions, insertBulkProfession } from "@query/2. master-profession/master-profession-query";
+import catchErrors from "@_lib/helpers/catch-error";
+import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
+import {
+  createBulkMasterProfessionDto,
+  getListMasterProfessionDto,
+} from "@3. dto/0.2 master-profession/0. master-profession-dto";
 
-import { TRequestAuthRoute } from "@types";
-
-export const getProfessions = catchErrors(async (req, res) => {
-  const professions = await getListProfessions();
+export const getListMasterProfession = catchErrors(async (req, res) => {
+  const professions = await getListMasterProfessionDto();
   successResponse({
     res,
     message: message.success.getData,
@@ -14,13 +15,11 @@ export const getProfessions = catchErrors(async (req, res) => {
   });
 });
 
-export const addBulkProfession = catchErrors<TRequestAuthRoute>(
-  async (req, res) => {
-    const professions = req.body;
-    await insertBulkProfession(professions);
-    successResponse({
-      res,
-      message: message.success.addData,
-    });
-  }
-);
+export const addBulkMasterProfession = catchErrors(async (req, res) => {
+  const professions = req.body;
+  await createBulkMasterProfessionDto(professions);
+  successResponse({
+    res,
+    message: message.success.addData,
+  });
+});

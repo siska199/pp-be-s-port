@@ -1,6 +1,5 @@
-import { ErrorRequestHandler } from "express";
 import { Prisma } from "@prisma/client";
-import { ZodError } from "zod";
+import { ErrorRequestHandler } from "express";
 
 export class CustomError extends Error {
   public statusCode: number;

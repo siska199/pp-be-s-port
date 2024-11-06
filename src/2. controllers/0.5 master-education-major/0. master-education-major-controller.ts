@@ -8,7 +8,7 @@ import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
 import { createMasterEducationMajorDto } from "../../3. dto/0.5 master-education-major/0. master-education-major-dto";
 
-export const getListEducationMajor = catchErrors(async (req, res) => {
+export const getListMasterEducationMajor = catchErrors(async (req, res) => {
   const { id_level } = req.query;
   const majors = await getListMasterEducationMajorDto({
     id_level: id_level as string,
@@ -21,7 +21,7 @@ export const getListEducationMajor = catchErrors(async (req, res) => {
   });
 });
 
-export const getEducationMajorById = catchErrors(async (req, res) => {
+export const getMasterEducationMajorById = catchErrors(async (req, res) => {
   const id = req.params.id;
   const major = await getMasterEducationMajorByIdDto(id);
 
@@ -43,7 +43,6 @@ export const addMasterEducationMajor = catchErrors(async (req, res) => {
 
 export const addBulkMasterEducationMajor = catchErrors(async (req, res) => {
   const payload = req.body;
-
   await createBulkMasterEducationMajorDto(payload);
 
   successResponse({

@@ -9,7 +9,13 @@ export const createMasterEducationMajorDto = async (
     data: {
       name,
       levels: {
-        create: id_levels?.map((id_level) => ({ id_level })),
+        create: id_levels?.map((id_level) => ({
+          level: {
+            connect: {
+              id: id_level,
+            },
+          },
+        })),
       },
     },
   });
@@ -21,14 +27,13 @@ export const createBulkMasterEducationMajorDto = async (
   params: (MasterEducationMajor & { id_levels: string[] })[]
 ) => {
   const data = params;
-  const result = await prisma.masterEducationMajor?.createMany({
-    data: [...data]?.map((singleData) => ({
-      name: singleData.name,
-      levels: {
-        create: singleData?.id_levels?.map((id_level) => ({ id_level })),
-      },
-    })),
-  });
+
+  const result = Promise.all(
+    data?.map(async (singleData) => {
+      const resulSignData = await createMasterEducationMajorDto(singleData);
+      return resulSignData;
+    })
+  );
 
   return result ?? null;
 };
@@ -45,9 +50,23 @@ export const getListMasterEducationMajorDto = async (params: {
         },
       },
     },
+    include: {
+      levels: {
+        include: {
+          level: true,
+        },
+      },
+    },
   });
-
-  return result ?? [];
+  const resultDto = result?.map((data) => ({
+    id: data?.id,
+    name: data?.name,
+    levels: data?.levels?.map((level) => ({
+      id: level?.level.id,
+      name: level?.level.name,
+    })),
+  }));
+  return result ? resultDto : [];
 };
 
 export const getMasterEducationMajorByIdDto = async (param: string) => {
@@ -57,9 +76,25 @@ export const getMasterEducationMajorByIdDto = async (param: string) => {
     where: {
       id,
     },
+    include: {
+      levels: {
+        include: {
+          level: true,
+        },
+      },
+    },
   });
 
-  return result ?? null;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    levels: result?.levels?.map((level) => ({
+      id: level?.level.id,
+      name: level?.level.name,
+    })),
+  };
+
+  return result ? resultDto : null;
 };
 
 export const updateMasterEducationMajorByIdDto = async (params: {
@@ -68,19 +103,20 @@ export const updateMasterEducationMajorByIdDto = async (params: {
 }) => {
   const { id, data } = params;
 
-  const result = await prisma?.masterEducationMajor?.update({
-    where: {
-      id,
-    },
-    data: {
-      ...(data?.name && { name: data?.name }),
-      ...(data?.id_levels && {
-        levels: {
-          set: data?.id_levels?.map((id_level) => ({ id_level })),
-        },
-      }),
-    },
-  });
+  const result = null;
+  // await prisma?.masterEducationMajor?.update({
+  //   where: {
+  //     id,
+  //   },
+  //   data: {
+  //     ...(data?.name && { name: data?.name }),
+  //     ...(data?.id_levels && {
+  //       levels: {
+  //         set: data?.id_levels?.map((id_level) => ({ id_level })),
+  //       },
+  //     }),
+  //   },
+  // });
 
   return result ?? null;
 };

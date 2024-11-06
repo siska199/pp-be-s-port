@@ -26,7 +26,7 @@ export const createBulkMasterEducationSchoolDto = async (
 };
 
 export const getListMasterEducationSchoolDto = async (params: {
-  id_level?: string;
+  id_level?: string ;
 }) => {
   const { id_level } = params;
   const result = await prisma?.masterEducationSchool?.findMany({

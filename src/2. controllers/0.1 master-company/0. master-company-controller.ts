@@ -1,5 +1,3 @@
-import catchErrors from "@_lib/helpers/catch-error";
-import { Request, Response } from "express";
 import {
   createBulkMasterCompanyDto,
   createMasterCompanyDto,
@@ -8,13 +6,15 @@ import {
   getMasterCompanyByIdDto,
   updateMasterCompanyByIdDto,
 } from "@3. dto/0.1 master-company/0. master-company-dto";
-import { successResponse } from "@_lib/helpers/response";
+import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
+import { CustomError } from "@_lib/middleware/error-handler";
+import { Request, Response } from "express";
 
 export const getListMasterCompany = catchErrors(
   async (_req: Request, res: Response) => {
     const result = await getListMasterCompanyDto();
-
     successResponse({
       res,
       data: result,
@@ -27,7 +27,7 @@ export const getMasterCompanyById = catchErrors(
   async (req: Request, res: Response) => {
     const { id } = req.params;
     const result = await getMasterCompanyByIdDto(id);
-
+    if (!result) throw new CustomError(message.error.notFound, 400);
     successResponse({
       res,
       data: result,
@@ -68,6 +68,8 @@ export const updateMasterCompanyById = catchErrors(
     const data = req.body;
 
     const result = await updateMasterCompanyByIdDto({ id, data });
+    if (!result) throw new CustomError(message.error.notFound, 400);
+
     successResponse({
       res,
       data: result,
@@ -81,7 +83,7 @@ export const deleteMasterComapnyById = catchErrors(
     const { id } = req.params;
 
     const result = await deleteMasterCompanyByIdDto(id);
-
+    if (!result) throw new CustomError(message.error.notFound, 400);
     successResponse({
       res,
       data: result,
