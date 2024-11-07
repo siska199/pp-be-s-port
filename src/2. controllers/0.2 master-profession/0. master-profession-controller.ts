@@ -17,9 +17,10 @@ export const getListMasterProfession = catchErrors(async (req, res) => {
 
 export const addBulkMasterProfession = catchErrors(async (req, res) => {
   const professions = req.body;
-  await createBulkMasterProfessionDto(professions);
+  const result =await createBulkMasterProfessionDto(professions);
   successResponse({
     res,
     message: message.success.addData,
+    data: result
   });
 });

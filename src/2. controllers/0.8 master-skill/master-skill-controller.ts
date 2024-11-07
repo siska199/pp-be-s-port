@@ -29,41 +29,44 @@ export const getMasterSkill = catchErrors(async (req: Request, res: Response) =>
 
 export const addMasterSkill = catchErrors(async (req: Request, res: Response) => {
   const payload = req.body;
-  await createMasterSkillDto(payload);
+  const result = await createMasterSkillDto(payload);
 
   successResponse({
     res,
     message: message.success.addData,
+    data:result
   });
 });
 
 export const addBulkMasterSkill = catchErrors(async (req: Request, res: Response) => {
   const payload = req.body;
-  await createBulkMasterSkillDto(payload);
+  const result =await createBulkMasterSkillDto(payload);
 
   successResponse({
     res,
     message: message?.success?.addData,
+    data:result
   });
 });
 
 export const editMasterSkill = catchErrors(async (req: Request, res: Response) => {
   const idSkill = req.params.id;
   const payload = req.body;
-  await updateMasterSkillByIdDto({ id:idSkill, data:payload });
+  const result =await updateMasterSkillByIdDto({ id:idSkill, data:payload });
 
   successResponse({
     res,
-    data: payload,
+    data:result,
     message: message.success.editData,
   });
 });
 
 export const deleteMasterSkill = catchErrors(async (req: Request, res: Response) => {
   const idSkill = req.params.id;
-  await deleteMasterSkillDto(idSkill);
+  const result =await deleteMasterSkillDto(idSkill);
   successResponse({
     res,
+    data:result,
     message: message.success.deleteData,
   });
 });

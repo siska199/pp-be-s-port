@@ -34,19 +34,21 @@ export const getMasterEducationMajorById = catchErrors(async (req, res) => {
 
 export const addMasterEducationMajor = catchErrors(async (req, res) => {
   const paylaod = req.body;
-  await createMasterEducationMajorDto(paylaod);
+  const result =await createMasterEducationMajorDto(paylaod);
   successResponse({
     res,
     message: message?.success?.addData,
+    data:result
   });
 });
 
 export const addBulkMasterEducationMajor = catchErrors(async (req, res) => {
   const payload = req.body;
-  await createBulkMasterEducationMajorDto(payload);
+  const result =await createBulkMasterEducationMajorDto(payload);
 
   successResponse({
     res,
     message: message?.success?.addData,
+    data:result
   });
 });

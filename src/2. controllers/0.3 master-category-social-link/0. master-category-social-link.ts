@@ -19,10 +19,11 @@ export const getListMasterCategorySocialLink = catchErrors(async (req, res) => {
 export const createBulkMasterCategorySocialLink = catchErrors(
   async (req, res) => {
     const categorySocialLinks = req.body;
-    await createBulkMasterCategorySocialLinkDto(categorySocialLinks);
+    const result = await createBulkMasterCategorySocialLinkDto(categorySocialLinks);
     successResponse({
       res,
       message: message.success.addData,
+      data :result
     });
   }
 );

@@ -18,19 +18,21 @@ export const getListmasterCategorySkill = catchErrors(async (req, res) => {
 
 export const addMasterCategorySkill = catchErrors(async (req, res) => {
   const categorySkill = req.body;
-  await createMasterCategorySkillDto(categorySkill);
+  const result =await createMasterCategorySkillDto(categorySkill);
 
   successResponse({
     res,
     message: message.success.addData,
+    data:result
   });
 });
 
 export const addBulkMasterCategorySkill = catchErrors(async (req, res) => {
   const categoriesSkill = req.body;
-  await createBulkMasterCategorySkillDto(categoriesSkill);
+  const result =await createBulkMasterCategorySkillDto(categoriesSkill);
   successResponse({
     res,
     message: message.success.addData,
+    data:result
   });
 });

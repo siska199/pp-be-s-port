@@ -1,12 +1,12 @@
+import { getListMasterPostalCodeDto } from "@3. dto/0.9 master-region/4. master-postal-code-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { getListPostalCode } from "@query/region/postal-code-query";
 
 
-export const getPostalCodes = catchErrors(async (req, res) => {
+export const getListMasterPostalCode = catchErrors(async (req, res) => {
   const districtName = req.query.district_name;
-  const postalCodes = await getListPostalCode(districtName as string);
+  const postalCodes = await getListMasterPostalCodeDto(districtName as string);
 
   successResponse({
     res,
