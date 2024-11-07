@@ -1,6 +1,6 @@
 import CONFIG from "@_lib/config";
 
-export const getListDistrictDto = async (id_city: string) => {
+export const getListMasterDistrictDto = async (id_city: string) => {
   const response = await fetch(
     `${CONFIG.API_REGION}/districts/${id_city}.json`
   );
@@ -11,7 +11,7 @@ export const getListDistrictDto = async (id_city: string) => {
   }));
 };
 
-export const getDistrictByCodeDto = async (id_district: string) => {
+export const getMasterDistrictByCodeDto = async (id_district: string) => {
   const response = await fetch(
     `${CONFIG.API_POSTCODE_ID}/district-postcode-json/${id_district}`
   );

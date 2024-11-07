@@ -1,6 +1,6 @@
 import CONFIG from "@_lib/config";
 
-export const getListProvinceDto = async (): Promise<
+export const getListMasterProvinceDto = async (): Promise<
   { id: string; name: string }[]
 > => {
   const response = await fetch(`${CONFIG.API_REGION}/provinces.json`);

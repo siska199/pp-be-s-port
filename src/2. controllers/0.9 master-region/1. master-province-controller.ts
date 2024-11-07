@@ -1,10 +1,11 @@
-import catchErrors from "@helpers/catch-error";
-import message from "@helpers/message";
-import { successResponse } from "@helpers/response";
-import { getListProvince } from "@query/region/province-query";
+import { getListMasterProvinceDto } from "@3. dto/0.9 master-region/1. master-province-dto";
+import catchErrors from "@_lib/helpers/catch-error";
+import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
 
-export const getProvinces = catchErrors(async (req, res) => {
-  const provinces = await getListProvince();
+
+export const getListMasterProvince = catchErrors(async (req, res) => {
+  const provinces = await getListMasterProvinceDto();
 
   successResponse({
     res,
