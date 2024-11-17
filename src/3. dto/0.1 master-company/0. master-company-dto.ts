@@ -1,6 +1,6 @@
-import prisma from "@_lib/db/prisma";
+import prisma from "@0 db/prisma";
 import validationParse from "@_lib/helpers/validation-parse";
-import masterCompanySchema from "@_lib/validation/0.1 master-copany/0. master-company-schema";
+import masterCompanySchema from "@_lib/validation/0.1 master-company/0. master-company-schema";
 import { MasterCompany } from "@prisma/client";
 
 export const createMasterCompanyDto = async (params: MasterCompany) => {

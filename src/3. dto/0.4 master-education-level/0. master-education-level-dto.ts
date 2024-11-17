@@ -1,4 +1,4 @@
-import prisma from "@_lib/db/prisma";
+import prisma from "@0 db/prisma";
 import { MasterEducationLevel } from "@prisma/client";
 
 export const createMasterEducationLevelDto = async (

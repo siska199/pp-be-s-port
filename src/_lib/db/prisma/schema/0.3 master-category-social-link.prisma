@@ -1,9 +1,0 @@
-model MasterCategorySocialLink {
-    id      String      @id @default(uuid())
-    name    String      @db.VarChar(255) @unique
-
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt  
-
-    @@map("master_category_social_link")
-}

@@ -1,4 +1,4 @@
-import prisma from "@_lib/db/prisma";
+import prisma from "@0 db/prisma";
 import validationParse from "@_lib/helpers/validation-parse";
 import userSchema from "@_lib/validation/1. user/0. user-schema";
 import { User } from "@prisma/client";

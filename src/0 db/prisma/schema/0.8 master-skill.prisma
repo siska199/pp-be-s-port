@@ -1,6 +1,8 @@
 model MasterSkill {
     id              String                  @id      @default(uuid())
     name            String                  @unique  @db.VarChar(255)
+    image           String                  @db.VarChar(2083)
+    color           String?                  @db.VarChar(255)
 
     created_at      DateTime                @default(now())
     updated_at      DateTime                @updatedAt

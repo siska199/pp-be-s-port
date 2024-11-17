@@ -7,4 +7,5 @@ import express from "express";
 export default (router: express.Router) => {
   router.get("/professions", getListMasterProfession);
   router.post("/professions", addBulkMasterProfession);
+  return router
 };

@@ -1,9 +1,7 @@
-import prisma from "@_lib/db/prisma";
+import prisma from "@0 db/prisma";
 import { MasterSkill } from "@prisma/client";
 
-export const createMasterSkillDto = async (
-  params: MasterSkill
-) => {
+export const createMasterSkillDto = async (params: MasterSkill) => {
   const data = params;
 
   const result = await prisma?.masterSkill?.create({
@@ -13,9 +11,7 @@ export const createMasterSkillDto = async (
   return result ?? null;
 };
 
-export const createBulkMasterSkillDto = async (
-  params: MasterSkill[]
-) => {
+export const createBulkMasterSkillDto = async (params: MasterSkill[]) => {
   const data = params;
 
   const result = await prisma?.masterSkill?.createMany({
