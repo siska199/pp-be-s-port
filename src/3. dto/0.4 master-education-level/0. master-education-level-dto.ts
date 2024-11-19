@@ -1,11 +1,20 @@
 import prisma from "@0 db/prisma";
+import masterEducationLevelSchema from "@4. validation/0.4 master-education-level/0. master-education-level-schema";
+import validationParse from "@_lib/helpers/validation-parse";
 import { MasterEducationLevel } from "@prisma/client";
 
 export const createMasterEducationLevelDto = async (
   params: MasterEducationLevel
 ) => {
+  const dataDto = {
+    name: params?.name,
+  };
+  await validationParse({
+    schema: masterEducationLevelSchema,
+    data: dataDto,
+  });
   const result = await prisma?.masterEducationLevel.create({
-    data: params,
+    data: dataDto,
   });
 
   return result ?? null;
@@ -14,9 +23,20 @@ export const createMasterEducationLevelDto = async (
 export const createBulkMasterEducationLevelDto = async (
   params: MasterEducationLevel[]
 ) => {
-  const data = params;
+  const listDataDto = params?.map((data) => ({
+    name: data?.name,
+  }));
+  await Promise.all(
+    listDataDto?.map(async (dataDto) => {
+      await validationParse({
+        schema: masterEducationLevelSchema,
+        data: dataDto,
+      });
+    })
+  );
+
   const result = await prisma?.masterEducationLevel.createMany({
-    data,
+    data: listDataDto,
   });
 
   return result ?? null;

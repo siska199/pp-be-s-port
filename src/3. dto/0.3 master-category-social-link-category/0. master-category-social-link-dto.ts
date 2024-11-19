@@ -1,9 +1,24 @@
 import prisma from "@0 db/prisma";
+import validationParse from "@_lib/helpers/validation-parse";
 import { MasterCategorySocialLink } from "@prisma/client";
+import categorySocialLinkSchema from "@4. validation/0.3 master-category-social-link/0. master-category-social-link-schema";
+import masterCategorySocialLinkSchema from "@4. validation/0.3 master-category-social-link/0. master-category-social-link-schema";
 
 export const createMasterCategorySocialLinkDto = async (
   params: MasterCategorySocialLink
 ) => {
+  const dataDto = {
+    name: params.name,
+    image: params.image,
+    placeholder: params.placeholder,
+    default_value: params?.default_value,
+  };
+
+  await validationParse({
+    schema: categorySocialLinkSchema,
+    data: dataDto,
+  });
+
   const result = await prisma?.masterCategorySocialLink.create({
     data: params,
   });
@@ -14,9 +29,24 @@ export const createMasterCategorySocialLinkDto = async (
 export const createBulkMasterCategorySocialLinkDto = async (
   params: MasterCategorySocialLink[]
 ) => {
-  const data = params;
+  const listDataDto = params?.map((data) => ({
+    name: data.name,
+    image: data.image,
+    placeholder: data.placeholder,
+    default_value: data?.default_value,
+  }));
+
+  await Promise.all(
+    listDataDto?.map(async (data) => {
+      await validationParse({
+        schema: masterCategorySocialLinkSchema,
+        data,
+      });
+    })
+  );
+
   const result = await prisma?.masterCategorySocialLink.createMany({
-    data,
+    data: listDataDto,
   });
 
   return result ?? null;

@@ -11,7 +11,6 @@ async function main() {
       first_name: "admin",
       password: CONFIG.PASSWORD_ADMIN_S_PORT,
       phone_number: "083111962313",
-      is_verified: true,
     },
   });
 

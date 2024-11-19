@@ -1,9 +1,9 @@
 model MasterCategorySocialLink {
     id              String      @id @default(uuid())
     name            String      @db.VarChar(255) @unique
-    image           String      @db.VarChar(255)
+    image           String      @db.VarChar(2083)
     placeholder     String      @db.VarChar(255)
-    devault_value    String     @db.VarChar(255)
+    default_value    String     @db.VarChar(255)
 
     social_links    SocialLink[]
 

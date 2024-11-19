@@ -1,11 +1,10 @@
-import catchErrors from "@_lib/helpers/catch-error";
 import {
-  createBulkMasterEducationSchoolDto,
   createMasterEducationSchoolDto,
   getListMasterEducationSchoolDto,
 } from "@3. dto/0.6 master-education-school/0. master-education-school-dto";
-import { successResponse } from "@_lib/helpers/response";
+import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
 
 export const getListMasterEducationSchool = catchErrors(async (req, res) => {
   const id_level = req.query.id_level as string;
@@ -20,9 +19,9 @@ export const getListMasterEducationSchool = catchErrors(async (req, res) => {
 });
 
 export const addMasterEducationSchool = catchErrors(async (req, res) => {
-  const educationSchool = req.body;
+  const payload = req.body;
 
-  const result = await createMasterEducationSchoolDto(educationSchool);
+  const result = await createMasterEducationSchoolDto(payload);
 
   successResponse({
     res,

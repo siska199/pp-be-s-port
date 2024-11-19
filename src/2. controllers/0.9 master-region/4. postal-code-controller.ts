@@ -3,10 +3,13 @@ import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
 
-
 export const getListMasterPostalCode = catchErrors(async (req, res) => {
-  const districtName = req.query.district_name;
-  const postalCodes = await getListMasterPostalCodeDto(districtName as string);
+  const city_name = req.query.city_name as string;
+  const district_name = req.query.district_name as string;
+  const postalCodes = await getListMasterPostalCodeDto({
+    district_name,
+    city_name,
+  });
 
   successResponse({
     res,

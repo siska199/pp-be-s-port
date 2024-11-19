@@ -1,4 +1,4 @@
-import { zEmail, zPassword, zString } from "@_lib/validation/reusable-shema";
+import { zEmail, zPassword, zString } from "@4. validation/reusable-shema";
 import z from "zod";
 
 const registerSchema = z

@@ -18,11 +18,12 @@
  Access Postgres container
  >> docker exec -it <container_name_or_id> psql -U postgres -c "CREATE DATABASE s_port;"
 
- >> docker <container_name> exec -it bash
+ >> docker exec -it <container_name> bash
  >> psql -U postgres
  >> \l -> see all available databse
  >> \c <database_name> -> connect to specific database
  >> \dt -> list all availabel table
+ >> \! clear -> clear terminal
  >> CREATE DATABASE s_port;
 
 

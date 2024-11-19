@@ -6,6 +6,10 @@ import masterEducationMajorRoute from "@1. routes/0.5 master-education-major/0. 
 import masterEducationSchoolRoute from "@1. routes/0.6 master-education-school/0. master-education-school-route";
 import masterCategorySkillRoute from "@1. routes/0.7 master-category-skill/0. master-category-skill-route";
 import masterSkillRoute from "@1. routes/0.8 master-skill/0. master-skill-route";
+import masterProvinceRoute from "@1. routes/0.9 region/1. master-province-route";
+import masterCityRoute from "@1. routes/0.9 region/2. master-city-route";
+import masterDistrictRoute from "@1. routes/0.9 region/3. master-district-route";
+import masterPostalCodeRoute from "@1. routes/0.9 region/4. master-postal-code-route";
 import authRoute from "@1. routes/1. user/1. auth-route";
 import express from "express";
 
@@ -19,6 +23,11 @@ export default () => {
   masterEducationMajorRoute(router);
   masterCategorySkillRoute(router);
   masterEducationSchoolRoute(router);
-  masterSkillRoute(router)
+  masterSkillRoute(router);
+  masterProfessionRoute(router);
+  masterProvinceRoute(router);
+  masterCityRoute(router);
+  masterDistrictRoute(router);
+  masterPostalCodeRoute(router);
   return router;
 };

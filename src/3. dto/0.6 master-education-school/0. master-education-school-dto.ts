@@ -1,4 +1,5 @@
 import prisma from "@0 db/prisma";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import { MasterEducationSchool } from "@prisma/client";
 
 export const createMasterEducationSchoolDto = async (
@@ -35,7 +36,18 @@ export const getListMasterEducationSchoolDto = async (params: {
     },
   });
 
-  return result ?? [];
+  const updateResult = await Promise.all(
+    result?.map(async (data) => {
+      const url_image = await getImageUrlFromClaudinary({
+        publicId: data.image,
+      });
+      return {
+        ...data,
+        image: url_image,
+      };
+    })
+  );
+  return updateResult ?? [];
 };
 
 export const getMasterEducationSchoolByIdDto = async (param: string) => {

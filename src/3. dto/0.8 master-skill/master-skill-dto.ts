@@ -3,9 +3,15 @@ import { MasterSkill } from "@prisma/client";
 
 export const createMasterSkillDto = async (params: MasterSkill) => {
   const data = params;
+  const dataDto = {
+    name: data.name?.trim(),
+    color: data.color?.trim(),
+    id_category: data.id_category?.trim(),
+    image: data.image?.trim(),
+  };
 
   const result = await prisma?.masterSkill?.create({
-    data,
+    data: dataDto,
   });
 
   return result ?? null;

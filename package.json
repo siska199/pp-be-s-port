@@ -7,8 +7,7 @@
     "start": "npx nodemon"
   },
   "prisma": {
-    "schema": "src/_lib/db/prisma",
-    "seed": "ts-node src/_lib/db/prisma/seed.ts"
+    "schema": "src/0 db/prisma"
   },
   "repository": {
     "type": "git",

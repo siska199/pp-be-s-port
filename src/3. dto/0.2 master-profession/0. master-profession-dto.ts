@@ -1,7 +1,18 @@
 import prisma from "@0 db/prisma";
+import masterProfessionSchema from "@4. validation/0.2 master-profession/0. master-profession-schema";
+import validationParse from "@_lib/helpers/validation-parse";
 import { MasterProfession } from "@prisma/client";
 
 export const createMasterProfessionDto = async (params: MasterProfession) => {
+  const dataDto = {
+    name: params?.name,
+  };
+
+  await validationParse({
+    schema: masterProfessionSchema,
+    data: dataDto,
+  });
+
   const result = await prisma?.masterProfession.create({
     data: params,
   });
@@ -12,9 +23,21 @@ export const createMasterProfessionDto = async (params: MasterProfession) => {
 export const createBulkMasterProfessionDto = async (
   params: MasterProfession[]
 ) => {
-  const data = params;
+  const listDataDto = params?.map((data) => ({
+    name: data?.name,
+  }));
+
+  await Promise.all(
+    listDataDto?.map(async (dataDto) => {
+      await validationParse({
+        schema: masterProfessionSchema,
+        data: dataDto,
+      });
+    })
+  );
+
   const result = await prisma?.masterProfession.createMany({
-    data,
+    data: listDataDto,
   });
 
   return result ?? null;
@@ -41,11 +64,15 @@ export const updateMasterProfessionDto = async (params: {
   data: MasterProfession;
 }) => {
   const { id, data } = params;
+
+  const dataDto = {
+    name: data.name,
+  };
   const result = await prisma?.masterProfession.update({
     where: {
       id,
     },
-    data,
+    data: dataDto.name,
   });
 
   return result ?? null;

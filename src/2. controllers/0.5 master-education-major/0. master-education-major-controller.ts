@@ -6,7 +6,7 @@ import {
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { createMasterEducationMajorDto } from "../../3. dto/0.5 master-education-major/0. master-education-major-dto";
+import { createMasterEducationMajorDto } from "@3. dto/0.5 master-education-major/0. master-education-major-dto";
 
 export const getListMasterEducationMajor = catchErrors(async (req, res) => {
   const { id_level } = req.query;

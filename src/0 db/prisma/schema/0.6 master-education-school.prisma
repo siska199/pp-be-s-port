@@ -12,5 +12,5 @@ model MasterEducationSchool{
     created_at  DateTime            @default(now())
     updated_at  DateTime            @updatedAt  
 
-    @@map("education_school")
+    @@map("master_education_school")
 }

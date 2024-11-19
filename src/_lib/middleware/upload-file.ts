@@ -6,12 +6,13 @@ import multer, { FileFilterCallback } from "multer";
 type TFileValidationRules = {
   types: string[];
   size?: number;
-  folder?: string;
+  folder: string;
+  maxCount?: number;
 };
 
 type TFileRules = Record<string, TFileValidationRules>;
 
-const upload = (fileRules: TFileRules) => {
+const uploadFile = (fileRules: TFileRules) => {
   const storage = multer.memoryStorage();
 
   const upload = multer({
@@ -24,11 +25,10 @@ const upload = (fileRules: TFileRules) => {
       const { fieldname } = file;
       const rules = fileRules[fieldname];
 
-      if (!rules) {
+      if (!rules)
         return cb(
           new CustomError(`No validation rules defined for field: ${fieldname}`)
         );
-      }
 
       const { types } = rules;
       const isAllowedType = types
@@ -37,7 +37,7 @@ const upload = (fileRules: TFileRules) => {
           return file.mimetype.toLowerCase()?.includes(type);
         })[0];
 
-      if (!isAllowedType) {
+      if (!isAllowedType)
         return cb(
           new CustomError(
             `Invalid file type for ${fieldname}. Allowed types: ${types.join(
@@ -45,50 +45,62 @@ const upload = (fileRules: TFileRules) => {
             )}`
           )
         );
-      }
       cb(null, true);
     },
   });
+  const lsitFieldFile = Object.entries(fileRules).map(([key, value]) => ({
+    name: key,
+    maxCount: value?.maxCount,
+  }));
 
   return async (req: Request, res: Response, next: NextFunction) => {
-    upload.fields(
-      Object.keys(fileRules).map((field) => ({
-        name: field,
-        maxCount: 1,
-      }))
-    )(req, res, async (err) => {
+    upload.fields(lsitFieldFile)(req, res, async (err) => {
       if (err) next(new CustomError(err.message, 400));
-      const uploadResults: Record<string, any> = {};
-
-      for (const field in req.files) {
-        //@ts-ignore
-        const fileArray = req.files[field] as Express.Multer.File[];
-
-        if (fileArray && fileArray.length > 0) {
-          for (const file of fileArray) {
-            const fileSize = file.buffer.length;
-            const rules = fileRules[field];
-
-            if (fileSize > (rules?.size || 5) * 1024 * 1024)
-              next(
-                new CustomError(
-                  `File size exceeds the limit for ${field}. Maximum size is ${rules.size} MB.`,
-                  400
-                )
-              );
-            const result = await uploadFileToCloudinary(
-              file,
-              fileRules[field].folder
-            );
-            req.body[field] = result?.public_id;
-            uploadResults[field] = uploadResults[field] || [];
-            uploadResults[field].push(result);
-          }
-        }
-      }
-      next();
+      await uploadFileToClaudinary(req, next, fileRules);
     });
   };
 };
 
-export default upload;
+const uploadFileToClaudinary = async (
+  req: Request,
+  next: NextFunction,
+  fileRules: TFileRules
+) => {
+  const uploadResults: Record<string, any> = {};
+
+  if (!req.files) return next(new CustomError(`No files were uploaded`, 400));
+
+  for (const field in req.files) {
+    // @ts-ignore
+    const fileArray = req?.files?.[field];
+    if (!Array.isArray(fileArray)) return null;
+
+    await Promise.all(
+      fileArray?.map(async (file, i) => {
+        const fileSize = file.buffer.length;
+        const rules = fileRules[field];
+
+        if (fileSize > (rules?.size || 5) * 1024 * 1024) {
+          next(
+            new CustomError(
+              `File size exceeds the limit for ${field}. Maximum size is ${rules.size} MB.`,
+              400
+            )
+          );
+        }
+
+        const result = await uploadFileToCloudinary(
+          file,
+          fileRules[field].folder
+        );
+
+        req.body[field] = result?.public_id;
+        uploadResults[field] = uploadResults[field] || [];
+        uploadResults[field].push(result);
+      })
+    );
+  }
+  next();
+};
+
+export default uploadFile;

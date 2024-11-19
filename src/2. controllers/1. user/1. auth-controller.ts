@@ -6,7 +6,7 @@ import { generateTokenJwt } from "@_lib/helpers/token";
 import { CustomError } from "@_lib/middleware/error-handler";
 import { Request, Response } from "express";
 
-export const register = catchErrors(async (req: Request, res: Response) => {
+export const signUp = catchErrors(async (req: Request, res: Response) => {
   const { email, password, ..._ } = req.body;
 
   const userExist = await getUserBy_Dto({ email });
@@ -30,7 +30,7 @@ export const register = catchErrors(async (req: Request, res: Response) => {
   });
 });
 
-export const login = catchErrors(async (req, res) => {
+export const signIn = catchErrors(async (req, res) => {
   const { email, password } = req.body;
 
   const userExist = await getUserBy_Dto({ email });

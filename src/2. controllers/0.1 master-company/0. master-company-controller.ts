@@ -15,6 +15,7 @@ import { Request, Response } from "express";
 export const getListMasterCompany = catchErrors(
   async (_req: Request, res: Response) => {
     const result = await getListMasterCompanyDto();
+
     successResponse({
       res,
       data: result,

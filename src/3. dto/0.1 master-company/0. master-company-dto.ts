@@ -1,18 +1,20 @@
 import prisma from "@0 db/prisma";
+import masterCompanySchema from "@4. validation/0.1 master-company/0. master-company-schema";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import validationParse from "@_lib/helpers/validation-parse";
-import masterCompanySchema from "@_lib/validation/0.1 master-company/0. master-company-schema";
 import { MasterCompany } from "@prisma/client";
 
 export const createMasterCompanyDto = async (params: MasterCompany) => {
   const dataDto = {
     name: params.name,
+    image: params?.image,
   };
 
-  const validation = await validationParse({
+  await validationParse({
     schema: masterCompanySchema(),
     data: dataDto,
   });
-  console.log("validation", validation);
+
   const result = await prisma?.masterCompany?.create({
     data: dataDto,
   });
@@ -25,7 +27,7 @@ export const createBulkMasterCompanyDto = async (params: MasterCompany[]) => {
     name: data.name,
   }));
 
-  const validation = await Promise.all(
+  await Promise.all(
     listDataDto?.map(async (masterCompany) => {
       await validationParse({
         schema: masterCompanySchema(),
@@ -33,8 +35,6 @@ export const createBulkMasterCompanyDto = async (params: MasterCompany[]) => {
       });
     })
   );
-
-  console.log("validation: ", validation);
 
   const result = await prisma?.masterCompany?.createMany({
     data: params,
@@ -44,7 +44,18 @@ export const createBulkMasterCompanyDto = async (params: MasterCompany[]) => {
 
 export const getListMasterCompanyDto = async () => {
   const result = await prisma.masterCompany?.findMany();
-  return result ?? [];
+  const updatedResult = await Promise.all(
+    result?.map(async (company) => {
+      const url_image = await getImageUrlFromClaudinary({
+        publicId: company?.image as string,
+      });
+      return {
+        ...company,
+        image: url_image,
+      };
+    })
+  );
+  return updatedResult ?? [];
 };
 
 export const getMasterCompanyByIdDto = async (param: string) => {
@@ -67,11 +78,11 @@ export const updateMasterCompanyByIdDto = async (params: {
     name: params?.data?.name,
   };
 
-  const validation = await validationParse({
+  await validationParse({
     schema: masterCompanySchema(),
     data: dataDto,
   });
-  console.log("validation", validation);
+
   const result = await prisma?.masterCompany?.update({
     where: {
       id,

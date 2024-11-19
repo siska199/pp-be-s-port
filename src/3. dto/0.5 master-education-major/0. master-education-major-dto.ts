@@ -46,7 +46,9 @@ export const getListMasterEducationMajorDto = async (params: {
     where: {
       levels: {
         some: {
-          id: id_level,
+          level: {
+            id: id_level,
+          },
         },
       },
     },
@@ -58,6 +60,8 @@ export const getListMasterEducationMajorDto = async (params: {
       },
     },
   });
+
+  console.log("result: ", result);
   const resultDto = result?.map((data) => ({
     id: data?.id,
     name: data?.name,

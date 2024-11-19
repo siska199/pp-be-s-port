@@ -20,6 +20,7 @@ export const getMasterDistrictByCodeDto = async (id_district: string) => {
   const refactoData = data?.nodes?.map((district: any) => ({
     id: district.node.Postcode,
     name: district.node.Postcode,
+    city_name: district?.node?.Regency,
   }));
 
   return refactoData;

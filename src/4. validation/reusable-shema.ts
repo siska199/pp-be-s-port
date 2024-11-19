@@ -1,4 +1,4 @@
-import validation, { messageError } from "@_lib/validation";
+import validation, { messageError } from "@4. validation";
 import z, { ZodOptional, ZodString } from "zod";
 
 export const zString = <TMandatory extends boolean = true>(params: {

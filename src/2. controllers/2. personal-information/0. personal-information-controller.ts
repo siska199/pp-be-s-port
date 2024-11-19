@@ -1,9 +1,9 @@
+import prisma from "@0 db/prisma";
 import {
   createPersonalInfo,
   getPersonalInfoByIdUser,
   updatePersonalInfo,
 } from "@3. dto/2. personal-information/personal-information-dto";
-import prisma from "@_lib/db/prisma";
 import catchErrors from "@_lib/helpers/catch-error";
 import {
   deleteImageFromCloudinary,

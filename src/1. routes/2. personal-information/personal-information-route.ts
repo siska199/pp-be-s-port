@@ -3,10 +3,10 @@ import {
   deletePersonalInformation,
   editPersonalInformation,
 } from "@2. controllers/2. personal-information/0. personal-information-controller";
+import personalInfoSchema from "@4. validation/personal-information/personal-information-schema";
 import authentication from "@_lib/middleware/authentication";
 import upload from "@_lib/middleware/upload-file";
 import validateData from "@_lib/middleware/validate-data";
-import personalInfoSchema from "@_lib/validation/personal-information/personal-information-schema";
 import express from "express";
 
 export default (router: express.Router) => {

@@ -1,11 +1,10 @@
 import {
-  zDate,
   zEmail,
   zLink,
   zPassword,
   zPhoneNumber,
   zString,
-} from "@_lib/validation/reusable-shema";
+} from "@4. validation/reusable-shema";
 import { z } from "zod";
 
 const userSchema = (mandatory: boolean = true) =>
