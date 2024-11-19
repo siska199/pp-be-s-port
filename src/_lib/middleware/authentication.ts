@@ -1,4 +1,4 @@
-import { getUserBy_Dto } from "@3. dto/1. user/user-dto";
+import { getUserBy_Dto } from "@1. dto/1. user/user-dto";
 import CONFIG from "@_lib/config";
 import { CustomError } from "@_lib/middleware/error-handler";
 import { TRequestAuthRoute } from "@_lib/types";
