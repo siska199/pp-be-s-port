@@ -1,7 +1,7 @@
 import {
   getListEducationDto,
   upsertEducationDto,
-} from "@1. dto/4. education/education-dto";
+} from "@1. dto/4. education/0. education-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";

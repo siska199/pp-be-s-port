@@ -11,6 +11,7 @@ model User {
 
     profession              MasterProfession?  @relation(fields: [id_profession],references: [id])
     
+    experiance              Experiance?
     personal_information    PersonalInformation?
     education               Education?
     

@@ -1,16 +1,12 @@
 import prisma from "@0 db/prisma";
 import filterKeysObject from "@_lib/helpers/filter-keys-object";
 import { Education } from "@prisma/client";
+import { TQueryParamsPaginationList } from "@_lib/types/index";
 
-interface TParamsListEducationDto {
-  currentPage: number;
-  totalItems: number;
-  sortBy: keyof Education;
-  sortDir: "desc" | "asc";
-  search?: string;
+type TParamsListEducationDto = TQueryParamsPaginationList<keyof Education> & {
   id_level?: string;
   id_user: string;
-}
+};
 
 export const getListEducationDto = async (params: TParamsListEducationDto) => {
   const {
