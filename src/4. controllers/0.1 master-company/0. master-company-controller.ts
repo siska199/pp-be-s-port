@@ -1,10 +1,7 @@
 import {
-  createBulkMasterCompanyDto,
-  createMasterCompanyDto,
   deleteMasterCompanyByIdDto,
   getListMasterCompanyDto,
-  getMasterCompanyByIdDto,
-  updateMasterCompanyByIdDto,
+  upsertMasterCompanyDto,
 } from "@1. dto/0.1 master-company/0. master-company-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
@@ -24,52 +21,13 @@ export const getListMasterCompany = catchErrors(
   }
 );
 
-export const getMasterCompanyById = catchErrors(
+export const upsertMasterCompany = catchErrors(
   async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const result = await getMasterCompanyByIdDto(id);
-    if (!result) throw new CustomError(message.error.notFound, 400);
-    successResponse({
-      res,
-      data: result,
-      message: message.success.getData,
+    const payload = req.body;
+
+    const result = await upsertMasterCompanyDto({
+      ...payload,
     });
-  }
-);
-
-export const addBulkMasterCompany = catchErrors(
-  async (req: Request, res: Response) => {
-    const data = req.body;
-
-    const result = await createBulkMasterCompanyDto(data);
-
-    successResponse({
-      res,
-      data: result,
-      message: message?.success?.addData,
-    });
-  }
-);
-
-export const addMasterCompany = catchErrors(
-  async (req: Request, res: Response) => {
-    const data = req.body;
-    const result = await createMasterCompanyDto(data);
-    successResponse({
-      res,
-      data: result,
-      message: message?.success?.addData,
-    });
-  }
-);
-
-export const updateMasterCompanyById = catchErrors(
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const data = req.body;
-
-    const result = await updateMasterCompanyByIdDto({ id, data });
-    if (!result) throw new CustomError(message.error.notFound, 400);
 
     successResponse({
       res,

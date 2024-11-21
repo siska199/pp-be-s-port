@@ -1,46 +1,9 @@
 import prisma from "@0 db/prisma";
-import masterCompanySchema from "@2. validation/0.1 master-company/0. master-company-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
-import validationParse from "@_lib/helpers/validation-parse";
+import {
+  deleteImageFromCloudinary,
+  getImageUrlFromClaudinary,
+} from "@_lib/helpers/claudinary";
 import { MasterCompany } from "@prisma/client";
-
-export const createMasterCompanyDto = async (params: MasterCompany) => {
-  const dataDto = {
-    name: params.name,
-    image: params?.image,
-  };
-
-  await validationParse({
-    schema: masterCompanySchema(),
-    data: dataDto,
-  });
-
-  const result = await prisma?.masterCompany?.create({
-    data: dataDto,
-  });
-
-  return result ?? null;
-};
-
-export const createBulkMasterCompanyDto = async (params: MasterCompany[]) => {
-  const listDataDto = params?.map((data) => ({
-    name: data.name,
-  }));
-
-  await Promise.all(
-    listDataDto?.map(async (masterCompany) => {
-      await validationParse({
-        schema: masterCompanySchema(),
-        data: { name: masterCompany.name },
-      });
-    })
-  );
-
-  const result = await prisma?.masterCompany?.createMany({
-    data: params,
-  });
-  return result ?? null;
-};
 
 export const getListMasterCompanyDto = async () => {
   const result = await prisma.masterCompany?.findMany();
@@ -69,27 +32,31 @@ export const getMasterCompanyByIdDto = async (param: string) => {
   return result ?? null;
 };
 
-export const updateMasterCompanyByIdDto = async (params: {
-  id: string;
-  data: MasterCompany;
-}) => {
+export const upsertMasterCompanyDto = async (params: MasterCompany) => {
   const id = params?.id;
   const dataDto = {
-    name: params?.data?.name,
+    name: params.name,
+    image: params?.image,
   };
 
-  await validationParse({
-    schema: masterCompanySchema(),
-    data: dataDto,
-  });
+  if (dataDto.image && id) {
+    const currMasterCompany = await prisma?.masterCompany?.findUnique({
+      where: {
+        id,
+      },
+    });
+    await deleteImageFromCloudinary(String(currMasterCompany?.id));
+  }
 
-  const result = await prisma?.masterCompany?.update({
+  const result = await prisma?.masterCompany?.upsert({
     where: {
       id,
     },
-    data: dataDto,
+    create: dataDto,
+    update: dataDto,
   });
-  return result ?? null;
+  const masterCompanyDto = result;
+  return result ? masterCompanyDto : null;
 };
 
 export const deleteMasterCompanyByIdDto = async (param: string) => {

@@ -14,6 +14,9 @@ const CONFIG = {
   EMAIL_ADMIN_S_PORT: process.env.EMAIL_ADMIN_S_PORT as string,
   PASSWORD_ADMIN_S_PORT: process.env.PASSWORD_ADMIN_S_PORT as string,
   DB_NAME: process.env.POSTGRES_DB as string,
+  FOLDER_FILE_NAME: {
+    COMPANY: "company",
+  },
 };
 
 export default CONFIG;

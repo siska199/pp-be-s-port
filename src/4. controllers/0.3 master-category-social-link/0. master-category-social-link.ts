@@ -1,11 +1,11 @@
 import {
   createBulkMasterCategorySocialLinkDto,
+  createMasterCategorySocialLinkDto,
   getListMasterCategorySocialLinkDto,
 } from "@1. dto/0.3 master-category-social-link-category/0. master-category-social-link-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { createMasterCategorySocialLinkDto } from "../../3. dto/0.3 master-category-social-link-category/0. master-category-social-link-dto";
 
 export const getListMasterCategorySocialLink = catchErrors(async (req, res) => {
   const result = await getListMasterCategorySocialLinkDto();
