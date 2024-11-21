@@ -1,15 +1,18 @@
 import prisma from "@0 db/prisma";
 import personalInfoSchema from "@2. validation/2. personal-information/0. personal-information-schema";
-import { deleteImageFromCloudinary } from "@_lib/helpers/claudinary";
+import {
+  deleteImageFromCloudinary,
+  getImageUrlFromClaudinary,
+} from "@_lib/helpers/claudinary";
 import validationParse from "@_lib/helpers/validation-parse";
 import { PersonalInformation } from "@prisma/client";
 
 export const getPersonalInfoByAnyParamDto = async (params: {
   id_user?: string;
-  id: string;
+  id?: string;
 }) => {
   const { id_user, id } = params;
-  const personalInfo = await prisma.personalInformation.findFirst({
+  const result = await prisma.personalInformation.findFirst({
     where: {
       ...(id_user && { id_user }),
       ...(id && { id_user }),
@@ -22,11 +25,19 @@ export const getPersonalInfoByAnyParamDto = async (params: {
       },
     },
   });
+  const professional_image = await getImageUrlFromClaudinary({
+    publicId: String(result?.professional_image),
+  });
 
-  return personalInfo;
+  const personalInfoDto = {
+    ...result,
+    professional_image,
+  };
+
+  return personalInfoDto;
 };
 
-export const upsertPersonalInfo = async (payload: PersonalInformation) => {
+export const upsertPersonalInformationDto = async (payload: PersonalInformation) => {
   const id = payload.id;
 
   const dataDTO = {
