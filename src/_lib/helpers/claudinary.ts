@@ -43,6 +43,8 @@ export const deleteImageFromCloudinary = async (
   publicId: string
 ): Promise<void> => {
   try {
+    if (!publicId) return;
+
     const result = await cloudinary.uploader.destroy(publicId);
     if (result.result !== "ok") {
       throw new Error(

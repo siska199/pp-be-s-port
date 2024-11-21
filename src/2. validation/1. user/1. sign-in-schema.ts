@@ -1,7 +1,7 @@
 import { zString } from "@2. validation/reusable-shema";
 import z from "zod";
 
-const loginSchema = z
+const signInSchema = z
   .object({
     email: zString({
       name: "Email",
@@ -12,4 +12,4 @@ const loginSchema = z
   })
   ?.strict();
 
-export default loginSchema;
+export default signInSchema;

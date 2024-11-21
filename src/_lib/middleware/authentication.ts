@@ -1,4 +1,4 @@
-import { getUserBy_Dto } from "@1. dto/1. user/user-dto";
+import { getUserByAnyParamDto } from "@1. dto/1. user/user-dto";
 import CONFIG from "@_lib/config";
 import { CustomError } from "@_lib/middleware/error-handler";
 import { TRequestAuthRoute } from "@_lib/types";
@@ -18,7 +18,7 @@ const verifyToken = (token: string): Promise<User> => {
       if (err) return reject(new CustomError("Invalid Token", 403));
 
       if (payload && typeof payload === "object" && payload.id_user) {
-        const user = await getUserBy_Dto({ id: payload.id_user });
+        const user = await getUserByAnyParamDto({ id: payload.id_user });
         if (!user) return reject(new CustomError("Invalid Token", 403));
 
         resolve(user);

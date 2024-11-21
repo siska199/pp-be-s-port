@@ -1,7 +1,7 @@
 import { zEmail, zPassword, zString } from "@2. validation/reusable-shema";
 import z from "zod";
 
-const registerSchema = z
+const signUpSchema = z
   .object({
     first_name: zString({ name: "first Name" }),
     last_name: zString({ name: "Last Name" }),
@@ -11,4 +11,4 @@ const registerSchema = z
   })
   ?.strict();
 
-export default registerSchema;
+export default signUpSchema;

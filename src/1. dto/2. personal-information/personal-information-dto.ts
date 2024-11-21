@@ -1,10 +1,18 @@
 import prisma from "@0 db/prisma";
+import personalInfoSchema from "@2. validation/2. personal-information/0. personal-information-schema";
+import { deleteImageFromCloudinary } from "@_lib/helpers/claudinary";
+import validationParse from "@_lib/helpers/validation-parse";
 import { PersonalInformation } from "@prisma/client";
 
-export const getPersonalInfoByIdUser = async (id_user: string) => {
+export const getPersonalInfoByAnyParamDto = async (params: {
+  id_user?: string;
+  id: string;
+}) => {
+  const { id_user, id } = params;
   const personalInfo = await prisma.personalInformation.findFirst({
     where: {
-      id_user,
+      ...(id_user && { id_user }),
+      ...(id && { id_user }),
     },
     include: {
       profession: {
@@ -17,11 +25,11 @@ export const getPersonalInfoByIdUser = async (id_user: string) => {
 
   return personalInfo;
 };
-interface TCreatePersonalInfoDTO
-  extends Omit<PersonalInformation, "id" | "created_at" | "updated_at"> {}
 
-export const createPersonalInfo = async (payload: TCreatePersonalInfoDTO) => {
-  const personalInfoDTO: TCreatePersonalInfoDTO = {
+export const upsertPersonalInfo = async (payload: PersonalInformation) => {
+  const id = payload.id;
+
+  const dataDTO = {
     id_user: payload.id_user,
     professional_image: payload.professional_image,
     first_name: payload?.first_name,
@@ -37,48 +45,27 @@ export const createPersonalInfo = async (payload: TCreatePersonalInfoDTO) => {
     id_profession: payload.id_profession,
   };
 
-  return await prisma.personalInformation.create({
-    data: {
-      ...personalInfoDTO,
-    },
+  await validationParse({
+    schema: personalInfoSchema(!id),
+    data: dataDTO,
   });
-};
 
-interface TUpdatePersonalInfoDTO
-  extends Omit<
-    PersonalInformation,
-    "id" | "created_at" | "updated_at" | "id_user"
-  > {}
-export const updatePersonalInfo = async (params: {
-  id_user: string;
-  id: string;
-  payload: TUpdatePersonalInfoDTO;
-}) => {
-  const { id, id_user, payload } = params;
+  if (id && dataDTO.professional_image) {
+    const currentPersonalInfo = await getPersonalInfoByAnyParamDto({
+      id,
+    });
+    await deleteImageFromCloudinary(
+      currentPersonalInfo?.professional_image || ""
+    );
+  }
 
-  const personalInfoDTO: TUpdatePersonalInfoDTO = {
-    professional_image: payload.professional_image,
-    first_name: payload?.first_name,
-    last_name: payload?.last_name,
-    province: payload?.province,
-    city: payload?.city,
-    district: payload?.district,
-    postal_code: payload?.postal_code,
-    phone_number: payload.phone_number,
-    email: payload?.email,
-    about_me: payload.about_me,
-    bio: payload.bio,
-    id_profession: payload.id_profession,
-  };
-
-  return await prisma.personalInformation.update({
+  const result = await prisma.personalInformation.upsert({
     where: {
-      id_user,
       id,
     },
-    data: {
-      ...payload,
-      ...personalInfoDTO,
-    },
+    update: dataDTO,
+    create: dataDTO,
   });
+
+  return result ?? null;
 };

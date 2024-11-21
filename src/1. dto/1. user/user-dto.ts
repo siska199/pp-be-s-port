@@ -3,7 +3,7 @@ import userSchema from "@2. validation/1. user/0. user-schema";
 import validationParse from "@_lib/helpers/validation-parse";
 import { User } from "@prisma/client";
 
-export const getUserBy_Dto = async (params: Partial<User>) => {
+export const getUserByAnyParamDto = async (params: Partial<User>) => {
   const paramsDto = {
     id: params?.id,
     email: params?.email,

@@ -1,9 +1,9 @@
+import personalInfoSchema from "@2. validation/2. personal-information/0. personal-information-schema";
 import {
   addPersonaInformation,
   deletePersonalInformation,
   editPersonalInformation,
 } from "@4. controllers/2. personal-information/0. personal-information-controller";
-import personalInfoSchema from "@2. validation/personal-information/personal-information-schema";
 import authentication from "@_lib/middleware/authentication";
 import upload from "@_lib/middleware/upload-file";
 import validateData from "@_lib/middleware/validate-data";

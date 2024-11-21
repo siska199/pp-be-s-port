@@ -1,4 +1,4 @@
-import { createUserDto, getUserBy_Dto } from "@1. dto/1. user/user-dto";
+import { createUserDto, getUserByAnyParamDto } from "@1. dto/1. user/user-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
 import { successResponse } from "@_lib/helpers/response";
@@ -9,7 +9,7 @@ import { Request, Response } from "express";
 export const signUp = catchErrors(async (req: Request, res: Response) => {
   const { email, password, ..._ } = req.body;
 
-  const userExist = await getUserBy_Dto({ email });
+  const userExist = await getUserByAnyParamDto({ email });
 
   if (userExist) throw new CustomError("This email already has been used", 400);
 
@@ -33,7 +33,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
 export const signIn = catchErrors(async (req, res) => {
   const { email, password } = req.body;
 
-  const userExist = await getUserBy_Dto({ email });
+  const userExist = await getUserByAnyParamDto({ email });
   const isPasswordValid = await dycriptBycrypt({
     encryptData: userExist?.password as string,
     unEncryptData: password,
