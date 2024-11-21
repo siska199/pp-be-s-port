@@ -1,7 +1,7 @@
 import {
   getListSocialLinkDto,
   upsertSocialLinkDto,
-} from "@1. dto/3. social-link/social-link-dto";
+} from "@1. dto/3. social-link/0. social-link-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";

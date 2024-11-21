@@ -3,6 +3,7 @@ model ProjectResponsibility {
     description     String      @db.VarChar(255)
     
     id_project      String      @db.VarChar(36)
+    
     project         Project     @relation(fields:[id_project],references:[id])
 
     created_at      DateTime    @default(now())

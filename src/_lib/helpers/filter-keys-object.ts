@@ -1,4 +1,3 @@
-import { TGeneralObject } from "@_lib/types";
 
 interface TParams<TObject extends object> {
   object: TObject;

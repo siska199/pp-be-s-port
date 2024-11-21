@@ -1,19 +1,21 @@
 model Project {
-    id                          String      @id @default(uuid())
-    name                       String      @db.VarChar(255)
-    thumbnail                   String      @db.VarChar(2083)
-    description                 String      @db.Text
+    id                          String          @id @default(uuid())
+    
+    name                        String          @db.VarChar(255)
+    thumbnail_image             String          @db.VarChar(2083)
+    description                 String          @db.Text
     category                    CategoryProject
     type                        TypeProject
+    
+    id_experiance               String?         @db.VarChar(36)
+    id_user                     String          @db.VarChar(36)
 
     project_menus               ProjectMenu[]  
     project_responsibilities    ProjectResponsibility[]  
     tech_stacks                 ProjectTechStack[]
 
-    id_experiance               String?      @db.VarChar(36)
     experiance                  Experiance?  @relation(fields: [id_experiance], references: [id])
 
-    id_user                     String      @db.VarChar(36)
     user                        User        @relation(fields: [id_user], references: [id])
 
     created_at                  DateTime    @default(now())

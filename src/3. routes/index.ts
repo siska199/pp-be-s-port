@@ -1,21 +1,28 @@
-import masterCompanyRoute from "@1. routes/0.1 master-company/0. master-company-route";
-import masterProfessionRoute from "@1. routes/0.2 master-profession/0. master-profession-route";
-import masterCategorySocialLinkROute from "@1. routes/0.3 master-category-social-link/0. master-category-social-link";
-import masterEducationLevelRoute from "@1. routes/0.4 master-education-level/0. master-education-level";
-import masterEducationMajorRoute from "@1. routes/0.5 master-education-major/0. master-education-major-route";
-import masterEducationSchoolRoute from "@1. routes/0.6 master-education-school/0. master-education-school-route";
-import masterCategorySkillRoute from "@1. routes/0.7 master-category-skill/0. master-category-skill-route";
-import masterSkillRoute from "@1. routes/0.8 master-skill/0. master-skill-route";
-import masterProvinceRoute from "@1. routes/0.9 region/1. master-province-route";
-import masterCityRoute from "@1. routes/0.9 region/2. master-city-route";
-import masterDistrictRoute from "@1. routes/0.9 region/3. master-district-route";
-import masterPostalCodeRoute from "@1. routes/0.9 region/4. master-postal-code-route";
-import authRoute from "@1. routes/1. user/1. auth-route";
+import masterCompanyRoute from "@3. routes/0.1 master-company/0. master-company-route";
+import masterProfessionRoute from "@3. routes/0.2 master-profession/0. master-profession-route";
+import masterCategorySocialLinkROute from "@3. routes/0.3 master-category-social-link/0. master-category-social-link";
+import masterEducationLevelRoute from "@3. routes/0.4 master-education-level/0. master-education-level";
+import masterEducationMajorRoute from "@3. routes/0.5 master-education-major/0. master-education-major-route";
+import masterEducationSchoolRoute from "@3. routes/0.6 master-education-school/0. master-education-school-route";
+import masterCategorySkillRoute from "@3. routes/0.7 master-category-skill/0. master-category-skill-route";
+import masterSkillRoute from "@3. routes/0.8 master-skill/0. master-skill-route";
+import masterProvinceRoute from "@3. routes/0.9 region/1. master-province-route";
+import masterCityRoute from "@3. routes/0.9 region/2. master-city-route";
+import masterDistrictRoute from "@3. routes/0.9 region/3. master-district-route";
+import masterPostalCodeRoute from "@3. routes/0.9 region/4. master-postal-code-route";
+import authRoute from "@3. routes/1. user/1. auth-route";
+import personalInformationRoute from "@3. routes/2. personal-information/personal-information-route";
+import socialLinkRoute from "@3. routes/3. social-link/social-link-route";
+import educationRoute from "@3. routes/4. education/education-route";
+import experianceRoute from "@3. routes/5. experiance/experiance-route";
+import skillUserRoute from "@3. routes/6. skill-user/skill-user-route";
+import projectRoute from "@3. routes/7. project/0. project-route";
+import projectMenuRoute from "@3. routes/7. project/3. project-menu-route";
+import projectTechStackRoute from "@3. routes/7. project/5. project-tech-stack-route";
 import express from "express";
 
 const router = express.Router();
 export default () => {
-  authRoute(router);
   masterCompanyRoute(router);
   masterProfessionRoute(router);
   masterCategorySocialLinkROute(router);
@@ -29,5 +36,15 @@ export default () => {
   masterCityRoute(router);
   masterDistrictRoute(router);
   masterPostalCodeRoute(router);
+
+  authRoute(router);
+  personalInformationRoute(router);
+  socialLinkRoute(router);
+  educationRoute(router);
+  experianceRoute(router);
+  skillUserRoute(router);
+  projectRoute(router);
+  projectMenuRoute(router);
+  projectTechStackRoute(router);
   return router;
 };

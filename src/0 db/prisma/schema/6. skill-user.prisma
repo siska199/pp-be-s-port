@@ -2,12 +2,13 @@ model SkillUser {
     id                  String      @id @default(uuid())
 
     id_skill            String      @db.VarChar(36)
-    skill               MasterSkill       @relation(fields: [id_skill], references: [id])
 
     year_of_experiance  Int         
     level               Level
 
     id_user             String      @db.VarChar(36)
+
+    skill               MasterSkill @relation(fields: [id_skill], references: [id])
     user                User        @relation(fields: [id_user], references: [id])
 
     projectTechStacks   ProjectTechStack[]

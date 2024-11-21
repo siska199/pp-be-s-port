@@ -1,82 +1,37 @@
-import catchErrors from "@helpers/catch-error";
-import message from "@helpers/message";
-import { successResponse } from "@helpers/response";
-import {
-  deleteSkillProject,
-  getListSkillProject,
-  getSkillProjectById,
-  insertSkillProject,
-  updateSkillProject,
-} from "@query/skill/skill-project-query";
-import { TRequestAuthRoute } from "@types";
-import { Request, Response } from "express";
+import { upsertProjectMenuDto } from "@1. dto/7. project/2. project-menu-dto";
+import { getListProjectTechStackDto } from "@1. dto/7. project/4. project-tech-stack-dto";
+import catchErrors from "@_lib/helpers/catch-error";
+import message from "@_lib/helpers/message";
+import { successResponse } from "@_lib/helpers/response";
+import { TRequestAuthRoute } from "@_lib/types";
+import { Response } from "express";
 
-export const getSkillsProject = catchErrors(
-  async (req: Request, res: Response) => {
-    const idProject = req.query.id_project as string;
-
-    const skillsProject = await getListSkillProject(idProject);
-
-    successResponse({
-      res,
-      data: skillsProject,
-      message: message?.success.getData,
-    });
-  }
-);
-
-export const getSkillProject = catchErrors(async (req, res) => {
-  const id = req.params?.id;
-
-  const skillProject = await getSkillProjectById(id);
-
-  successResponse({
-    res,
-    data: skillProject,
-    message: message?.success?.getData,
-  });
-});
-
-export const addSkillProject = catchErrors(
+export const getListProjectTechStack = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const idUser = req.user?.id;
+    const id_project = String(req.query.id_project);
+
+    const result = await getListProjectTechStackDto(id_project);
+
+    successResponse({
+      res,
+      data: result,
+      message: message.success.getData,
+    });
+  }
+);
+
+export const upsertProjectTechStack = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
     const payload = req.body;
 
-    await insertSkillProject({
+    const result = await upsertProjectMenuDto({
       ...payload,
-      id_user: idUser,
     });
 
     successResponse({
       res,
-      message: message?.success?.addData,
-    });
-  }
-);
-
-export const editSkillProject = catchErrors(
-  async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const payload = req.body;
-
-    await updateSkillProject({ id, payload });
-
-    successResponse({
-      res,
-      message: message?.success?.editData,
-    });
-  }
-);
-
-export const removeSkillProject = catchErrors(
-  async (req: Request, res: Response) => {
-    const id = req.params.id;
-
-    await deleteSkillProject(id);
-
-    successResponse({
-      res,
-      message: message?.success?.deleteData,
+      data: result,
+      message: message?.success?.upserData(String(payload?.id)),
     });
   }
 );

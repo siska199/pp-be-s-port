@@ -1,4 +1,5 @@
 import prisma from "@0 db/prisma";
+import filterKeysObject from "@_lib/helpers/filter-keys-object";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
 import { Experiance } from "@prisma/client";
 
@@ -65,7 +66,7 @@ export const getListExperianceDto = async (
   return result ? listexperianceDto : [];
 };
 
-const upsertExperianceDto = async (params: Experiance) => {
+export const upsertExperianceDto = async (params: Experiance) => {
   const id = params.id;
   const dataDto = {
     id_company: params.id_company,
@@ -76,4 +77,14 @@ const upsertExperianceDto = async (params: Experiance) => {
     end_at: params.end_at,
     is_currently_work_here: params.is_currently_work_here,
   };
+
+  const result = await prisma.experiance?.upsert({
+    where: {
+      id,
+    },
+    create: dataDto,
+    update: filterKeysObject({ object: dataDto, keys: ["id_user"] }),
+  });
+
+  return result ?? null;
 };
