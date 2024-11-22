@@ -1,10 +1,9 @@
 import {
   createBulkMasterSkillDto,
-  createMasterSkillDto,
-  deleteMasterSkillDto,
+  deleteMasterSkillByIdDto,
   getListMasterSkillDto,
   getMasterSkillByIdDto,
-  updateMasterSkillByIdDto,
+  upsertMasterSkillDto,
 } from "@1. dto/0.8 master-skill/master-skill-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
@@ -24,7 +23,7 @@ export const getListMasterSkill = catchErrors(
   }
 );
 
-export const getMasterSkill = catchErrors(
+export const getMasterSkillById = catchErrors(
   async (req: Request, res: Response) => {
     const idSkill = req.params.id;
     const skill = await getMasterSkillByIdDto(idSkill);
@@ -37,10 +36,10 @@ export const getMasterSkill = catchErrors(
   }
 );
 
-export const addMasterSkill = catchErrors(
+export const upsertMasterSkill = catchErrors(
   async (req: Request, res: Response) => {
     const payload = req.body;
-    const result = await createMasterSkillDto(payload);
+    const result = await upsertMasterSkillDto(payload);
 
     successResponse({
       res,
@@ -50,7 +49,7 @@ export const addMasterSkill = catchErrors(
   }
 );
 
-export const addBulkMasterSkill = catchErrors(
+export const createBulkMasterSkill = catchErrors(
   async (req: Request, res: Response) => {
     const payload = req.body;
     const result = await createBulkMasterSkillDto(payload);
@@ -63,27 +62,10 @@ export const addBulkMasterSkill = catchErrors(
   }
 );
 
-export const editMasterSkill = catchErrors(
+export const deleteMasterSkillById = catchErrors(
   async (req: Request, res: Response) => {
     const idSkill = req.params.id;
-    const payload = req.body;
-    const result = await updateMasterSkillByIdDto({
-      id: idSkill,
-      data: payload,
-    });
-
-    successResponse({
-      res,
-      data: result,
-      message: message.success.editData,
-    });
-  }
-);
-
-export const deleteMasterSkill = catchErrors(
-  async (req: Request, res: Response) => {
-    const idSkill = req.params.id;
-    const result = await deleteMasterSkillDto(idSkill);
+    const result = await deleteMasterSkillByIdDto(idSkill);
     successResponse({
       res,
       data: result,

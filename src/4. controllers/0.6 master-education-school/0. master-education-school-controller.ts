@@ -1,6 +1,6 @@
 import {
-  createMasterEducationSchoolDto,
   getListMasterEducationSchoolDto,
+  upsertMasterEducationSchoolByIdDto,
 } from "@1. dto/0.6 master-education-school/0. master-education-school-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
@@ -18,10 +18,10 @@ export const getListMasterEducationSchool = catchErrors(async (req, res) => {
   });
 });
 
-export const addMasterEducationSchool = catchErrors(async (req, res) => {
+export const upsertMasterEducationSchool = catchErrors(async (req, res) => {
   const payload = req.body;
 
-  const result = await createMasterEducationSchoolDto(payload);
+  const result = await upsertMasterEducationSchoolByIdDto(payload);
 
   successResponse({
     res,

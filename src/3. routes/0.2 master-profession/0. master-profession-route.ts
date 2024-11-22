@@ -1,11 +1,15 @@
+import { upsertMasterCompany } from "@4. controllers/0.1 master-company/0. master-company-controller";
 import {
-  addBulkMasterProfession,
+  createBulkMasterProfession,
+  deleteMasterProfessionById,
   getListMasterProfession,
 } from "@4. controllers/0.2 master-profession/0. master-profession-controller";
 import express from "express";
 
 export default (router: express.Router) => {
   router.get("/professions", getListMasterProfession);
-  router.post("/professions", addBulkMasterProfession);
+  router.post("/professions", createBulkMasterProfession);
+  router.post("/profession", upsertMasterCompany);
+  router.delete("/profession/:id", deleteMasterProfessionById);
   return router;
 };

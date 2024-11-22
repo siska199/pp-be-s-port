@@ -1,32 +1,6 @@
 import prisma from "@0 db/prisma";
 import { MasterSkill } from "@prisma/client";
 
-export const createMasterSkillDto = async (params: MasterSkill) => {
-  const data = params;
-  const dataDto = {
-    name: data.name?.trim(),
-    color: data.color?.trim(),
-    id_category: data.id_category?.trim(),
-    image: data.image?.trim(),
-  };
-
-  const result = await prisma?.masterSkill?.create({
-    data: dataDto,
-  });
-
-  return result ?? null;
-};
-
-export const createBulkMasterSkillDto = async (params: MasterSkill[]) => {
-  const data = params;
-
-  const result = await prisma?.masterSkill?.createMany({
-    data,
-  });
-
-  return result ?? null;
-};
-
 export const getListMasterSkillDto = async (params: {
   id_category?: string;
 }) => {
@@ -52,22 +26,35 @@ export const getMasterSkillByIdDto = async (param: string) => {
   return result ?? null;
 };
 
-export const updateMasterSkillByIdDto = async (params: {
-  id: string;
-  data: MasterSkill;
-}) => {
-  const { id, data } = params;
+export const createBulkMasterSkillDto = async (params: MasterSkill[]) => {
+  const data = params;
 
-  const result = await prisma?.masterSkill?.update({
-    where: { id },
-    data: {
-      ...data,
-    },
+  const result = await prisma?.masterSkill?.createMany({
+    data,
   });
+
   return result ?? null;
 };
 
-export const deleteMasterSkillDto = async (param: string) => {
+export const upsertMasterSkillDto = async (params: MasterSkill) => {
+  const id = params?.id ?? "";
+  const dataDto = {
+    name: params?.name,
+    image: params?.image,
+    color: params?.color,
+    id_category: params?.id_category?.trim(),
+  };
+  const result = await prisma?.masterSkill?.upsert({
+    where: { id },
+    create: dataDto,
+    update: dataDto,
+  });
+
+  const masterSkillDto = result;
+  return result ? masterSkillDto : null;
+};
+
+export const deleteMasterSkillByIdDto = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterSkill?.delete({

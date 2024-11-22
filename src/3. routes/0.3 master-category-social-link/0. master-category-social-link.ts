@@ -1,23 +1,28 @@
 import {
-  createMasterCategorySocialLink,
   getListMasterCategorySocialLink,
+  upsertMasterCategorySocialLink,
 } from "@4. controllers/0.3 master-category-social-link/0. master-category-social-link";
+import CONFIG from "@_lib/config";
+import { listCommonTypeFileImage } from "@_lib/constants";
 import uploadFile from "@_lib/middleware/upload-file";
-import { TTypeFile } from "@_lib/types";
 import { Router } from "express";
+import { deleteMasterCategorySocialLinkById } from "../../4. controllers/0.3 master-category-social-link/0. master-category-social-link";
 
 export default (router: Router) => {
-  router.get("/categories-social-link", getListMasterCategorySocialLink);
+  router.get("/category-social-links", getListMasterCategorySocialLink);
   router.post(
-    "/categories-social-link",
+    "/category-social-link",
     uploadFile({
       image: {
-        types: [TTypeFile.JPG, TTypeFile.JPEG, TTypeFile.PNG],
-        folder: "/category-social-link",
-        maxCount: 1,
+        types: listCommonTypeFileImage,
+        folder: CONFIG.FOLDER_FILE_NAME.CATEGORY_SOCIAL_LINK,
       },
     }),
-    createMasterCategorySocialLink
+    upsertMasterCategorySocialLink
+  );
+  router.delete(
+    "/category-social-link/:id",
+    deleteMasterCategorySocialLinkById
   );
   return router;
 };

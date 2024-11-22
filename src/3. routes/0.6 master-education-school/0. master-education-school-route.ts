@@ -1,21 +1,23 @@
 import {
-  addMasterEducationSchool,
   getListMasterEducationSchool,
+  upsertMasterEducationSchool,
 } from "@4. controllers/0.6 master-education-school/0. master-education-school-controller";
+import CONFIG from "@_lib/config";
+import { listCommonTypeFileImage } from "@_lib/constants";
 import upload from "@_lib/middleware/upload-file";
-import { TTypeFile } from "@_lib/types";
 import express from "express";
+
 export default async (router: express.Router) => {
   router.get("/education-schools", getListMasterEducationSchool);
   router.post(
     "/education-school",
     upload({
       image: {
-        types: [TTypeFile.JPEG, TTypeFile.JPG, TTypeFile.PNG],
-        folder: "education_school",
+        types: listCommonTypeFileImage,
+        folder: CONFIG.FOLDER_FILE_NAME.EDUCATION_SCHOOL,
       },
     }),
-    addMasterEducationSchool
+    upsertMasterEducationSchool
   );
   return router;
 };

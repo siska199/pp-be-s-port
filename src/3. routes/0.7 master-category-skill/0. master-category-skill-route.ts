@@ -1,9 +1,14 @@
-import { addBulkMasterCategorySkill } from "@4. controllers/0.7 master-category-skill/0. master-category-skill-controller";
 import express from "express";
-import { getListmasterCategorySkill } from "@4. controllers/0.7 master-category-skill/0. master-category-skill-controller";
+import {
+  createBulkMasterCategorySkill,
+  getListmasterCategorySkill,
+  upsertMasterCategorySkill,
+} from "@4. controllers/0.7 master-category-skill/0. master-category-skill-controller";
 
 export default (router: express.Router) => {
-  router.get("/categories-skill", getListmasterCategorySkill);
-  router.post("/categories-skill", addBulkMasterCategorySkill);
+  router.get("/category-skills", getListmasterCategorySkill);
+  router.post("/category-skills", createBulkMasterCategorySkill);
+  router.post("/category-skill", upsertMasterCategorySkill);
+
   return router;
 };

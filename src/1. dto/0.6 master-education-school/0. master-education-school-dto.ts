@@ -2,30 +2,6 @@ import prisma from "@0 db/prisma";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import { MasterEducationSchool } from "@prisma/client";
 
-export const createMasterEducationSchoolDto = async (
-  params: MasterEducationSchool
-) => {
-  const data = params;
-
-  const result = await prisma?.masterEducationSchool?.create({
-    data,
-  });
-
-  return result ?? null;
-};
-
-export const createBulkMasterEducationSchoolDto = async (
-  params: MasterEducationSchool[]
-) => {
-  const data = params;
-
-  const result = await prisma?.masterEducationSchool?.createMany({
-    data,
-  });
-
-  return result ?? null;
-};
-
 export const getListMasterEducationSchoolDto = async (params: {
   id_level?: string;
 }) => {
@@ -36,18 +12,19 @@ export const getListMasterEducationSchoolDto = async (params: {
     },
   });
 
-  const updateResult = await Promise.all(
+  const listMasterEducationSchoolDto = await Promise.all(
     result?.map(async (data) => {
-      const url_image = await getImageUrlFromClaudinary({
+      const image = await getImageUrlFromClaudinary({
         publicId: data.image,
       });
       return {
         ...data,
-        image: url_image,
+        image: image,
       };
     })
   );
-  return updateResult ?? [];
+
+  return result ? listMasterEducationSchoolDto : [];
 };
 
 export const getMasterEducationSchoolByIdDto = async (param: string) => {
@@ -59,25 +36,37 @@ export const getMasterEducationSchoolByIdDto = async (param: string) => {
     },
   });
 
-  return result ?? null;
-};
-
-export const updateMasterEducationSchoolByIdDto = async (params: {
-  id: string;
-  data: MasterEducationSchool;
-}) => {
-  const { id, data } = params;
-
-  const result = await prisma?.masterEducationSchool?.update({
-    where: { id },
-    data: {
-      ...data,
-    },
+  const image = await getImageUrlFromClaudinary({
+    publicId: String(result?.image),
   });
-  return result ?? null;
+  const masterEducationSchool = {
+    ...result,
+    image,
+  };
+  return result ? masterEducationSchool : null;
 };
 
-export const deleteMasterEducationSchoolDto = async (param: string) => {
+export const upsertMasterEducationSchoolByIdDto = async (
+  params: MasterEducationSchool
+) => {
+  const id = params?.id ?? "";
+  const dataDto = {
+    name: params?.name,
+    image: params?.image,
+    id_level: params?.id_level,
+  };
+
+  const result = await prisma?.masterEducationSchool?.upsert({
+    where: { id },
+    create: dataDto,
+    update: dataDto,
+  });
+
+  const masterEducationSchool = result;
+  return result ? masterEducationSchool : null;
+};
+
+export const deleteMasterEducationSchoolByIdDto = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterEducationSchool?.delete({

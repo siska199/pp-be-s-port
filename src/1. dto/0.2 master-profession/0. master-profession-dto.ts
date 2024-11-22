@@ -3,18 +3,18 @@ import masterProfessionSchema from "@2. validation/0.2 master-profession/0. mast
 import validationParse from "@_lib/helpers/validation-parse";
 import { MasterProfession } from "@prisma/client";
 
-export const createMasterProfessionDto = async (params: MasterProfession) => {
-  const dataDto = {
-    name: params?.name,
-  };
+export const getListMasterProfessionDto = async () => {
+  const result = await prisma.masterProfession.findMany();
+  const listMasterProfessionDto = result;
+  return result ? listMasterProfessionDto : [];
+};
 
-  await validationParse({
-    schema: masterProfessionSchema,
-    data: dataDto,
-  });
-
-  const result = await prisma?.masterProfession.create({
-    data: params,
+export const getMasterProfessionByIdDto = async (param: string) => {
+  const id = param;
+  const result = await prisma?.masterProfession?.findFirst({
+    where: {
+      id,
+    },
   });
 
   return result ?? null;
@@ -43,44 +43,25 @@ export const createBulkMasterProfessionDto = async (
   return result ?? null;
 };
 
-export const getListMasterProfessionDto = async () => {
-  const result = await prisma.masterProfession.findMany();
-  return result ?? [];
-};
-
-export const getMasterProfessionDto = async (param: string) => {
-  const id = param;
-  const result = await prisma?.masterProfession?.findFirst({
-    where: {
-      id,
-    },
-  });
-
-  return result ?? null;
-};
-
-export const updateMasterProfessionDto = async (params: {
-  id: string;
-  data: MasterProfession;
-}) => {
-  const { id, data } = params;
-
+export const upsertMasterProfessionDto = async (params: MasterProfession) => {
+  const id = params?.id ?? "";
   const dataDto = {
-    name: data.name,
+    name: params.name,
   };
-  const result = await prisma?.masterProfession.update({
+  const result = await prisma?.masterProfession.upsert({
     where: {
       id,
     },
-    data: dataDto.name,
+    create: dataDto,
+    update: dataDto,
   });
+  const masterProfessionDto = result;
 
-  return result ?? null;
+  return result ? masterProfessionDto : null;
 };
 
-export const deleteMasterProfessionDto = async (param: string) => {
+export const deleteMasterProfessionByIdDto = async (param: string) => {
   const id = param;
-
   const result = await prisma?.masterProfession?.delete({
     where: {
       id,

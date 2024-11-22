@@ -2,11 +2,11 @@ import {
   createBulkMasterEducationMajorDto,
   getListMasterEducationMajorDto,
   getMasterEducationMajorByIdDto,
+  upsertMasterEducationMajorByIdDto,
 } from "@1. dto/0.5 master-education-major/0. master-education-major-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { createMasterEducationMajorDto } from "@1. dto/0.5 master-education-major/0. master-education-major-dto";
 
 export const getListMasterEducationMajor = catchErrors(async (req, res) => {
   const { id_level } = req.query;
@@ -32,9 +32,10 @@ export const getMasterEducationMajorById = catchErrors(async (req, res) => {
   });
 });
 
-export const addMasterEducationMajor = catchErrors(async (req, res) => {
-  const paylaod = req.body;
-  const result = await createMasterEducationMajorDto(paylaod);
+export const createBulkMasterEducationMajor = catchErrors(async (req, res) => {
+  const payload = req.body;
+  const result = await createBulkMasterEducationMajorDto(payload);
+
   successResponse({
     res,
     message: message?.success?.addData,
@@ -42,10 +43,9 @@ export const addMasterEducationMajor = catchErrors(async (req, res) => {
   });
 });
 
-export const addBulkMasterEducationMajor = catchErrors(async (req, res) => {
-  const payload = req.body;
-  const result = await createBulkMasterEducationMajorDto(payload);
-
+export const upsertMasterEducationMajor = catchErrors(async (req, res) => {
+  const paylaod = req.body;
+  const result = await upsertMasterEducationMajorByIdDto(paylaod);
   successResponse({
     res,
     message: message?.success?.addData,

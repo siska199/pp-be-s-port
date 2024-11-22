@@ -2,8 +2,6 @@ model MasterEducationSchool{
     id          String              @id @default(uuid())
     name        String              @db.VarChar(255) @unique
     image       String              @db.VarChar(2083)
-
-
     id_level    String              @db.VarChar(255)
 
     education   Education?

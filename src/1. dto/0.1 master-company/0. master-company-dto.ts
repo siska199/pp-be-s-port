@@ -33,7 +33,7 @@ export const getMasterCompanyByIdDto = async (param: string) => {
 };
 
 export const upsertMasterCompanyDto = async (params: MasterCompany) => {
-  const id = params?.id;
+  const id = params?.id ?? "";
   const dataDto = {
     name: params.name,
     image: params?.image,

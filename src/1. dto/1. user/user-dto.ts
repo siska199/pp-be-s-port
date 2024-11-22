@@ -1,6 +1,4 @@
 import prisma from "@0 db/prisma";
-import userSchema from "@2. validation/1. user/0. user-schema";
-import validationParse from "@_lib/helpers/validation-parse";
 import { User } from "@prisma/client";
 
 export const getUserByAnyParamDto = async (params: Partial<User>) => {
@@ -28,11 +26,6 @@ export const createUserDto = async (payload: User) => {
     image: payload.image,
     id_profession: payload.id_profession,
   };
-
-  await validationParse({
-    schema: userSchema(),
-    data: dataDto,
-  });
 
   const result = await prisma.user.create({
     data: dataDto,

@@ -16,6 +16,9 @@ const CONFIG = {
   DB_NAME: process.env.POSTGRES_DB as string,
   FOLDER_FILE_NAME: {
     COMPANY: "company",
+    CATEGORY_SOCIAL_LINK: "category-social-link",
+    EDUCATION_SCHOOL: "education_school",
+    SKILL: "skill",
   },
 };
 

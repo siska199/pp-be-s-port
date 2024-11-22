@@ -7,6 +7,8 @@ model MasterEducationLevel {
     educations          Education[]
     education_schools   MasterEducationSchool[]
 
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt  
     @@map("master_education_level")
 }
 

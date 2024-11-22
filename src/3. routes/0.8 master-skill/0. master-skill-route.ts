@@ -1,9 +1,10 @@
 import {
-  addMasterSkill,
   getListMasterSkill,
+  upsertMasterSkill,
 } from "@4. controllers/0.8 master-skill/master-skill-controller";
+import CONFIG from "@_lib/config";
+import { listCommonTypeFileImage } from "@_lib/constants";
 import uploadFile from "@_lib/middleware/upload-file";
-import { TTypeFile } from "@_lib/types";
 import express from "express";
 
 export default (router: express.Router) => {
@@ -12,17 +13,11 @@ export default (router: express.Router) => {
     "/skill",
     uploadFile({
       image: {
-        folder: "skill",
-        types: [
-          TTypeFile.JPEG,
-          TTypeFile.JPG,
-          TTypeFile.WEBP,
-          TTypeFile.PNG,
-          TTypeFile.SVG,
-        ],
+        folder: CONFIG.FOLDER_FILE_NAME.SKILL,
+        types: listCommonTypeFileImage,
       },
     }),
-    addMasterSkill
+    upsertMasterSkill
   );
   return router;
 };

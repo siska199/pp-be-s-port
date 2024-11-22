@@ -1,26 +1,31 @@
 import prisma from "@0 db/prisma";
+import masterCategorySocialLinkSchema from "@2. validation/0.3 master-category-social-link/0. master-category-social-link-schema";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import validationParse from "@_lib/helpers/validation-parse";
 import { MasterCategorySocialLink } from "@prisma/client";
-import categorySocialLinkSchema from "@2. validation/0.3 master-category-social-link/0. master-category-social-link-schema";
-import masterCategorySocialLinkSchema from "@2. validation/0.3 master-category-social-link/0. master-category-social-link-schema";
 
-export const createMasterCategorySocialLinkDto = async (
-  params: MasterCategorySocialLink
-) => {
-  const dataDto = {
-    name: params.name,
-    image: params.image,
-    placeholder: params.placeholder,
-    default_value: params?.default_value,
-  };
+export const getListMasterCategorySocialLinkDto = async () => {
+  const result = await prisma.masterCategorySocialLink.findMany();
+  const listMasterCategorySocialLinkDto = await Promise.all(
+    result?.map(async (data) => {
+      const image = await getImageUrlFromClaudinary({
+        publicId: data.image,
+      });
+      return {
+        ...data,
+        image,
+      };
+    })
+  );
+  return result ? listMasterCategorySocialLinkDto : [];
+};
 
-  await validationParse({
-    schema: categorySocialLinkSchema,
-    data: dataDto,
-  });
-
-  const result = await prisma?.masterCategorySocialLink.create({
-    data: params,
+export const getMasterCategorySocialLinkByIdDto = async (param: string) => {
+  const id = param;
+  const result = await prisma?.masterCategorySocialLink?.findFirst({
+    where: {
+      id,
+    },
   });
 
   return result ?? null;
@@ -52,38 +57,29 @@ export const createBulkMasterCategorySocialLinkDto = async (
   return result ?? null;
 };
 
-export const getListMasterCategorySocialLinkDto = async () => {
-  const result = await prisma.masterCategorySocialLink.findMany();
-  return result ?? [];
-};
+export const upsertMasterCategorySocialLinkDto = async (
+  params: MasterCategorySocialLink
+) => {
+  const id = params?.id ?? "";
+  const dataDto = {
+    name: params?.name,
+    image: params?.image,
+    placeholder: params?.placeholder,
+    default_value: params?.default_value,
+  };
 
-export const getMasterCategorySocialLinkDto = async (param: string) => {
-  const id = param;
-  const result = await prisma?.masterCategorySocialLink?.findFirst({
+  const result = await prisma?.masterCategorySocialLink.upsert({
     where: {
       id,
     },
+    create: dataDto,
+    update: dataDto,
   });
-
-  return result ?? null;
+  const masterCategorySocialLinkDto = result;
+  return result ? masterCategorySocialLinkDto : null;
 };
 
-export const updateMasterCategorySocialLinkDto = async (params: {
-  id: string;
-  data: MasterCategorySocialLink;
-}) => {
-  const { id, data } = params;
-  const result = await prisma?.masterCategorySocialLink.update({
-    where: {
-      id,
-    },
-    data,
-  });
-
-  return result ?? null;
-};
-
-export const deleteMasterCategorySocialLinkDto = async (param: string) => {
+export const deleteMasterCategorySocialLinkByIdDto = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterCategorySocialLink?.delete({
