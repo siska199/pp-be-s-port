@@ -12,7 +12,6 @@ import { Request, Response } from "express";
 export const getListMasterCompany = catchErrors(
   async (_req: Request, res: Response) => {
     const result = await getListMasterCompanyDto();
-
     successResponse({
       res,
       data: result,
@@ -28,6 +27,8 @@ export const upsertMasterCompany = catchErrors(
     const result = await upsertMasterCompanyDto({
       ...payload,
     });
+    if (!result) throw new CustomError(message.error.notFound, 400);
+
 
     successResponse({
       res,
@@ -43,6 +44,7 @@ export const deleteMasterComapnyById = catchErrors(
 
     const result = await deleteMasterCompanyByIdDto(id);
     if (!result) throw new CustomError(message.error.notFound, 400);
+
     successResponse({
       res,
       data: result,

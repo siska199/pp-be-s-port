@@ -13,7 +13,8 @@ export const getListMasterCompanyDto = async () => {
         publicId: company?.image as string,
       });
       return {
-        ...company,
+        id: company?.id,
+        name: company?.name,
         image: url_image,
       };
     })
@@ -29,11 +30,20 @@ export const getMasterCompanyByIdDto = async (param: string) => {
     },
   });
 
-  return result ?? null;
+  const image_url = await getImageUrlFromClaudinary({
+    publicId: String(result?.image),
+  });
+
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    image: image_url,
+  };
+  return result ? resultDto : null;
 };
 
 export const upsertMasterCompanyDto = async (params: MasterCompany) => {
-  const id = params?.id ?? "";
+  const id = String(params?.id);
   const dataDto = {
     name: params.name,
     image: params?.image,
@@ -55,8 +65,7 @@ export const upsertMasterCompanyDto = async (params: MasterCompany) => {
     create: dataDto,
     update: dataDto,
   });
-  const masterCompanyDto = result;
-  return result ? masterCompanyDto : null;
+  return result ?? null;
 };
 
 export const deleteMasterCompanyByIdDto = async (param: string) => {
