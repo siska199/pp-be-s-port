@@ -1,5 +1,5 @@
 import prisma from "@0 db/prisma";
-import masterProfessionSchema from "@2. validation/0.2 master-profession/0. master-profession-schema";
+import masterProfessionSchema from "@2. validation/0.2 master-profession-schema";
 import validationParse from "@_lib/helpers/validation-parse";
 import { MasterProfession } from "@prisma/client";
 

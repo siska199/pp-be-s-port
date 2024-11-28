@@ -1,5 +1,5 @@
 import prisma from "@0 db/prisma";
-import personalInfoSchema from "@2. validation/2. personal-information/0. personal-information-schema";
+import personalInfoSchema from "@2. validation/2. personal-information-schema";
 import {
   deleteImageFromCloudinary,
   getImageUrlFromClaudinary,

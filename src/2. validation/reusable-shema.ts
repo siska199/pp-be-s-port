@@ -86,12 +86,17 @@ export const zEnum = <TEnum extends [string, ...string[]]>(params: {
   return mandatory ? enumSchema : enumSchema.optional();
 };
 
-export const zPhoneNumber = (mandatory = true) => {
+interface TParamsZPhoneNumber {
+  name: string;
+  mandatory: boolean;
+}
+export const zPhoneNumber = (params: TParamsZPhoneNumber) => {
+  const { name, mandatory = true } = params;
   const phoneSchema = z
     .string()
-    .max(15, { message: "Phone number must not exceed 15 characters" })
+    .max(15, { message: `${name} must not exceed 15 characters` })
     .refine((val) => /^08\d{8,13}$/.test(val), {
-      message: "Phone Number should be in 08XXXXXXXXXX format",
+      message: `${name} should be in 08XXXXXXXXXX format`,
     });
 
   return mandatory ? phoneSchema : phoneSchema.optional(); // Return optional if not mandatory
@@ -107,18 +112,7 @@ export const zLink = (params: { mandatory?: boolean }) => {
 
 export const zDate = (params: { name: string; mandatory?: boolean }) => {
   const { name, mandatory = true } = params;
-  const dateSchema = z
-    .string()
-    .nonempty(messageError.required(name))
-    .datetime({ message: "Invalid Date" })
-    .refine(
-      (date) => {
-        return validation.dateUtc.regex.test(date);
-      },
-      {
-        message: validation.dateUtc.message,
-      }
-    );
+  const dateSchema = z.string().nonempty(messageError.required(name)).date(); // format (YYYY-MM-DD)
 
   return mandatory ? dateSchema : dateSchema.optional();
 };

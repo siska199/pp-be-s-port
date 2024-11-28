@@ -1,5 +1,5 @@
 import prisma from "@0 db/prisma";
-import masterCategorySocialLinkSchema from "@2. validation/0.3 master-category-social-link/0. master-category-social-link-schema";
+import masterCategorySocialLinkSchema from "@2. validation/0.3 master-category-social-link-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import validationParse from "@_lib/helpers/validation-parse";
 import { MasterCategorySocialLink } from "@prisma/client";

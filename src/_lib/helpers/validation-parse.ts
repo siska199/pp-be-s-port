@@ -8,5 +8,9 @@ export default async (params: {
 }) => {
   const { schema, data } = params;
   const validation = await schema.safeParseAsync(data);
-  if (!validation.success) throw new CustomError(validation.error);
+  if (!validation.success) {
+    const errors = validation?.error?.flatten()?.fieldErrors;
+    console.log("errors: ", errors);
+    throw new CustomError(errors);
+  }
 };
