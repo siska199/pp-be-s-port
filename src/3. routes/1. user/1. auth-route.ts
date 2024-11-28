@@ -6,6 +6,6 @@ import validateData from "@_lib/middleware/validate-data";
 import express from "express";
 
 export default (router: express.Router) => {
-  router.post("/auth/sign-up",validateData(signUpSchema), signUp);
-  router.post("/auth/sign-in",validateData(signInSchema), signIn);
+  router.post("/sign-up", validateData(signUpSchema), signUp);
+  router.post("/sign-in", validateData(signInSchema), signIn);
 };
