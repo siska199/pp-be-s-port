@@ -1,8 +1,9 @@
 import { zString } from "@2. validation/reusable-shema";
 import { z } from "zod";
 
-const masterCategorySkillSchema = (mandatory = true) =>
+const masterSkillSchema = (mandatory = true) =>
   z.object({
+    id: zString({ name: "ID", mandatory: !mandatory }),
     name: zString({
       name: "Name",
       mandatory,
@@ -21,4 +22,4 @@ const masterCategorySkillSchema = (mandatory = true) =>
     }),
   });
 
-export default masterCategorySkillSchema;
+export default masterSkillSchema;

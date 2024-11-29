@@ -4,6 +4,7 @@ import { z } from "zod";
 const educationSchema = (mandatory = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       id_user: zString({
         name: "ID User",
         mandatory,

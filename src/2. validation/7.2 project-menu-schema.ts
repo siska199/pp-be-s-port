@@ -4,6 +4,7 @@ import { z } from "zod";
 const projectMenuSchema = (mandatory = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       name: zString({
         name: "Name",
         mandatory,

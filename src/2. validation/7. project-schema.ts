@@ -2,9 +2,10 @@ import { zEnum, zString } from "@2. validation/reusable-shema";
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
 
-const projectSchmea = (mandatory = true) =>
+const projectSchema = (mandatory = true) =>
   z
     ?.object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       name: zString({
         name: "Name",
         mandatory,
@@ -45,4 +46,4 @@ const projectSchmea = (mandatory = true) =>
     })
     ?.strict();
 
-export default projectSchmea;
+export default projectSchema;

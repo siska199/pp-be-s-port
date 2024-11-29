@@ -3,6 +3,7 @@ import { z } from "zod";
 
 const masterEducationSchoolSchema = (mandatory = true) =>
   z.object({
+    id: zString({ name: "ID", mandatory: !mandatory }),
     name: zString({
       name: "Name",
       mandatory,

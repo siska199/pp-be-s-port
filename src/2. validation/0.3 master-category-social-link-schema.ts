@@ -4,6 +4,7 @@ import { z } from "zod";
 const masterCategorySocialLinkSchema = (mandatory = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       name: zString({ name: "Name", mandatory }),
       image: zString({ name: "Image", max: 2083, mandatory }),
       placeholder: zString({ name: "placeholdre", mandatory }),

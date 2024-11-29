@@ -4,6 +4,7 @@ import { z } from "zod";
 const masterCompanySchema = (mandatory: boolean = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       name: zString({ name: "Name", mandatory }),
       image: zString({ name: "Image", mandatory }),
     })

@@ -4,6 +4,7 @@ import { z } from "zod";
 const projectResponsiblitySchema = (mandatory = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       description: zString({
         name: "Description",
         mandatory,

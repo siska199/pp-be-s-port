@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { zPhoneNumber, zString } from "@2. validation/reusable-shema";
 
-const userSchmea = (mandatory = true) =>
+const userSchema = (mandatory = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       first_name: zString({ name: "First Name", mandatory }),
       last_name: zString({ name: "Last Name", mandatory }),
       username: zString({ name: "Username", mandatory }),
@@ -27,8 +28,7 @@ const userSchmea = (mandatory = true) =>
         name: "ID Profession",
         mandatory,
       }),
-      
     })
     .strict();
 
-export default userSchmea;
+export default userSchema;

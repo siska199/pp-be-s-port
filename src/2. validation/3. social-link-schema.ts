@@ -3,6 +3,7 @@ import { z } from "zod";
 
 const socialLinkSchema = (mandatory = true) =>
   z.object({
+    id: zString({ name: "ID", mandatory: !mandatory }),
     url: zString({
       name: "Url",
       mandatory,

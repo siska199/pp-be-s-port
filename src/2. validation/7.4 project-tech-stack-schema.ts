@@ -4,6 +4,7 @@ import { z } from "zod";
 export const projectTechStackSchema = (mandatory = false) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       id_project: zString({
         name: "ID Project",
         mandatory,

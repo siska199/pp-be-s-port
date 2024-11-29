@@ -3,6 +3,7 @@ import { z } from "zod";
 
 const experianceSchema = (mandatory = true) =>
   z.object({
+    id: zString({ name: "ID", mandatory: !mandatory }),
     id_user: zString({
       name: "ID String",
       mandatory,

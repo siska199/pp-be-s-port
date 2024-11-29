@@ -5,6 +5,7 @@ import zod from "zod";
 const skillUserSchema = (mandatory: boolean = true) =>
   zod
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       id_skill: zString({
         name: "Skill",
         mandatory,

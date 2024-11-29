@@ -1,9 +1,10 @@
 import { zString } from "@2. validation/reusable-shema";
 import { z } from "zod";
 
-export const projectRelatedImage = (mandatory = true) =>
+const projectRelatedImageSchema = (mandatory = true) =>
   z
     .object({
+      id: zString({ name: "ID", mandatory: !mandatory }),
       image: zString({
         name: "Image",
         mandatory,
@@ -14,3 +15,5 @@ export const projectRelatedImage = (mandatory = true) =>
       }),
     })
     ?.strict();
+
+export default projectRelatedImageSchema;
