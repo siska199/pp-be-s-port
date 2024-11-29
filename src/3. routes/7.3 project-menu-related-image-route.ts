@@ -1,7 +1,7 @@
 import {
   getListProjectMenuRelatedImageMenu,
   upasertProjectMenuRelatedImage,
-} from "@4. controllers/7.4 project-menu-related-image-controller";
+} from "@4. controllers/7.3 project-menu-related-image-controller";
 import authentication from "@_lib/middleware/authentication";
 import express from "express";
 

@@ -1,4 +1,4 @@
-import { createUserDto, getUserByAnyParamDto } from "@1. dto/1. user-dto";
+import { getUserByAnyParamDto, upsertUserDto } from "@1. dto/1. user-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
 import { successResponse } from "@_lib/helpers/response";
@@ -15,7 +15,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
 
   const hashPassword = await encryptBycrypt(password);
 
-  const userCreate = await createUserDto({
+  const userCreate = await upsertUserDto({
     ...req.body,
     password: hashPassword,
   });
