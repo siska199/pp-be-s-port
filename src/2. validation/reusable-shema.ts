@@ -116,3 +116,13 @@ export const zDate = (params: { name: string; mandatory?: boolean }) => {
 
   return mandatory ? dateSchema : dateSchema.optional();
 };
+
+export const zDatetime = (params: { name: string; mandatory?: boolean }) => {
+  const { name, mandatory = true } = params;
+  const dateSchema = z
+    .string()
+    .nonempty(messageError.required(name))
+    .datetime(); // ISO 8601
+
+  return mandatory ? dateSchema : dateSchema.optional();
+};

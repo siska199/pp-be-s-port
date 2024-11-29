@@ -1,12 +1,13 @@
 model Education {
     id              String          @id @default(uuid()) 
    
-    id_user         String          @db.VarChar(36) @unique
-    id_level        String          @db.VarChar(36) @unique
-    id_major        String          @db.VarChar(36) @unique
-    id_school       String          @db.VarChar(36) @unique
+    id_user         String          @db.VarChar(36)
+    id_level        String          @db.VarChar(36)
+    id_major        String          @db.VarChar(36)
+    id_school       String          @db.VarChar(36)
 
     gpa             Float           @db.DoublePrecision()
+    
     description     String          @db.Text
 
 
@@ -21,6 +22,8 @@ model Education {
 
     created_at      DateTime        @default(now())
     updated_at      DateTime        @updatedAt
+
+    @@unique([id_user, id_level, id_major, id_school])
     @@map("education")
 
 }

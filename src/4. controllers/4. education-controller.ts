@@ -1,4 +1,5 @@
 import {
+  getEducationByIdDto,
   getListEducationDto,
   upsertEducationDto,
 } from "@1. dto/4. education-dto";
@@ -17,14 +18,12 @@ export const getListEducation = catchErrors(
       total_items: Number(req.query.total_items),
       sort_by: req.query.sort_by as keyof Education,
       sort_dir: req.query.sort_dir as "asc" | "desc",
-      search: String(req.query.search),
-      id_level: String(req.query.id_level),
+      search: req.query.search?.toString() || "",
+      id_level: req.query.id_level?.toString() || "",
+      id_user: user?.id ?? "",
     };
 
-    const result = await getListEducationDto({
-      ...queryObject,
-      id_user: String(user?.id),
-    });
+    const result = await getListEducationDto(queryObject);
 
     successResponse({
       res,
@@ -33,6 +32,18 @@ export const getListEducation = catchErrors(
     });
   }
 );
+
+export const getEducationById = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+
+  const result = await getEducationByIdDto(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.getData,
+  });
+});
 
 export const upsertEducation = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {

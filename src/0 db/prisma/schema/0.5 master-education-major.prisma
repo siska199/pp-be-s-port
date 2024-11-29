@@ -4,12 +4,12 @@ model MasterEducationMajor{
 
     levels      MasterLevelMajorEducation[]
 
-    education   Education?
+    education   Education[]
 
     created_at  DateTime @default(now())
     updated_at  DateTime @updatedAt  
 
-    @@map("education_major")
+    @@map("master_education_major")
 }
 
 model MasterLevelMajorEducation{

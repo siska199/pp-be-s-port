@@ -94,7 +94,13 @@ export const upsertMasterCategorySocialLinkDto = async (
     create: dataDto,
     update: dataDto,
   });
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    image: result?.name,
+    placeholder: result?.placeholder,
+    default_value: result?.default_value,
+  };
   return result ? resultDto : null;
 };
 

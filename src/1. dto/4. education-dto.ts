@@ -2,9 +2,13 @@ import prisma from "@0 db/prisma";
 import { Education } from "@prisma/client";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
 import {
-  filterKeysObject,
+  convertToISOString,
+filterKeysObject,
   removeKeyWithUndifienedValue,
+  validationParse,
 } from "@_lib/helpers/function";
+import educationSchema from "@2. validation/4. education-schema";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 
 type TParamsListEducationDto = TQueryParamsPaginationList<keyof Education> & {
   id_level?: string;
@@ -26,10 +30,10 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
   const take = total_items;
 
   const result = await prisma?.education?.findMany({
-    skip,
-    take,
+    ...(take && { take }),
+    ...(skip && { skip }),
     where: {
-      id_user,
+      ...(id_user && { id_user }),
       OR: [
         {
           school: {
@@ -37,6 +41,8 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
               contains: search,
             },
           },
+        },
+        {
           major: {
             name: {
               contains: search,
@@ -54,29 +60,109 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
       [sort_by]: sort_dir,
     },
     include: {
-      school: true,
-      level: true,
-      major: true,
+      school: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      level: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      major: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 
-  const resultDto = result;
+  const resultDto = result?.map((data) => {
+    return filterKeysObject({
+      object: {
+        ...data,
+        school_name: data?.school?.name,
+        major_name: data?.major?.name,
+        level: data?.level?.name,
+      },
+      keys: ["created_at", "end_at"],
+    });
+  });
 
   return result ? resultDto : [];
 };
 
+export const getEducationByIdDto = async (param: string) => {
+  const id = param;
+
+  const result = await prisma?.education?.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      school: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+        },
+      },
+      level: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      major: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  const school_image = await getImageUrlFromClaudinary({
+    publicId: result?.school?.image || "",
+  });
+
+  const resultDto = filterKeysObject({
+    object: {
+      ...result,
+      school_name: result?.school?.name,
+      major_name: result?.major?.name,
+      level: result?.level?.name,
+      school_image,
+    },
+    keys: ["created_at", "end_at"],
+  });
+
+  return result ? resultDto : null;
+};
+
 export const upsertEducationDto = async (params: Education) => {
-  const id = params.id;
+  const id = params.id ?? "";
+
   const dataDto = {
+    id: params?.id,
     gpa: params.gpa,
     description: params.description,
     id_user: params.id_user,
     id_level: params.id_level,
     id_major: params.id_major,
     id_school: params.id_school,
-    start_at: params.start_at,
-    end_at: params.end_at,
+    start_at: convertToISOString(params?.start_at),
+    end_at: convertToISOString(params.end_at),
   };
+
+  await validationParse({
+    schema: educationSchema(!id),
+    data: dataDto,
+  });
 
   const result = await prisma.education.upsert({
     where: {
@@ -88,6 +174,9 @@ export const upsertEducationDto = async (params: Education) => {
       keys: ["id_user"],
     }),
   });
-  const resultDto = result;
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "end_at"],
+  });
   return result ? resultDto : null;
 };

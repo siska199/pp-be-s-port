@@ -1,10 +1,10 @@
-import masterCategorySocialLinkRoute  from '@3. routes/0.2 master-category-social-link';
-import masterCompanyRoute from "@3. routes/0.3 master-company-route";
-import masterProfessionRoute from "@3. routes/0.7 master-profession-route";
+import masterCategorySocialLinkRoute  from '@3. routes/0.7 master-category-social-link';
+import masterCompanyRoute from "@3. routes/0.1 master-company-route";
+import masterProfessionRoute from "@3. routes/0.2 master-profession-route";
 import masterEducationLevelRoute from "@3. routes/0.4 master-education-level";
 import masterEducationMajorRoute from "@3. routes/0.5 master-education-major-route";
 import masterEducationSchoolRoute from "@3. routes/0.6 master-education-school-route";
-import masterCategorySkillRoute from "@3. routes/0.1 master-category-skill-route";
+import masterCategorySkillRoute from "@3. routes/0.3 master-category-skill-route";
 import masterSkillRoute from "@3. routes/0.8 master-skill-route";
 import masterProvinceRoute from "@3. routes/0.9.1 master-province-route";
 import masterCityRoute from "@3. routes/0.9.2 master-city-route";

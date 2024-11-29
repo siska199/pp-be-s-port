@@ -1,5 +1,6 @@
 import prisma from "@0 db/prisma";
 import masterSkillSchema from "@2. validation/0.8 master-skill-schema";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
   removeKeyWithUndifienedValue,
   validationParse,
@@ -14,9 +15,30 @@ export const getListMasterSkillDto = async (params: {
     where: {
       ...(id_category && { id_category }),
     },
+    include: {
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 
-  const resultDto = result;
+  const resultDto = await Promise.all(
+    result?.map(async (data) => {
+      const image_url = await getImageUrlFromClaudinary({
+        publicId: data?.image || "",
+      });
+      return {
+        id: data?.id,
+        name: data?.name,
+        category: data?.category,
+        color: data?.color,
+        image: image_url,
+      };
+    })
+  );
   return result ? resultDto : [];
 };
 
@@ -27,28 +49,36 @@ export const getMasterSkillByIdDto = async (param: string) => {
     where: {
       id,
     },
+    include: {
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
-  const reusltDto = result;
+
+  const image_url = await getImageUrlFromClaudinary({
+    publicId: result?.image || "",
+  });
+  const reusltDto = {
+    id: result?.id,
+    name: result?.name,
+    category: result?.category,
+    color: result?.color,
+    image: image_url,
+  };
   return result ? reusltDto : null;
-};
-
-export const createBulkMasterSkillDto = async (params: MasterSkill[]) => {
-  const data = params;
-
-  const result = await prisma?.masterSkill?.createMany({
-    data,
-  });
-
-  const resultDto = result;
-  return result ? resultDto : null;
 };
 
 export const upsertMasterSkillDto = async (params: MasterSkill) => {
   const id = params?.id ?? "";
   const dataDto = {
-    name: params?.name,
+    id: params?.id?.trim(),
+    name: params?.name?.trim(),
     image: params?.image,
-    color: params?.color,
+    color: params?.color?.trim(),
     id_category: params?.id_category?.trim(),
   };
 
@@ -61,9 +91,23 @@ export const upsertMasterSkillDto = async (params: MasterSkill) => {
     where: { id },
     create: dataDto,
     update: removeKeyWithUndifienedValue(dataDto),
+    include: {
+      category: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    category: result?.category,
+    color: result?.color,
+    image: result?.image,
+  };
 
   return result ? resultDto : null;
 };

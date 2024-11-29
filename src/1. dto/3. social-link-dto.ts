@@ -1,4 +1,5 @@
 import prisma from "@0 db/prisma";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -11,21 +12,44 @@ export const getListSocialLinkDto = async (params: { id_user: string }) => {
     where: {
       id_user,
     },
+    include: {
+      category: {
+        select: {
+          id: true,
+          name: true,
+          default_value: true,
+          placeholder: true,
+          image: true,
+        },
+      },
+    },
   });
-  const resultDto = result?.map((data) => ({
-    id: data?.id,
-    url: data?.url,
-    id_category: data?.id_category,
-    id_user: data?.id_user,
-  }));
+
+  const resultDto = await Promise.all(
+    result?.map(async (data) => {
+      const image_url = await getImageUrlFromClaudinary({
+        publicId: data?.category?.image,
+      });
+      return {
+        id: data?.id,
+        url: data?.url,
+        id_category: data?.id_category,
+        id_user: data?.id_user,
+        category: {
+          ...data?.category,
+          image: image_url,
+        },
+      };
+    })
+  );
   return result ? resultDto : null;
 };
 
 export const upsertSocialLinkDto = async (params: SocialLink) => {
-  const id = params.id;
+  const id = params.id ?? "";
   const dataDto = {
     url: params?.url,
-    id_category: params?.url,
+    id_category: params?.id_category,
     id_user: params?.id_user,
   };
 
@@ -40,7 +64,10 @@ export const upsertSocialLinkDto = async (params: SocialLink) => {
     }),
   });
 
-  const resultDto = result;
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "updated_at"],
+  });
 
   return result ? resultDto : null;
 };

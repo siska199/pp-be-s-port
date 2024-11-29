@@ -8,7 +8,10 @@ import { MasterCategorySkill } from "@prisma/client";
 
 export const getListMasterCategorySkillDto = async () => {
   const result = await prisma.masterCategorySkill?.findMany();
-  const resultDto = result;
+  const resultDto = result?.map((data) => ({
+    id: data?.id,
+    name: data?.name,
+  }));
   return result ? resultDto : [];
 };
 
@@ -19,7 +22,10 @@ export const getMasterCategorySkillByIdDto = async (param: string) => {
       id,
     },
   });
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+  };
   return result ? resultDto : null;
 };
 
@@ -54,7 +60,10 @@ export const upsertMasterCategorySkillDto = async (
     update: removeKeyWithUndifienedValue(dataDto),
   });
 
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+  };
   return result ? resultDto : null;
 };
 

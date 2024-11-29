@@ -48,8 +48,9 @@ export const getMasterCompanyByIdDto = async (param: string) => {
 };
 
 export const upsertMasterCompanyDto = async (params: MasterCompany) => {
-  const id = String(params?.id);
+  const id = params?.id ?? "";
   const dataDto = {
+    id,
     name: params.name,
     image: params?.image,
   };
@@ -75,7 +76,12 @@ export const upsertMasterCompanyDto = async (params: MasterCompany) => {
     create: dataDto,
     update: removeKeyWithUndifienedValue(dataDto),
   });
-  const resultDto = result;
+
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    image: result?.image,
+  };
 
   return result ? resultDto : null;
 };

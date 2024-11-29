@@ -20,7 +20,7 @@ const verifyToken = (token: string): Promise<User> => {
       if (payload && typeof payload === "object" && payload.id_user) {
         const user = await getUserByAnyParamDto({ id: payload.id_user });
         if (!user) return reject(new CustomError("Invalid Token", 403));
-
+        //@ts-ignore
         resolve(user);
       }
     });

@@ -1,5 +1,4 @@
-import validationParse from "@_lib/helpers/validation-parse";
-import { CustomError } from "@_lib/middleware/error-handler";
+import { validationParse } from "@_lib/helpers/function";
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
 

@@ -46,7 +46,12 @@ export const getMasterEducationMajorByIdDto = async (param: string) => {
     include: {
       levels: {
         include: {
-          level: true,
+          level: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -108,9 +113,28 @@ export const upsertMasterEducationMajorByIdDto = async (
     },
     create: dataDto,
     update: removeKeyWithUndifienedValue(dataDto),
+    include: {
+      levels: {
+        include: {
+          level: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
 
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    level: result?.levels?.map((level) => ({
+      id: level?.level.id,
+      name: level?.level.name,
+    })),
+  };
 
   return result ? resultDto : null;
 };

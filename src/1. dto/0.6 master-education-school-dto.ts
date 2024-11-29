@@ -16,6 +16,14 @@ export const getListMasterEducationSchoolDto = async (params: {
     where: {
       ...(id_level && { id_level }),
     },
+    include: {
+      level: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 
   const resultDto = await Promise.all(
@@ -24,7 +32,10 @@ export const getListMasterEducationSchoolDto = async (params: {
         publicId: data.image,
       });
       return {
-        ...data,
+        id: data?.id,
+        name: data?.name,
+        id_level: data?.id_level,
+        level: data?.level,
         image: image,
       };
     })
@@ -72,9 +83,21 @@ export const upsertMasterEducationSchoolByIdDto = async (
     where: { id },
     create: dataDto,
     update: removeKeyWithUndifienedValue(dataDto),
+    include: {
+      level: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+    level: result?.level,
+  };
   return result ? resultDto : null;
 };
 

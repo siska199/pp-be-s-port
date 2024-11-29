@@ -1,4 +1,9 @@
-import { zDate, zString } from "@2. validation/reusable-shema";
+import {
+  zDate,
+  zDatetime,
+  zNumber,
+  zString,
+} from "@2. validation/reusable-shema";
 import { z } from "zod";
 
 const educationSchema = (mandatory = true) =>
@@ -21,7 +26,7 @@ const educationSchema = (mandatory = true) =>
         name: "ID School",
         mandatory,
       }),
-      gpa: zString({
+      gpa: zNumber({
         name: "GPA",
         mandatory,
       }),
@@ -30,10 +35,10 @@ const educationSchema = (mandatory = true) =>
         mandatory,
         max: 5000,
       }),
-      start_at: zDate({
+      start_at: zDatetime({
         name: "Start At",
       }),
-      end_at: zDate({
+      end_at: zDatetime({
         name: "End At",
       }),
     })

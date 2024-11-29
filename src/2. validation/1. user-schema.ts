@@ -18,11 +18,11 @@ const userSchema = (mandatory = true) =>
       }),
       phone_number: zPhoneNumber({
         name: "PhoneNumber",
-        mandatory,
+        mandatory: false,
       }),
       image: zString({
         name: "Image",
-        mandatory,
+        mandatory: false,
       }),
       id_profession: zString({
         name: "ID Profession",

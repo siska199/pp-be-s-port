@@ -12,10 +12,9 @@ export const getUniqueListBy = (arr: TGeneralObject[], key: string) => {
 export const removeKeyWithUndifienedValue = <TData extends object>(
   obj: TData
 ) => {
-  Object.keys((key: keyof TData) => {
-    if (obj[key] === undefined) delete obj[key];
-  });
-  return obj;
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key, value]) => value !== undefined)
+  );
 };
 
 interface TParams<TObject extends object> {
@@ -41,8 +40,15 @@ export const validationParse = async (params: {
   const { schema, data } = params;
   const validation = await schema.safeParseAsync(data);
   if (!validation.success) {
-    const errors = validation?.error?.flatten()?.fieldErrors;
-    console.log("errors: ", errors);
+    const errors: TGeneralObject = validation?.error?.flatten()?.fieldErrors;
+    Object?.entries(errors)?.map(([key, value]) => {
+      errors[key] = value?.[0];
+    });
     throw new CustomError(errors);
   }
+};
+
+export const convertToISOString = (date: Date) => {
+  const date_ = new Date(date);
+  return date_?.toISOString();
 };

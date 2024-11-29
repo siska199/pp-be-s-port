@@ -56,6 +56,7 @@ export const createBulkMasterProfessionDto = async (
 export const upsertMasterProfessionDto = async (params: MasterProfession) => {
   const id = params?.id ?? "";
   const dataDto = {
+    id,
     name: params.name,
   };
 
@@ -71,7 +72,10 @@ export const upsertMasterProfessionDto = async (params: MasterProfession) => {
     create: dataDto,
     update: removeKeyWithUndifienedValue(dataDto),
   });
-  const resultDto = result;
+  const resultDto = {
+    id: result?.id,
+    name: result?.name,
+  };
 
   return result ? resultDto : null;
 };

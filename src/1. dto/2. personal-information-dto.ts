@@ -25,6 +25,7 @@ export const getPersonalInfoByAnyParamDto = async (params: {
       profession: {
         select: {
           name: true,
+          id: true,
         },
       },
     },
@@ -44,7 +45,7 @@ export const getPersonalInfoByAnyParamDto = async (params: {
 export const upsertPersonalInformationDto = async (
   payload: PersonalInformation
 ) => {
-  const id = payload.id;
+  const id = payload.id ?? "";
 
   const dataDTO = {
     id_user: payload.id_user,
@@ -85,7 +86,18 @@ export const upsertPersonalInformationDto = async (
       keys: ["id_user"],
     }),
     create: dataDTO,
+    include: {
+      profession: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+    },
   });
-  const resultDto = result;
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "updated_at"],
+  });
   return result ? resultDto : null;
 };

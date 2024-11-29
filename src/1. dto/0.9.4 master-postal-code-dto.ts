@@ -6,10 +6,10 @@ export const getListMasterPostalCodeDto = async (params: {
   city_name: string;
 }) => {
   const { district_name, city_name } = params;
-  const data = (
-    await getMasterDistrictByCodeDto(district_name as string)
-  )?.filter((data: any) =>
-    city_name?.toLowerCase().includes(data?.city_name?.toLowerCase())
-  );
+  const data = (await getMasterDistrictByCodeDto(district_name as string))
+    ?.filter((data: any) =>
+      city_name?.toLowerCase().includes(data?.city_name?.toLowerCase())
+    )
+    
   return getUniqueListBy(data, "id");
 };

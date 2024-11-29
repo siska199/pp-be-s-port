@@ -1,5 +1,4 @@
 import {
-  createBulkMasterSkillDto,
   deleteMasterSkillByIdDto,
   getListMasterSkillDto,
   getMasterSkillByIdDto,
@@ -44,19 +43,6 @@ export const upsertMasterSkill = catchErrors(
     successResponse({
       res,
       message: message.success.addData,
-      data: result,
-    });
-  }
-);
-
-export const createBulkMasterSkill = catchErrors(
-  async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await createBulkMasterSkillDto(payload);
-
-    successResponse({
-      res,
-      message: message?.success?.addData,
       data: result,
     });
   }
