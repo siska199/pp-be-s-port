@@ -4,8 +4,8 @@ import { Request } from "express";
 export type Tsort_dir = "desc" | "asc";
 
 export type TQueryParamsPaginationList<TKeysort_by> = {
-  current_page: number;
-  total_items: number;
+  page_no: number;
+  items_perpage: number;
   sort_by: TKeysort_by;
   sort_dir: Tsort_dir;
   search?: string;

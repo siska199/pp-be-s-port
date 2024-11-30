@@ -18,8 +18,8 @@ export const getListExperianceDto = async (
   params: TParamsListExperianceDto
 ) => {
   const {
-    current_page,
-    total_items,
+    page_no,
+    items_perpage,
     sort_by = "created_at",
     sort_dir = "desc",
     search,
@@ -28,8 +28,8 @@ export const getListExperianceDto = async (
     id_user,
   } = params;
 
-  const skip = current_page * total_items;
-  const take = total_items;
+  const skip = page_no * items_perpage;
+  const take = items_perpage;
 
   const result = await prisma.experiance?.findMany({
     skip,

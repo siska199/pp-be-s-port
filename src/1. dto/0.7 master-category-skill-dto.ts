@@ -2,6 +2,7 @@ import prisma from "@0 db/prisma";
 import masterCategorySkillSchema from "@2. validation/0.7 master-category-skill";
 import {
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { MasterCategorySkill } from "@prisma/client";
@@ -33,7 +34,7 @@ export const createBulkMasterCategorySkillDto = async (
   params: MasterCategorySkill[]
 ) => {
   const result = await prisma?.masterCategorySkill?.createMany({
-    data: params,
+    data: trimObject(params),
   });
   const resultDto = result;
   return result ? resultDto : null;
@@ -43,9 +44,10 @@ export const upsertMasterCategorySkillDto = async (
   params: MasterCategorySkill
 ) => {
   const id = params?.id ?? "";
-  const dataDto = {
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params?.name,
-  };
+  });
 
   await validationParse({
     schema: masterCategorySkillSchema(!id),

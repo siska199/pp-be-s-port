@@ -5,7 +5,9 @@ import {
   getImageUrlFromClaudinary,
 } from "@_lib/helpers/claudinary";
 import {
+  filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { MasterCompany } from "@prisma/client";
@@ -49,11 +51,11 @@ export const getMasterCompanyByIdDto = async (param: string) => {
 
 export const upsertMasterCompanyDto = async (params: MasterCompany) => {
   const id = params?.id ?? "";
-  const dataDto = {
-    id,
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params.name,
     image: params?.image,
-  };
+  });
 
   await validationParse({
     schema: masterCompanySchema(!id),
@@ -74,7 +76,10 @@ export const upsertMasterCompanyDto = async (params: MasterCompany) => {
       id,
     },
     create: dataDto,
-    update: removeKeyWithUndifienedValue(dataDto),
+    update: filterKeysObject({
+      object: removeKeyWithUndifienedValue(dataDto),
+      keys: ["id"],
+    }),
   });
 
   const resultDto = {

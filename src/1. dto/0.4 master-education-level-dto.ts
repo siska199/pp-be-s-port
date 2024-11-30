@@ -1,6 +1,10 @@
 import prisma from "@0 db/prisma";
 import masterEducationLevelSchema from "@2. validation/0.4 master-education-level-schema";
-import { validationParse } from "@_lib/helpers/function";
+import {
+  filterKeysObject,
+  removeKeyWithUndifienedValue,
+  validationParse,
+} from "@_lib/helpers/function";
 
 import { MasterEducationLevel } from "@prisma/client";
 
@@ -65,6 +69,7 @@ export const upsertMasterEducationLevelDto = async (
   const id = params?.id ?? "";
 
   const dataDto = {
+    ...(id && { id }),
     name: params?.name,
   };
 
@@ -78,10 +83,16 @@ export const upsertMasterEducationLevelDto = async (
       id,
     },
     create: dataDto,
-    update: dataDto,
+    update: filterKeysObject({
+      object: removeKeyWithUndifienedValue(dataDto),
+      keys: ["id"],
+    }),
   });
 
-  const resultDto = result;
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "updated_at"],
+  });
 
   return result ? resultDto : null;
 };

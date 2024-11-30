@@ -52,3 +52,19 @@ export const convertToISOString = (date: Date) => {
   const date_ = new Date(date);
   return date_?.toISOString();
 };
+
+export const trimObject = <T extends object>(obj: T): T => {
+  const result: any = Array.isArray(obj) ? [] : {};
+
+  Object.entries(obj)?.map(([key, value]) => {
+    if (typeof value === "string") {
+      result[key] = value.trim();
+    } else if (typeof value === "object" && value !== null) {
+      result[key] = trimObject(value);
+    } else {
+      result[key] = value;
+    }
+  });
+
+  return result;
+};

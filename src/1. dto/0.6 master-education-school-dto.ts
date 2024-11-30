@@ -97,6 +97,7 @@ export const upsertMasterEducationSchoolByIdDto = async (
     id: result?.id,
     name: result?.name,
     level: result?.level,
+    image: result?.image,
   };
   return result ? resultDto : null;
 };

@@ -3,7 +3,7 @@ import { Education } from "@prisma/client";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
 import {
   convertToISOString,
-filterKeysObject,
+  filterKeysObject,
   removeKeyWithUndifienedValue,
   validationParse,
 } from "@_lib/helpers/function";
@@ -17,37 +17,41 @@ type TParamsListEducationDto = TQueryParamsPaginationList<keyof Education> & {
 
 export const getListEducationDto = async (params: TParamsListEducationDto) => {
   const {
-    current_page,
-    total_items,
-    sort_by = "created_at",
+    page_no,
+    items_perpage,
+    sort_by = "start_at",
     sort_dir = "desc",
     search,
     id_level,
     id_user,
   } = params;
 
-  const skip = current_page * total_items;
-  const take = total_items;
+  const skip = (page_no - 1) * items_perpage;
+  const take = items_perpage;
 
   const result = await prisma?.education?.findMany({
     ...(take && { take }),
     ...(skip && { skip }),
     where: {
       ...(id_user && { id_user }),
-      OR: [
+      AND: [
         {
-          school: {
-            name: {
-              contains: search,
+          OR: [
+            {
+              school: {
+                name: {
+                  contains: search,
+                },
+              },
             },
-          },
-        },
-        {
-          major: {
-            name: {
-              contains: search,
+            {
+              major: {
+                name: {
+                  contains: search,
+                },
+              },
             },
-          },
+          ],
         },
         {
           level: {
@@ -81,17 +85,21 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
     },
   });
 
-  const resultDto = result?.map((data) => {
-    return filterKeysObject({
-      object: {
-        ...data,
-        school_name: data?.school?.name,
-        major_name: data?.major?.name,
-        level: data?.level?.name,
-      },
-      keys: ["created_at", "end_at"],
-    });
-  });
+  const resultDto = {
+    items: result?.map((data) => {
+      return filterKeysObject({
+        object: {
+          ...data,
+          school_name: data?.school?.name,
+          major_name: data?.major?.name,
+          level_name: data?.level?.name,
+        },
+        keys: ["created_at", "updated_at"],
+      });
+    }),
+    total_items: await prisma?.education?.count(),
+    current_page: page_no,
+  };
 
   return result ? resultDto : [];
 };
@@ -138,7 +146,7 @@ export const getEducationByIdDto = async (param: string) => {
       level: result?.level?.name,
       school_image,
     },
-    keys: ["created_at", "end_at"],
+    keys: ["created_at", "updated_at"],
   });
 
   return result ? resultDto : null;
@@ -173,10 +181,30 @@ export const upsertEducationDto = async (params: Education) => {
       object: removeKeyWithUndifienedValue(dataDto),
       keys: ["id_user"],
     }),
+    include: {
+      school: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      level: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      major: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
   const resultDto = filterKeysObject({
     object: result,
-    keys: ["created_at", "end_at"],
+    keys: ["created_at", "updated_at"],
   });
   return result ? resultDto : null;
 };

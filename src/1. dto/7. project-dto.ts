@@ -23,8 +23,8 @@ type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {
 
 export const getListProjectDto = async (params: TParamsListProjectDto) => {
   const {
-    current_page,
-    total_items,
+    page_no,
+    items_perpage,
     sort_by = "created_at",
     sort_dir = "desc",
     id_user,
@@ -37,8 +37,8 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
   const listIdSkill = id_skills?.split(",");
   const listCategory = categories?.split(",") as CategoryProject[];
   const listType = types?.split(",") as TypeProject[];
-  const take = total_items;
-  const skip = total_items * current_page;
+  const take = items_perpage;
+  const skip = items_perpage * page_no;
 
   const result = await prisma?.project?.findMany({
     take,

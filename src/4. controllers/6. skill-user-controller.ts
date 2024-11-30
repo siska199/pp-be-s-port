@@ -13,8 +13,8 @@ export const getListSkillUser = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
     const queryObject = {
-      current_page: Number(req.query.current_page),
-      total_items: Number(req.query.total_items),
+      page_no: Number(req.query.page_no),
+      items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof SkillUser,
       sort_dir: req.query.sort_dir as Tsort_dir,
       id_skills: String(req.query.id_skills),

@@ -7,11 +7,12 @@ interface TResponse<TCode = 200 | 201> {
   message: string;
 }
 export const successResponse = (params: TResponse<200 | 201>) => {
-  const { res, code = 200, data, message } = params;
+  const { res, code = 200, data, message, ...obj } = params;
   return res.status(code).send({
     status: true,
     data,
     message,
+    ...obj,
   });
 };
 

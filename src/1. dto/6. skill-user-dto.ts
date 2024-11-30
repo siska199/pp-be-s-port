@@ -18,8 +18,8 @@ type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
 export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
   const {
     id_user,
-    current_page,
-    total_items,
+    page_no,
+    items_perpage,
     sort_by = "created_at",
     sort_dir = "desc",
     id_skills,
@@ -28,8 +28,8 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
   } = params;
   const listIdSkill = id_skills?.split(",");
 
-  const skip = total_items * current_page;
-  const take = total_items;
+  const skip = items_perpage * page_no;
+  const take = items_perpage;
 
   const result = await prisma?.skillUser?.findMany({
     skip,

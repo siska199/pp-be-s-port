@@ -1,4 +1,8 @@
-import { removeKeyWithUndifienedValue } from "./../_lib/helpers/function";
+import {
+  filterKeysObject,
+  removeKeyWithUndifienedValue,
+  trimObject,
+} from "./../_lib/helpers/function";
 import prisma from "@0 db/prisma";
 import { MasterEducationMajor } from "@prisma/client";
 
@@ -92,7 +96,9 @@ export const upsertMasterEducationMajorByIdDto = async (
   params: MasterEducationMajor & { id_levels?: string[] }
 ) => {
   const id = params?.id ?? "";
-  const dataDto = {
+
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params?.name,
     ...(params?.id_levels && {
       levels: {
@@ -105,7 +111,7 @@ export const upsertMasterEducationMajorByIdDto = async (
         })),
       },
     }),
-  };
+  });
 
   const result = await prisma?.masterEducationMajor?.upsert({
     where: {
@@ -127,14 +133,10 @@ export const upsertMasterEducationMajorByIdDto = async (
     },
   });
 
-  const resultDto = {
-    id: result?.id,
-    name: result?.name,
-    level: result?.levels?.map((level) => ({
-      id: level?.level.id,
-      name: level?.level.name,
-    })),
-  };
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "updated_at"],
+  });
 
   return result ? resultDto : null;
 };

@@ -1,7 +1,12 @@
 import prisma from "@0 db/prisma";
 import masterCategorySocialLinkSchema from "@2. validation/0.3 master-category-social-link-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
-import { validationParse } from "@_lib/helpers/function";
+import {
+  filterKeysObject,
+  removeKeyWithUndifienedValue,
+  trimObject,
+  validationParse,
+} from "@_lib/helpers/function";
 import { MasterCategorySocialLink } from "@prisma/client";
 
 export const getListMasterCategorySocialLinkDto = async () => {
@@ -75,12 +80,13 @@ export const upsertMasterCategorySocialLinkDto = async (
   params: MasterCategorySocialLink
 ) => {
   const id = params?.id ?? "";
-  const dataDto = {
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params?.name,
     image: params?.image,
     placeholder: params?.placeholder,
     default_value: params?.default_value,
-  };
+  });
 
   await validationParse({
     schema: masterCategorySocialLinkSchema(!id),
@@ -92,7 +98,10 @@ export const upsertMasterCategorySocialLinkDto = async (
       id,
     },
     create: dataDto,
-    update: dataDto,
+    update: filterKeysObject({
+      object: removeKeyWithUndifienedValue(dataDto),
+      keys: ["id"],
+    }),
   });
   const resultDto = {
     id: result?.id,

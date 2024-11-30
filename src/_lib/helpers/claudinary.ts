@@ -32,6 +32,8 @@ export const getImageUrlFromClaudinary = async (params: {
   publicId: string;
   options?: object;
 }) => {
+  if (!params?.publicId) return;
+
   const { publicId, options } = params;
   return await cloudinary.url(publicId, {
     secure: true,

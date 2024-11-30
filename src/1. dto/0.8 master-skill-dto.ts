@@ -2,7 +2,9 @@ import prisma from "@0 db/prisma";
 import masterSkillSchema from "@2. validation/0.8 master-skill-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
+  filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { MasterSkill } from "@prisma/client";
@@ -30,13 +32,13 @@ export const getListMasterSkillDto = async (params: {
       const image_url = await getImageUrlFromClaudinary({
         publicId: data?.image || "",
       });
-      return {
-        id: data?.id,
-        name: data?.name,
-        category: data?.category,
-        color: data?.color,
-        image: image_url,
-      };
+      return filterKeysObject({
+        object: {
+          ...data,
+          image: image_url,
+        },
+        keys: ["created_at", "updated_at"],
+      });
     })
   );
   return result ? resultDto : [];
@@ -62,25 +64,25 @@ export const getMasterSkillByIdDto = async (param: string) => {
   const image_url = await getImageUrlFromClaudinary({
     publicId: result?.image || "",
   });
-  const reusltDto = {
-    id: result?.id,
-    name: result?.name,
-    category: result?.category,
-    color: result?.color,
-    image: image_url,
-  };
+  const reusltDto = filterKeysObject({
+    object: {
+      ...result,
+      image: image_url,
+    },
+    keys: ["created_at", "updated_at"],
+  });
   return result ? reusltDto : null;
 };
 
 export const upsertMasterSkillDto = async (params: MasterSkill) => {
   const id = params?.id ?? "";
-  const dataDto = {
-    id: params?.id?.trim(),
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params?.name?.trim(),
     image: params?.image,
     color: params?.color?.trim(),
     id_category: params?.id_category?.trim(),
-  };
+  });
 
   await validationParse({
     schema: masterSkillSchema(!id),
@@ -101,13 +103,10 @@ export const upsertMasterSkillDto = async (params: MasterSkill) => {
     },
   });
 
-  const resultDto = {
-    id: result?.id,
-    name: result?.name,
-    category: result?.category,
-    color: result?.color,
-    image: result?.image,
-  };
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "updated_at"],
+  });
 
   return result ? resultDto : null;
 };

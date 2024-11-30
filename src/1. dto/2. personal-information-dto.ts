@@ -19,7 +19,7 @@ export const getPersonalInfoByAnyParamDto = async (params: {
   const result = await prisma.personalInformation.findFirst({
     where: {
       ...(id_user && { id_user }),
-      ...(id && { id_user }),
+      ...(id && { id }),
     },
     include: {
       profession: {
@@ -30,16 +30,20 @@ export const getPersonalInfoByAnyParamDto = async (params: {
       },
     },
   });
+
   const professional_image = await getImageUrlFromClaudinary({
-    publicId: String(result?.professional_image),
+    publicId: result?.professional_image || "",
   });
 
-  const resultDto = {
-    ...result,
-    professional_image,
-  };
+  const resultDto = filterKeysObject({
+    object: {
+      ...result,
+      professional_image,
+    },
+    keys: ["created_at", "updated_at"],
+  });
 
-  return resultDto;
+  return result ? resultDto : null;
 };
 
 export const upsertPersonalInformationDto = async (
@@ -48,6 +52,7 @@ export const upsertPersonalInformationDto = async (
   const id = payload.id ?? "";
 
   const dataDTO = {
+    ...(id && { id }),
     id_user: payload.id_user,
     professional_image: payload.professional_image,
     first_name: payload?.first_name,
@@ -99,5 +104,6 @@ export const upsertPersonalInformationDto = async (
     object: result,
     keys: ["created_at", "updated_at"],
   });
+
   return result ? resultDto : null;
 };

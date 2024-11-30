@@ -45,12 +45,14 @@ export const getUserByAnyParamDto = async (params: Partial<User>) => {
     id_profession: result?.id_profession,
     profession: result?.profession,
   };
+
   return result ? resultDto : null;
 };
 
 export const upsertUserDto = async (params: User) => {
   const id = params.id ?? "";
   const dataDto = {
+    ...(id && { id }),
     first_name: params.first_name,
     last_name: params.last_name,
     email: params.email,

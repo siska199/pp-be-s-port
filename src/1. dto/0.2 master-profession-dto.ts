@@ -1,7 +1,9 @@
 import prisma from "@0 db/prisma";
 import masterProfessionSchema from "@2. validation/0.2 master-profession-schema";
 import {
+  filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { MasterProfession } from "@prisma/client";
@@ -55,10 +57,10 @@ export const createBulkMasterProfessionDto = async (
 
 export const upsertMasterProfessionDto = async (params: MasterProfession) => {
   const id = params?.id ?? "";
-  const dataDto = {
-    id,
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params.name,
-  };
+  });
 
   await validationParse({
     schema: masterProfessionSchema(!id),
@@ -70,7 +72,10 @@ export const upsertMasterProfessionDto = async (params: MasterProfession) => {
       id,
     },
     create: dataDto,
-    update: removeKeyWithUndifienedValue(dataDto),
+    update: filterKeysObject({
+      object: removeKeyWithUndifienedValue(dataDto),
+      keys: ["id"],
+    }),
   });
   const resultDto = {
     id: result?.id,
