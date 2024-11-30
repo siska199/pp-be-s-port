@@ -126,3 +126,12 @@ export const zDatetime = (params: { name: string; mandatory?: boolean }) => {
     ? dateSchema.nonempty(messageError.required(name))
     : dateSchema.optional();
 };
+
+
+export const zArrar = (params: { name: string; mandatory?: boolean })=>{
+  const { name, mandatory = true } = params;
+  const dateSchema = z.string().array()
+  return mandatory
+    ? dateSchema.nonempty(messageError.required(name))
+    : dateSchema.optional();
+}

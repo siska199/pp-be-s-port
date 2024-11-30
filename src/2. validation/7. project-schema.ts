@@ -1,4 +1,5 @@
-import { zEnum, zString } from "@2. validation/reusable-shema";
+import { messageError } from "@2. validation";
+import { zArrar, zEnum, zString } from "@2. validation/reusable-shema";
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
 
@@ -41,6 +42,10 @@ const projectSchema = (mandatory = true) =>
       }),
       id_user: zString({
         name: "ID User",
+        mandatory,
+      }),
+      id_skill_users: zArrar({
+        name: "Tech Stack",
         mandatory,
       }),
     })

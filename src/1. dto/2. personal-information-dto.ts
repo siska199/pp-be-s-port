@@ -7,6 +7,7 @@ import {
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { PersonalInformation } from "@prisma/client";
@@ -51,7 +52,7 @@ export const upsertPersonalInformationDto = async (
 ) => {
   const id = payload.id ?? "";
 
-  const dataDTO = {
+  const dataDTO = trimObject({
     ...(id && { id }),
     id_user: payload.id_user,
     professional_image: payload.professional_image,
@@ -66,7 +67,7 @@ export const upsertPersonalInformationDto = async (
     about_me: payload.about_me,
     bio: payload.bio,
     id_profession: payload.id_profession,
-  };
+  });
 
   await validationParse({
     schema: personalInfoSchema(!id),

@@ -1,8 +1,10 @@
 import prisma from "@0 db/prisma";
 import projectMenuSchema from "@2. validation/7.2 project-menu-schema";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { ProjectMenu } from "@prisma/client";
@@ -13,24 +15,59 @@ export const getListProjectMenuDto = async (param: string) => {
     where: {
       id_project,
     },
+    include: {
+      related_images: {
+        select: {
+          image: true,
+        },
+      },
+    },
   });
 
-  const resultDto = result;
+  const resultDto = await Promise.all(
+    result?.map(async (projectMenu) => {
+      const related_images = await Promise.all(
+        projectMenu?.related_images?.map(async (related_imgee) => {
+          const related_image_url = await getImageUrlFromClaudinary({
+            publicId: related_imgee?.image,
+          });
+          return related_image_url;
+        })
+      );
+
+      return {
+        ...projectMenu,
+        related_images,
+      };
+    })
+  );
+
   return result ? resultDto : null;
 };
 
-export const upsertProjectMenuDto = async (params: ProjectMenu) => {
+export const upsertProjectMenuDto = async (
+  params: ProjectMenu & { related_images: string[] }
+) => {
   const id = params?.id ?? "";
-  const dataDto = {
+  const dataDto = trimObject({
+    ...(id && { id }),
     name: params?.name,
     description: params?.description,
     main_image: params?.main_image,
     features: params?.features,
     id_project: params?.id_project,
-  };
+    related_images: {
+      create: params?.related_images?.map((relatedImage) => ({
+        image: relatedImage,
+      })),
+    },
+  });
   await validationParse({
     schema: projectMenuSchema(!id),
-    data: dataDto,
+    data: filterKeysObject({
+      object: { ...dataDto },
+      keys: ["related_images"],
+    }),
   });
 
   const result = await prisma?.projectMenu?.upsert({
@@ -46,5 +83,18 @@ export const upsertProjectMenuDto = async (params: ProjectMenu) => {
 
   const resultDto = result;
 
+  return result ? resultDto : null;
+};
+
+export const deleteProjectMenuByIdDto = async (param: string) => {
+  const id = param;
+
+  const result = await prisma?.projectMenu?.delete({
+    where: {
+      id,
+    },
+  });
+
+  const resultDto = result;
   return result ? resultDto : null;
 };

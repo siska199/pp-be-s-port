@@ -5,6 +5,7 @@ import {
   convertToISOString,
   filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
@@ -106,7 +107,9 @@ export const getListExperianceDto = async (
 
   const resultDto = {
     items,
-    total_items: await prisma?.experiance.count(),
+    total_items: await prisma?.experiance.count({
+      where: { id_user },
+    }),
     current_page: page_no || 1,
   };
 
@@ -115,7 +118,7 @@ export const getListExperianceDto = async (
 
 export const upsertExperianceDto = async (params: Experiance) => {
   const id = params.id ?? "";
-  const dataDto = {
+  const dataDto = trimObject({
     ...(id && { id }),
     id_company: params.id_company,
     id_profession: params.id_profession,
@@ -124,7 +127,7 @@ export const upsertExperianceDto = async (params: Experiance) => {
     start_at: convertToISOString(params.start_at),
     end_at: params.end_at ? convertToISOString(params.end_at) : undefined,
     is_currently_work_here: params.is_currently_work_here ?? false,
-  };
+  });
 
   await validationParse({
     schema: experianceSchema(!id),

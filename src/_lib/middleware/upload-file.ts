@@ -66,8 +66,6 @@ const uploadFileToClaudinary = async (
   next: NextFunction,
   fileRules: TFileRules
 ) => {
-  const uploadResults: Record<string, any> = {};
-
   if (!req.files) return next(new CustomError(`No files were uploaded`, 400));
 
   for (const field in req.files) {
@@ -94,9 +92,15 @@ const uploadFileToClaudinary = async (
           fileRules[field].folder
         );
 
-        req.body[field] = result?.public_id;
-        uploadResults[field] = uploadResults[field] || [];
-        uploadResults[field].push(result);
+        if (fileArray?.length > 1) {
+          req.body[field] = (
+            Array.isArray(req.body[field])
+              ? req.body[field].concat(result?.public_id)
+              : [req.body[field], result?.public_id]
+          )?.filter((data) => data);
+        } else {
+          req.body[field] = result?.public_id;
+        }
       })
     );
   }

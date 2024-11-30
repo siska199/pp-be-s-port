@@ -4,9 +4,9 @@ model Project {
     name                        String          @db.VarChar(255)
     thumbnail_image             String          @db.VarChar(2083)
     description                 String          @db.Text
+    
     category                    CategoryProject
     type                        TypeProject
-    
     id_experiance               String?         @db.VarChar(36)
     id_user                     String          @db.VarChar(36)
 

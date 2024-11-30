@@ -18,7 +18,6 @@ import experianceRoute from "@3. routes/5. experiance-route";
 import skillUserRoute from "@3. routes/6. skill-user-route";
 import projectRoute from "@3. routes/7.0 project-route";
 import projectMenuRoute from "@3. routes/7.2 project-menu-route";
-import projectTechStackRoute from "@3. routes/7.4 project-tech-stack-route";
 import express from "express";
 
 const router = express.Router();
@@ -45,6 +44,5 @@ export default () => {
   skillUserRoute(router);
   projectRoute(router);
   projectMenuRoute(router);
-  projectTechStackRoute(router);
   return router;
 };

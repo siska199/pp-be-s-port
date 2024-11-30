@@ -3,6 +3,7 @@ import userSchema from "@2. validation/1. user-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { User } from "@prisma/client";
@@ -51,7 +52,7 @@ export const getUserByAnyParamDto = async (params: Partial<User>) => {
 
 export const upsertUserDto = async (params: User) => {
   const id = params.id ?? "";
-  const dataDto = {
+  const dataDto = trimObject({
     ...(id && { id }),
     first_name: params.first_name,
     last_name: params.last_name,
@@ -61,7 +62,7 @@ export const upsertUserDto = async (params: User) => {
     image: params.image,
     id_profession: params.id_profession,
     username: params?.username,
-  };
+  });
 
   await validationParse({
     schema: userSchema(!id),

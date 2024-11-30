@@ -40,11 +40,28 @@ export const validationParse = async (params: {
   const { schema, data } = params;
   const validation = await schema.safeParseAsync(data);
   if (!validation.success) {
-    const errors: TGeneralObject = validation?.error?.flatten()?.fieldErrors;
-    Object?.entries(errors)?.map(([key, value]) => {
-      errors[key] = value?.[0];
+    const issues = validation.error.issues;
+    const fieldErrors = validation?.error?.flatten()?.fieldErrors;
+
+    const errorsValidation: TGeneralObject = {};
+
+    issues.forEach((issue) => {
+      if (issue.code === "unrecognized_keys") {
+        issue.keys.forEach((key) => {
+          errorsValidation[key] = issue.message;
+        });
+      } else {
+        errorsValidation[issue.path.join(".")] = issue.message;
+      }
     });
-    throw new CustomError(errors);
+
+    if (fieldErrors) {
+      Object.entries(fieldErrors).forEach(([field, messages]) => {
+        errorsValidation[field] = messages?.[0];
+      });
+    }
+
+    throw new CustomError(errorsValidation);
   }
 };
 
@@ -65,6 +82,23 @@ export const trimObject = <T extends object>(obj: T): T => {
       result[key] = value;
     }
   });
+
+  return result;
+};
+
+export const deepCopy = <T extends object>(input: T): T => {
+  if (input === null || typeof input !== "object") return input;
+  if (input instanceof Date) return new Date(input.getTime()) as T;
+  if (Array.isArray(input))
+    return input.map((item) => deepCopy(item)) as unknown as T;
+
+  const result: any = {};
+  for (const key in input) {
+    if (Object.prototype.hasOwnProperty.call(input, key)) {
+      const value = (input as any)[key];
+      result[key] = deepCopy(value);
+    }
+  }
 
   return result;
 };

@@ -5,6 +5,7 @@ import {
   convertToISOString,
   filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import educationSchema from "@2. validation/4. education-schema";
@@ -119,7 +120,9 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
         keys: ["created_at", "updated_at"],
       });
     }),
-    total_items: await prisma?.education?.count(),
+    total_items: await prisma?.education?.count({
+      where: { id_user },
+    }),
     current_page: page_no,
   };
 
@@ -177,7 +180,7 @@ export const getEducationByIdDto = async (param: string) => {
 export const upsertEducationDto = async (params: Education) => {
   const id = params.id ?? "";
 
-  const dataDto = {
+  const dataDto = trimObject({
     id: params?.id,
     gpa: params.gpa,
     description: params.description,
@@ -187,7 +190,7 @@ export const upsertEducationDto = async (params: Education) => {
     id_school: params.id_school,
     start_at: convertToISOString(params?.start_at),
     end_at: convertToISOString(params.end_at),
-  };
+  });
 
   await validationParse({
     schema: educationSchema(!id),

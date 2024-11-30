@@ -1,13 +1,14 @@
 import {
-  getListProject,
-  upsertProject,
-} from "@4. controllers/7. project-controller";
+  deleteProjectMenuById,
+  getListProjectMenu,
+  upsertProjectMenu,
+} from "@4. controllers/7.2 project-menu-controller";
 import authentication from "@_lib/middleware/authentication";
 import uploadFile from "@_lib/middleware/upload-file";
 import { TTypeFile } from "@_lib/types";
 import express from "express";
 export default (router: express.Router) => {
-  router.get("/project-menus", getListProject);
+  router.get("/project-menus", getListProjectMenu);
   router.post(
     "/project-menu",
     authentication(),
@@ -16,8 +17,14 @@ export default (router: express.Router) => {
         types: [TTypeFile.PNG, TTypeFile.JPEG, TTypeFile.JPG],
         folder: "/project-menu",
       },
+      related_images: {
+        types: [TTypeFile.PNG, TTypeFile.JPEG, TTypeFile.JPG],
+        folder: "/project-menu-related-image",
+        maxCount: 20,
+      },
     }),
-    upsertProject
+    upsertProjectMenu
   );
+  router.delete("/project-menu/:id", authentication(), deleteProjectMenuById);
   return router;
 };

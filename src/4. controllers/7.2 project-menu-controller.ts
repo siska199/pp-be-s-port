@@ -1,3 +1,4 @@
+import { deleteProjectByIdDto } from "@1. dto/7. project-dto";
 import {
   getListProjectMenuDto,
   upsertProjectMenuDto,
@@ -22,18 +23,30 @@ export const getListProjectMenu = catchErrors(
 
 export const upsertProjectMenu = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const user = req.user;
     const payload = req.body;
 
     const result = await upsertProjectMenuDto({
       ...payload,
-      id_user: String(user?.id),
     });
 
     successResponse({
       res,
       data: result,
       message: message.success.upserData(String(payload?.id)),
+    });
+  }
+);
+
+export const deleteProjectMenuById = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const id = req.params.id;
+
+    const result = await deleteProjectByIdDto(id);
+
+    successResponse({
+      res,
+      data: result,
+      message: message.success.deleteData,
     });
   }
 );

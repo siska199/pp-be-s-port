@@ -4,6 +4,7 @@ import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
+  trimObject,
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types";
@@ -73,7 +74,9 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
         keys: ["created_at", "updated_at"],
       });
     }),
-    total_items: await prisma?.skillUser?.count(),
+    total_items: await prisma?.skillUser?.count({
+      where: { id_user },
+    }),
     current_page: page_no ?? 1,
   };
 
@@ -114,13 +117,13 @@ export const getSkillUserByIdDto = async (param: string) => {
 
 export const upsertSkillUserDto = async (params: SkillUser) => {
   const id = params.id ?? "";
-  const dataDto = {
+  const dataDto = trimObject({
     ...(id && { id }),
     id_skill: params.id_skill,
     year_of_experiance: params.year_of_experiance,
     level: params.level,
     id_user: params.id_user,
-  };
+  });
 
   await validationParse({
     schema: skillUserSchema(!id),
