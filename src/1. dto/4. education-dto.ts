@@ -10,9 +10,13 @@ import {
 import educationSchema from "@2. validation/4. education-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 
-type TParamsListEducationDto = TQueryParamsPaginationList<keyof Education> & {
+export type TParamsListEducationDto = TQueryParamsPaginationList<
+  keyof Education
+> & {
   id_level?: string;
   id_user: string;
+  start_at?: string;
+  end_at?: string;
 };
 
 export const getListEducationDto = async (params: TParamsListEducationDto) => {
@@ -24,6 +28,8 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
     search,
     id_level,
     id_user,
+    start_at,
+    end_at,
   } = params;
 
   const skip = (page_no - 1) * items_perpage;
@@ -41,6 +47,7 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
               school: {
                 name: {
                   contains: search,
+                  mode: "insensitive",
                 },
               },
             },
@@ -48,6 +55,7 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
               major: {
                 name: {
                   contains: search,
+                  mode: "insensitive",
                 },
               },
             },
@@ -55,8 +63,22 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
         },
         {
           level: {
-            id: id_level,
+            ...(id_level && { id: id_level }),
           },
+        },
+        {
+          ...(start_at && {
+            start_at: {
+              gte: new Date(start_at),
+              ...(end_at && { lte: new Date(end_at) }),
+            },
+          }),
+          ...(end_at && {
+            end_at: {
+              ...(start_at && { gte: new Date(start_at) }),
+              lte: new Date(end_at),
+            },
+          }),
         },
       ],
     },

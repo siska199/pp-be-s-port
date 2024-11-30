@@ -1,6 +1,7 @@
 import {
   getEducationByIdDto,
   getListEducationDto,
+  TParamsListEducationDto,
   upsertEducationDto,
 } from "@1. dto/4. education-dto";
 import catchErrors from "@_lib/helpers/catch-error";
@@ -13,7 +14,7 @@ import { Response } from "express";
 export const getListEducation = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
-    const queryObject = {
+    const queryObject: TParamsListEducationDto = {
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof Education,
@@ -21,9 +22,13 @@ export const getListEducation = catchErrors(
       search: req.query.search?.toString() || "",
       id_level: req.query.id_level?.toString() || "",
       id_user: user?.id ?? "",
+      start_at: req.query.start_at?.toString() || "",
+      end_at: req.query.end_at?.toString() || "",
     };
 
-    const result = await getListEducationDto(queryObject);
+    const result = await getListEducationDto({
+      ...queryObject,
+    });
 
     successResponse({
       res,
