@@ -1,16 +1,16 @@
 import prisma from "@0 db/prisma";
-import projectRelatedImageSchema from "@2. validation/7.3 project-related-image-schema";
+import projectRelatedImageSchema from "@2. validation/7.2.1 project-related-image-schema";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   validationParse,
 } from "@_lib/helpers/function";
-import { ProjectRelatedImageMenu } from "@prisma/client";
+import { ProjectMenuRelatedImage } from "@prisma/client";
 
 export const getListProjectMenuRelatedImageDto = async (param: string) => {
   const id_project_menu = param;
 
-  const result = await prisma?.projectRelatedImageMenu.findMany({
+  const result = await prisma?.projectMenuRelatedImage.findMany({
     where: {
       id_project_menu,
     },
@@ -22,7 +22,7 @@ export const getListProjectMenuRelatedImageDto = async (param: string) => {
 };
 
 export const upsertProjectMenuRelatedImageDto = async (
-  params: ProjectRelatedImageMenu
+  params: ProjectMenuRelatedImage
 ) => {
   const id = params?.id;
   const dataDto = {
@@ -35,7 +35,7 @@ export const upsertProjectMenuRelatedImageDto = async (
     data: dataDto,
   });
 
-  const result = await prisma?.projectRelatedImageMenu?.upsert({
+  const result = await prisma?.projectMenuRelatedImage?.upsert({
     where: {
       id,
     },

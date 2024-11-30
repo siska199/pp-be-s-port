@@ -1,4 +1,6 @@
 import {
+  deleteExperianceByIdDto,
+  getExperianceByIdDto,
   getListExperianceDto,
   upsertExperianceDto,
 } from "@1. dto/5. experiance-dto";
@@ -15,19 +17,17 @@ export const getListExperiance = catchErrors(
     const queryObject = {
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
-      sort_by: req.query.sort_by as keyof Experiance,
-      sort_dir: req.query.sort_dir as Tsort_dir,
-      search: String(req.query.search),
-      id_company: String(req.query.id_company),
-      id_description: String(req.query.id_description),
-      start_at: String(req.query.start_at),
-      end_at: String(req.query.end_at),
+      sort_by: (req.query.sort_by || "start_at") as keyof Experiance,
+      sort_dir: (req.query.sort_dir || "desc") as Tsort_dir,
+      search: req.query.search?.toString(),
+      id_company: req.query.id_company?.toString(),
+      id_description: req.query.id_description?.toString(),
+      start_at: req.query.start_at?.toString(),
+      end_at: req.query.end_at?.toString(),
+      id_user: user?.id?.toString() || "",
     };
 
-    const result = await getListExperianceDto({
-      ...queryObject,
-      id_user: String(user?.id),
-    });
+    const result = await getListExperianceDto(queryObject);
 
     successResponse({
       res,
@@ -53,3 +53,27 @@ export const upsertExperiance = catchErrors(
     });
   }
 );
+
+export const getExperianceById = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+
+  const result = await getExperianceByIdDto(id);
+
+  successResponse({
+    res,
+    message: message.success.getData,
+    data: result,
+  });
+});
+
+export const deleteExperianceById = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+
+  const result = await deleteExperianceByIdDto(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.editData,
+  });
+});

@@ -112,17 +112,17 @@ export const zLink = (params: { mandatory?: boolean }) => {
 
 export const zDate = (params: { name: string; mandatory?: boolean }) => {
   const { name, mandatory = true } = params;
-  const dateSchema = z.string().nonempty(messageError.required(name)).date(); // format (YYYY-MM-DD)
+  const dateSchema = z.coerce.date({
+    message: `${name} is Invalid`,
+  });
 
   return mandatory ? dateSchema : dateSchema.optional();
 };
 
 export const zDatetime = (params: { name: string; mandatory?: boolean }) => {
   const { name, mandatory = true } = params;
-  const dateSchema = z
-    .string()
-    .nonempty(messageError.required(name))
-    .datetime(); // ISO 8601
-
-  return mandatory ? dateSchema : dateSchema.optional();
+  const dateSchema = z.string().datetime();
+  return mandatory
+    ? dateSchema.nonempty(messageError.required(name))
+    : dateSchema.optional();
 };

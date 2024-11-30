@@ -1,7 +1,7 @@
 import {
   getListProjectMenuRelatedImageDto,
   upsertProjectMenuRelatedImageDto,
-} from "@1. dto/7.3 project-related-image-menu-dto";
+} from "@1. dto/7.2.1 project-menu-related-image-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";

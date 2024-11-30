@@ -1,12 +1,12 @@
 model Experiance {
     id                      String              @id @default(uuid())
-    id_user                 String              @db.VarChar(36) @unique
+    id_user                 String              @db.VarChar(36)
     
     id_company              String              @db.VarChar(36)
     id_profession           String              @db.VarChar(36)
 
     start_at                DateTime
-    end_at                  DateTime
+    end_at                  DateTime?
 
     is_currently_work_here  Boolean
 
@@ -20,6 +20,8 @@ model Experiance {
     created_at              DateTime    @default(now())
     updated_at              DateTime    @updatedAt
 
+
+    @@unique([id_company, id_user, id_profession, created_at, start_at])
     @@map("experiance")
 }
 

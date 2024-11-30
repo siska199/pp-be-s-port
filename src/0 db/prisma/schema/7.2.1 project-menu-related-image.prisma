@@ -1,4 +1,4 @@
-model ProjectRelatedImageMenu{
+model ProjectMenuRelatedImage{
     id                  String      @id @default(uuid())
     image               String      @db.VarChar(2083)
 
@@ -8,5 +8,5 @@ model ProjectRelatedImageMenu{
     created_at          DateTime    @default(now())
     updated_at          DateTime    @updatedAt
 
-    @@map("project_related_image_menu")
+    @@map("project_menu_related_image")
 }

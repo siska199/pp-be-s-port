@@ -1,4 +1,5 @@
 import {
+  deleteEducationByIdDto,
   getEducationByIdDto,
   getListEducationDto,
   TParamsListEducationDto,
@@ -67,3 +68,15 @@ export const upsertEducation = catchErrors(
     });
   }
 );
+
+export const educationEducationById = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+
+  const result = await deleteEducationByIdDto(id);
+
+  successResponse({
+    res,
+    message: message?.success?.deleteData,
+    data: result,
+  });
+});

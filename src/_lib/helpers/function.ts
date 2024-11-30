@@ -34,7 +34,7 @@ export const filterKeysObject = <TObject extends object>(
 };
 
 export const validationParse = async (params: {
-  schema: z.ZodObject<any, any>;
+  schema: z.ZodObject<any, any> | z.ZodEffects<any, any>;
   data: TGeneralObject;
 }) => {
   const { schema, data } = params;

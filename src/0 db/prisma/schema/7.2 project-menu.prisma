@@ -9,7 +9,8 @@ model ProjectMenu{
     id_project          String      @db.VarChar(36)
     project             Project     @relation(fields:[id_project],references:[id] )
 
-    related_images      ProjectRelatedImageMenu[]
+    related_images      ProjectMenuRelatedImage[]
+
 
     created_at          DateTime    @default(now())
     updated_at          DateTime    @updatedAt

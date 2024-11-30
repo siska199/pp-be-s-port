@@ -38,7 +38,7 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
   const listCategory = categories?.split(",") as CategoryProject[];
   const listType = types?.split(",") as TypeProject[];
   const take = items_perpage;
-  const skip = items_perpage * page_no;
+  const skip = Number(items_perpage) * Number(page_no) - 1;
 
   const result = await prisma?.project?.findMany({
     take,

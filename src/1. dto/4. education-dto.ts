@@ -32,7 +32,7 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
     end_at,
   } = params;
 
-  const skip = (page_no - 1) * items_perpage;
+  const skip = (Number(page_no) - 1) * Number(items_perpage);
   const take = items_perpage;
 
   const result = await prisma?.education?.findMany({
@@ -228,5 +228,18 @@ export const upsertEducationDto = async (params: Education) => {
     object: result,
     keys: ["created_at", "updated_at"],
   });
+  return result ? resultDto : null;
+};
+
+export const deleteEducationByIdDto = async (param: string) => {
+  const id = param;
+
+  const result = await prisma?.education?.delete({
+    where: {
+      id,
+    },
+  });
+  const resultDto = result;
+
   return result ? resultDto : null;
 };

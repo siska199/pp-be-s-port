@@ -1,5 +1,8 @@
+import { deleteEducationByIdDto } from "@1. dto/4. education-dto";
 import {
+  createBulkSkillUserDto,
   getListSkillUserDto,
+  getSkillUserByIdDto,
   upsertSkillUserDto,
 } from "@1. dto/6. skill-user-dto";
 import catchErrors from "@_lib/helpers/catch-error";
@@ -17,15 +20,13 @@ export const getListSkillUser = catchErrors(
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof SkillUser,
       sort_dir: req.query.sort_dir as Tsort_dir,
-      id_skills: String(req.query.id_skills),
+      id_skills: req.query.id_skills?.toString(),
       year_of_experiance: Number(req.query.year_of_experiance),
       level: req.query.level as Level,
+      id_user: user?.id?.toString() || "",
     };
 
-    const result = await getListSkillUserDto({
-      ...queryObject,
-      id_user: String(user?.id),
-    });
+    const result = await getListSkillUserDto(queryObject);
 
     successResponse({
       res,
@@ -38,12 +39,12 @@ export const getListSkillUser = catchErrors(
 export const upsertSkillUser = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
-    const payload = req.body;
+    const payload = {
+      ...req.body,
+      id_user: user?.id?.toString() || "",
+    };
 
-    const result = await upsertSkillUserDto({
-      ...payload,
-      id_user: String(user?.id),
-    });
+    const result = await upsertSkillUserDto(payload);
 
     successResponse({
       message: message.success.upserData(payload.id),
@@ -52,3 +53,37 @@ export const upsertSkillUser = catchErrors(
     });
   }
 );
+
+export const createBulkSkillUser = catchErrors(async (req, res) => {
+  const payload = req.body;
+  const result = await createBulkSkillUserDto(payload);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.addData,
+  });
+});
+
+export const getSkillUserById = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+
+  const result = await getSkillUserByIdDto(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.getData,
+  });
+});
+
+export const deleteSkillUserById = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+  const result = await deleteEducationByIdDto(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.deleteData,
+  });
+});
