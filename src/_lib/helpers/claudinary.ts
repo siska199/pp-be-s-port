@@ -1,4 +1,5 @@
 import CONFIG from "@_lib/config";
+import { CustomError } from "@_lib/middleware/error-handler";
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
 cloudinary.config({
@@ -35,10 +36,11 @@ export const getImageUrlFromClaudinary = async (params: {
   if (!params?.publicId) return;
 
   const { publicId, options } = params;
-  return await cloudinary.url(publicId, {
+  const result = cloudinary.url(publicId, {
     secure: true,
     ...options,
   });
+  return result;
 };
 
 export const deleteImageFromCloudinary = async (
@@ -49,12 +51,14 @@ export const deleteImageFromCloudinary = async (
 
     const result = await cloudinary.uploader.destroy(publicId);
     if (result.result !== "ok") {
-      throw new Error(
+      throw new CustomError(
         `Failed to delete image from Cloudinary: ${result.result}`
       );
     }
   } catch (error) {
-    throw new Error(`Error deleting image from Cloudinary: ${error.message}`);
+    throw new CustomError(
+      `Error deleting image from Cloudinary: ${error.message}`
+    );
   }
 };
 
