@@ -13,11 +13,11 @@ const getTokeFromHeader = (authHeader?: string) => {
 
 const verifyToken = async (token: string) => {
   try {
-    const decryptedToken = jwt.sign(token, CONFIG.SECRET_KEY) as any;
+    const decryptedToken = jwt.verify(token, CONFIG.SECRET_KEY) as any;
     const user = await getUserByAnyParamDto({ id: decryptedToken.id_user });
     return user;
   } catch (error) {
-    throw new CustomError("Invalid Token", 403);
+    throw new CustomError("Token has been expired", 403);
   }
 };
 
