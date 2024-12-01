@@ -52,7 +52,6 @@ export const getListProjectMenuDto = async (param: string) => {
 export const upsertProjectMenuDto = async (
   params: ProjectMenu & {
     related_images: string[];
-    id_related_images?: string[];
   }
 ) => {
   const id = params?.id ?? "";
@@ -63,16 +62,18 @@ export const upsertProjectMenuDto = async (
     main_image: params?.main_image,
     features: params?.features,
     id_project: params?.id_project,
+    related_images: {
+      create: params?.related_images?.map((relatedImage) => ({
+        image: relatedImage,
+      })),
+    },
   });
-
-  const updated_related_images = params?.related_images;
-  const id_updated_related_images = params?.id_related_images;
 
   await validationParse({
     schema: projectMenuSchema(!id),
     data: filterKeysObject({
       object: { ...dataDto },
-      keys: [],
+      keys: ["related_images"],
     }),
   });
 
@@ -86,26 +87,11 @@ export const upsertProjectMenuDto = async (
             object: removeKeyWithUndifienedValue(dataDto),
             keys: ["id_project"],
           }),
-          related_images: {
-            update: id_updated_related_images?.map((id_urmi, i) => ({
-              where: {
-                id: id_urmi,
-              },
-              data: {
-                image: updated_related_images[i],
-              },
-            })),
-          },
         },
       })
     : await prisma?.projectMenu?.create({
         data: {
           ...dataDto,
-          related_images: {
-            create: params?.related_images?.map((relatedImage) => ({
-              image: relatedImage,
-            })),
-          },
         },
       });
 
