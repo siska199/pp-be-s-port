@@ -70,16 +70,19 @@ export const upsertProjectMenuDto = async (
     }),
   });
 
-  const result = await prisma?.projectMenu?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_project"],
-    }),
-  });
+  const result = id
+    ? await prisma?.projectMenu?.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_project"],
+        }),
+      })
+    : await prisma?.projectMenu?.create({
+        data: dataDto,
+      });
 
   const resultDto = result;
 

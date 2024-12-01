@@ -71,16 +71,19 @@ export const upsertMasterCompanyDto = async (params: MasterCompany) => {
     await deleteImageFromCloudinary(String(currMasterCompany?.id));
   }
 
-  const result = await prisma?.masterCompany?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id"],
-    }),
-  });
+  const result = id
+    ? await prisma?.masterCompany?.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id"],
+        }),
+      })
+    : await prisma?.masterCompany?.create({
+        data: dataDto,
+      });
 
   const resultDto = {
     id: result?.id,

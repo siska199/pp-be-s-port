@@ -48,22 +48,26 @@ export const getListSocialLinkDto = async (params: { id_user: string }) => {
 
 export const upsertSocialLinkDto = async (params: SocialLink) => {
   const id = params.id ?? "";
+
   const dataDto = trimObject({
     url: params?.url,
     id_category: params?.id_category,
     id_user: params?.id_user,
   });
 
-  const result = await prisma?.socialLink?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_user"],
-    }),
-  });
+  const result = id
+    ? await prisma?.socialLink?.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_user"],
+        }),
+      })
+    : await prisma?.socialLink?.create({
+        data: dataDto,
+      });
 
   const resultDto = filterKeysObject({
     object: result,

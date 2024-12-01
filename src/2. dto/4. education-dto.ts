@@ -197,36 +197,16 @@ export const upsertEducationDto = async (params: Education) => {
     data: dataDto,
   });
 
-  const result = await prisma.education.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_user"],
-    }),
-    include: {
-      school: {
-        select: {
-          id: true,
-          name: true,
+  const result = id
+    ? await prisma.education.update({
+        where: {
+          id,
         },
-      },
-      level: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      major: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+        data: dataDto,
+      })
+    : await prisma.education.create({
+        data: dataDto,
+      });
   const resultDto = filterKeysObject({
     object: result,
     keys: ["created_at", "updated_at"],

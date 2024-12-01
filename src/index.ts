@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import routes from "@3. routes";
+import routes from "@4. routes";
 import errorHandler from "@_lib/middleware/error-handler";
 import CONFIG from "@_lib/config";
 

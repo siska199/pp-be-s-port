@@ -93,16 +93,19 @@ export const upsertMasterCategorySocialLinkDto = async (
     data: dataDto,
   });
 
-  const result = await prisma?.masterCategorySocialLink.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id"],
-    }),
-  });
+  const result = id
+    ? await prisma?.masterCategorySocialLink.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id"],
+        }),
+      })
+    : await prisma?.masterCategorySocialLink.create({
+        data: dataDto,
+      });
   const resultDto = {
     id: result?.id,
     name: result?.name,

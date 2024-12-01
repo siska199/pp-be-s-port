@@ -29,10 +29,13 @@ export const getPersonalInformation = catchErrors<TRequestAuthRoute>(
 
 export const upsertPersonalInformation = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
+    const user = req.user;
+
     const payload = req.body;
 
     const result = await upsertPersonalInformationDto({
       ...payload,
+      id_user: user?.id,
     });
 
     successResponse({

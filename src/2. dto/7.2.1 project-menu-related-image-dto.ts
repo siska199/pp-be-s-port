@@ -35,16 +35,19 @@ export const upsertProjectMenuRelatedImageDto = async (
     data: dataDto,
   });
 
-  const result = await prisma?.projectMenuRelatedImage?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_project_menu"],
-    }),
-  });
+  const result = id
+    ? await prisma?.projectMenuRelatedImage?.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_project_menu"],
+        }),
+      })
+    : await prisma?.projectMenuRelatedImage?.create({
+        data: dataDto,
+      });
 
   const resultDto = result;
 

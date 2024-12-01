@@ -113,25 +113,16 @@ export const upsertMasterEducationMajorByIdDto = async (
     }),
   });
 
-  const result = await prisma?.masterEducationMajor?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: removeKeyWithUndifienedValue(dataDto),
-    include: {
-      levels: {
-        include: {
-          level: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
+  const result = id
+    ? await prisma?.masterEducationMajor?.update({
+        where: {
+          id,
         },
-      },
-    },
-  });
+        data: removeKeyWithUndifienedValue(dataDto),
+      })
+    : await prisma?.masterEducationMajor?.create({
+        data: dataDto,
+      });
 
   const resultDto = filterKeysObject({
     object: result,

@@ -130,24 +130,19 @@ export const upsertSkillUserDto = async (params: SkillUser) => {
     data: dataDto,
   });
 
-  const result = await prisma?.skillUser?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_user"],
-    }),
-    include: {
-      skill: {
-        select: {
-          id: true,
-          name: true,
+  const result = id
+    ? await prisma?.skillUser?.update({
+        where: {
+          id,
         },
-      },
-    },
-  });
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_user"],
+        }),
+      })
+    : await prisma?.skillUser?.create({
+        data: dataDto,
+      });
   const resultDto = result;
   return result ? resultDto : null;
 };

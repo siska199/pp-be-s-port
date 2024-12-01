@@ -134,16 +134,19 @@ export const upsertExperianceDto = async (params: Experiance) => {
     data: dataDto,
   });
 
-  const result = await prisma.experiance?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_user"],
-    }),
-  });
+  const result = id
+    ? await prisma.experiance?.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_user"],
+        }),
+      })
+    : await prisma.experiance?.create({
+        data: dataDto,
+      });
   const resultDto = result;
   return result ? resultDto : null;
 };

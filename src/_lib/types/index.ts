@@ -16,7 +16,7 @@ export interface TGeneralObject {
 }
 
 export interface TRequestAuthRoute extends Request {
-  user?: User;
+  user?: User | null;
 }
 
 export interface TOption {

@@ -54,13 +54,16 @@ export const upsertMasterCategorySkillDto = async (
     data: dataDto,
   });
 
-  const result = await prisma?.masterCategorySkill?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: removeKeyWithUndifienedValue(dataDto),
-  });
+  const result = id
+    ? await prisma?.masterCategorySkill?.update({
+        where: {
+          id,
+        },
+        data: removeKeyWithUndifienedValue(dataDto),
+      })
+    : await prisma?.masterCategorySkill?.create({
+        data: dataDto,
+      });
 
   const resultDto = {
     id: result?.id,

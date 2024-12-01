@@ -48,25 +48,25 @@ export const getPersonalInfoByAnyParamDto = async (params: {
 };
 
 export const upsertPersonalInformationDto = async (
-  payload: PersonalInformation
+  params: PersonalInformation
 ) => {
-  const id = payload.id ?? "";
+  const id = params.id ?? "";
 
   const dataDTO = trimObject({
     ...(id && { id }),
-    id_user: payload.id_user,
-    professional_image: payload.professional_image,
-    first_name: payload?.first_name,
-    last_name: payload?.last_name,
-    province: payload?.province,
-    city: payload?.city,
-    district: payload?.district,
-    postal_code: payload?.postal_code,
-    phone_number: payload.phone_number,
-    email: payload?.email,
-    about_me: payload.about_me,
-    bio: payload.bio,
-    id_profession: payload.id_profession,
+    id_user: params.id_user,
+    first_name: params?.first_name,
+    last_name: params?.last_name,
+    province: params?.province,
+    city: params?.city,
+    district: params?.district,
+    postal_code: params?.postal_code,
+    phone_number: params.phone_number,
+    email: params?.email,
+    about_me: params.about_me,
+    bio: params.bio,
+    id_profession: params.id_profession,
+    professional_image: params.professional_image,
   });
 
   await validationParse({
@@ -76,31 +76,26 @@ export const upsertPersonalInformationDto = async (
 
   if (id && dataDTO.professional_image) {
     const currentPersonalInfo = await getPersonalInfoByAnyParamDto({
-      id,
+      id_user: dataDTO?.id_user,
     });
     await deleteImageFromCloudinary(
       currentPersonalInfo?.professional_image || ""
     );
   }
 
-  const result = await prisma.personalInformation.upsert({
-    where: {
-      id,
-    },
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDTO),
-      keys: ["id_user"],
-    }),
-    create: dataDTO,
-    include: {
-      profession: {
-        select: {
-          name: true,
-          id: true,
+  const result = id
+    ? await prisma.personalInformation.update({
+        where: {
+          id_user: dataDTO?.id_user,
         },
-      },
-    },
-  });
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDTO),
+          keys: ["id_user", "id"],
+        }),
+      })
+    : await prisma?.personalInformation.create({
+        data: dataDTO,
+      });
   const resultDto = filterKeysObject({
     object: result,
     keys: ["created_at", "updated_at"],

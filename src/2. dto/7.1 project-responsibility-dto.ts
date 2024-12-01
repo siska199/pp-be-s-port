@@ -28,16 +28,19 @@ export const upsertProjectResponsiblityDto = async (
     id_project: params?.id_project,
   };
 
-  const result = await prisma?.projectResponsibility?.upsert({
-    where: {
-      id,
-    },
-    create: dataDto,
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_project"],
-    }),
-  });
+  const result = id
+    ? await prisma?.projectResponsibility?.update({
+        where: {
+          id,
+        },
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_project"],
+        }),
+      })
+    : await prisma?.projectResponsibility?.create({
+        data: dataDto,
+      });
 
   const projectResponsibilityDto = result;
   return result ? projectResponsibilityDto : null;

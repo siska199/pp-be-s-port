@@ -202,21 +202,25 @@ export const upsertProjectDto = async (
     await deleteImageFromCloudinary(existingData?.thumbnail_image || "");
   }
 
-  const result = await prisma?.project?.upsert({
-    where: {
-      id,
-    },
-    create: {
-      ...filterKeysObject({
-        object: dataDto,
-        keys: ["id_skill_users"],
-      }),
-    },
-    update: filterKeysObject({
-      object: removeKeyWithUndifienedValue(dataDto),
-      keys: ["id_user", "id_skill_users", "id"],
-    }),
-  });
+  const result = id
+    ? await prisma?.project?.update({
+        where: {
+          id,
+        },
+
+        data: filterKeysObject({
+          object: removeKeyWithUndifienedValue(dataDto),
+          keys: ["id_user", "id_skill_users", "id"],
+        }),
+      })
+    : await prisma?.project?.create({
+        data: {
+          ...filterKeysObject({
+            object: dataDto,
+            keys: ["id_skill_users"],
+          }),
+        },
+      });
 
   const resultDto = result;
   return result ? resultDto : null;

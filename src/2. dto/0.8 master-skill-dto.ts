@@ -89,19 +89,14 @@ export const upsertMasterSkillDto = async (params: MasterSkill) => {
     data: dataDto,
   });
 
-  const result = await prisma?.masterSkill?.upsert({
-    where: { id },
-    create: dataDto,
-    update: removeKeyWithUndifienedValue(dataDto),
-    include: {
-      category: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const result = id
+    ? await prisma?.masterSkill?.update({
+        where: { id },
+        data: removeKeyWithUndifienedValue(dataDto),
+      })
+    : await prisma?.masterSkill?.create({
+        data: dataDto,
+      });
 
   const resultDto = filterKeysObject({
     object: result,

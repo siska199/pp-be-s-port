@@ -2,6 +2,7 @@ import prisma from "@0 db/prisma";
 import masterEducationSchoolSchema from "@1. validation/0.6 master-education-school";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
+  filterKeysObject,
   removeKeyWithUndifienedValue,
   validationParse,
 } from "@_lib/helpers/function";
@@ -79,26 +80,19 @@ export const upsertMasterEducationSchoolByIdDto = async (
     data: dataDto,
   });
 
-  const result = await prisma?.masterEducationSchool?.upsert({
-    where: { id },
-    create: dataDto,
-    update: removeKeyWithUndifienedValue(dataDto),
-    include: {
-      level: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const result = id
+    ? await prisma?.masterEducationSchool?.update({
+        where: { id },
+        data: removeKeyWithUndifienedValue(dataDto),
+      })
+    : await prisma?.masterEducationSchool?.create({
+        data: dataDto,
+      });
 
-  const resultDto = {
-    id: result?.id,
-    name: result?.name,
-    level: result?.level,
-    image: result?.image,
-  };
+  const resultDto = filterKeysObject({
+    object: result,
+    keys: ["created_at", "updated_at"],
+  });
   return result ? resultDto : null;
 };
 
