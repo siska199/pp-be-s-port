@@ -18,9 +18,17 @@ export const getUserByAnyParamDto = async (params: Partial<User>) => {
 
   const result = await prisma.user.findFirst({
     where: {
-      ...(paramsDto?.id && { id: paramsDto?.id }),
-      ...(paramsDto?.email && { email: paramsDto?.email }),
-      ...(paramsDto?.username && { username: paramsDto?.username }),
+      OR: [
+        {
+          ...(paramsDto?.id && { id: paramsDto?.id }),
+        },
+        {
+          ...(paramsDto?.email && { email: paramsDto?.email }),
+        },
+        {
+          ...(paramsDto?.username && { username: paramsDto?.username }),
+        },
+      ],
     },
     include: {
       profession: {

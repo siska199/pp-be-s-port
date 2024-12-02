@@ -35,7 +35,7 @@ const experianceSchema = (mandatory = true) =>
       if (!data.is_currently_work_here && !data.end_at) {
         ctx.addIssue({
           code: "custom",
-          message: "End At is Required----",
+          message: "End At is Required",
           path: ["end_at"],
         });
       }
