@@ -9,7 +9,13 @@ import { Request, Response } from "express";
 export const signUp = catchErrors(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
-  await getUserByAnyParamDto({ username, email });
+  const userExist = await getUserByAnyParamDto({ username, email });
+  if (userExist?.id)
+    throw new CustomError(
+      `This ${
+        userExist?.username === username ? "Username" : "Email"
+      } has been used`
+    );
 
   const hashPassword = await encryptBycrypt(password);
 

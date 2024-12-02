@@ -26,6 +26,7 @@ const authentication = () => {
     try {
       const token = getTokeFromHeader(req.headers.authorization);
       const user = await verifyToken(token as string);
+      //@ts-ignore
       req.user = user;
       return next();
     } catch (error) {

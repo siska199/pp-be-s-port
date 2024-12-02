@@ -7,12 +7,9 @@ import {
   trimObject,
   validationParse,
 } from "@_lib/helpers/function";
-import { CustomError } from "@_lib/middleware/error-handler";
 import { User } from "@prisma/client";
 
-export const getUserByAnyParamDto = async (
-  params: Partial<User>
-): Promise<User | null> => {
+export const getUserByAnyParamDto = async (params: Partial<User>) => {
   const paramsDto = {
     id: params?.id,
     email: params?.email,
@@ -35,13 +32,11 @@ export const getUserByAnyParamDto = async (
     },
   });
 
-  if (!result) throw new CustomError("User not found", 404);
-
   const image_url = await getImageUrlFromClaudinary({
     publicId: String(result?.image),
   });
 
-  const resultDto: User = filterKeysObject({
+  const resultDto = filterKeysObject({
     object: {
       ...result,
       image: image_url || "",

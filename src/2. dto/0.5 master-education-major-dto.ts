@@ -77,7 +77,6 @@ export const createBulkMasterEducationMajorDto = async (
   params: (MasterEducationMajor & { id_levels: string[] })[]
 ) => {
   const listData = params;
-
   const result = await Promise.all(
     listData?.map(async (singleData) => {
       const resulSignData = await upsertMasterEducationMajorByIdDto(singleData);
