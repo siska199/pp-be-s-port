@@ -1,4 +1,4 @@
-import { zString } from "@1. validation/reusable-shema";
+import { zArrar, zString } from "@1. validation/reusable-shema";
 import { z } from "zod";
 
 const masterEducationSchoolSchema = (mandatory = true) =>
@@ -12,8 +12,8 @@ const masterEducationSchoolSchema = (mandatory = true) =>
       name: "Image",
       mandatory,
     }),
-    id_level: zString({
-      name: "ID level",
+    id_levels: zArrar({
+      name: "IDs level",
       mandatory,
     }),
   });

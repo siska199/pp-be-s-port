@@ -2,13 +2,26 @@ model MasterEducationSchool{
     id          String              @id @default(uuid())
     name        String              @db.VarChar(255) @unique
     image       String              @db.VarChar(2083)
-    id_level    String              @db.VarChar(255)
 
     education   Education[]
-    level       MasterEducationLevel      @relation(fields: [id_level], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    levels      MasterLevelSchoolEducation[]
 
     created_at  DateTime            @default(now())
     updated_at  DateTime            @updatedAt  
 
     @@map("master_education_school")
+}
+
+
+model MasterLevelSchoolEducation{
+    id         String               @id @default(uuid())
+    level       MasterEducationLevel       @relation(fields: [id_level], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    school      MasterEducationSchool      @relation(fields: [id_school], references: [id],onDelete: Cascade, onUpdate: Cascade)
+    
+    id_level             String      @db.VarChar(36)
+    id_school             String      @db.VarChar(36)
+
+    @@index([id_level, id_school])
+    @@unique([id_level, id_school])
+    @@map("master_level_school_education")
 }

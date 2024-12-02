@@ -1,3 +1,4 @@
+import { createBulkMasterEducationLevelDto } from "@2. dto/0.4 master-education-level-dto";
 import {
   getListMasterEducationSchoolDto,
   upsertMasterEducationSchoolByIdDto,
@@ -27,5 +28,16 @@ export const upsertMasterEducationSchool = catchErrors(async (req, res) => {
     res,
     data: result,
     message: message.success.addData,
+  });
+});
+
+export const createBulkMasterEducationSchool = catchErrors(async (req, res) => {
+  const payload = req.body;
+  const result = await createBulkMasterEducationLevelDto(payload);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.getData,
   });
 });

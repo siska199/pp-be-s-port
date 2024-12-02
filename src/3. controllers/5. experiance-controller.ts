@@ -1,4 +1,5 @@
 import {
+  createBulkExperianceDto,
   deleteExperianceByIdDto,
   getExperianceByIdDto,
   getListExperianceDto,
@@ -53,6 +54,18 @@ export const upsertExperiance = catchErrors(
     });
   }
 );
+
+export const createBulkExperiance = catchErrors(async (req, res) => {
+  const payload = req.body;
+
+  const result = await createBulkExperianceDto(payload);
+
+  successResponse({
+    res,
+    data: result,
+    message: message.success.addData,
+  });
+});
 
 export const getExperianceById = catchErrors(async (req, res) => {
   const id = req.params?.id;

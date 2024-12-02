@@ -1,4 +1,6 @@
+import prisma from "@0 db/prisma";
 import { getUserByAnyParamDto, upsertUserDto } from "@2. dto/1. user-dto";
+import { createBulkSocialLinkDto } from "@2. dto/3. social-link-dto";
 import catchErrors from "@_lib/helpers/catch-error";
 import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
 import { successResponse } from "@_lib/helpers/response";
@@ -24,6 +26,14 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
     password: hashPassword,
   });
 
+  const listCategorySocialLink = (
+    await prisma?.masterCategorySocialLink?.findMany()
+  )?.map((data) => ({
+    url: data?.default_value,
+    id_category: data?.id,
+    id_user: result?.id,
+  }));
+  await createBulkSocialLinkDto(listCategorySocialLink);
   successResponse({
     res,
     message: "Successfully Created User",

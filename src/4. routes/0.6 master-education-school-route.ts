@@ -6,6 +6,7 @@ import CONFIG from "@_lib/config";
 import { listCommonTypeFileImage } from "@_lib/constants";
 import upload from "@_lib/middleware/upload-file";
 import express from "express";
+import { createBulkMasterEducationSchool } from "./../3. controllers/0.6 master-education-school-controller";
 
 export default async (router: express.Router) => {
   router.get("/education-schools", getListMasterEducationSchool);
@@ -19,5 +20,6 @@ export default async (router: express.Router) => {
     }),
     upsertMasterEducationSchool
   );
+  router.post("/education-schools", createBulkMasterEducationSchool);
   return router;
 };

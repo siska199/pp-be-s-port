@@ -69,10 +69,13 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
 
   const resultDto = {
     items: result?.map((data) => {
-      return filterKeysObject({
-        object: data,
-        keys: ["created_at", "updated_at"],
-      });
+      return {
+        ...filterKeysObject({
+          object: data,
+          keys: ["created_at", "updated_at"],
+        }),
+        skill_name: data?.skill?.name,
+      };
     }),
     total_items: await prisma?.skillUser?.count({
       where: { id_user },
@@ -108,6 +111,7 @@ export const getSkillUserByIdDto = async (param: string) => {
     object: {
       ...result,
       image: skill_image,
+      skill_name: result?.skill?.name,
     },
     keys: ["created_at", "updated_at"],
   });

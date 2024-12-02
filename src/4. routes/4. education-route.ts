@@ -1,4 +1,6 @@
 import {
+  createBulkEducation,
+  deleteEducationById,
   getEducationById,
   getListEducation,
   upsertEducation,
@@ -9,6 +11,9 @@ import express from "express";
 export default (router: express.Router) => {
   router.get("/educations", authentication(), getListEducation);
   router.get("/education/:id", authentication(), getEducationById);
+  router.delete("/education/:id", authentication(), deleteEducationById);
   router.post("/education", authentication(), upsertEducation);
+  router.post("/educations", authentication(), createBulkEducation);
+
   return router;
 };

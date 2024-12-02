@@ -1,4 +1,5 @@
 import {
+  createBulkEducationDto,
   deleteEducationByIdDto,
   getEducationByIdDto,
   getListEducationDto,
@@ -69,7 +70,19 @@ export const upsertEducation = catchErrors(
   }
 );
 
-export const educationEducationById = catchErrors(async (req, res) => {
+export const createBulkEducation = catchErrors(async (req, res) => {
+  const payload = req?.body;
+
+  const result = await createBulkEducationDto(payload);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.addData,
+  });
+});
+
+export const deleteEducationById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
   const result = await deleteEducationByIdDto(id);

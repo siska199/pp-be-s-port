@@ -1,15 +1,14 @@
 import prisma from "@0 db/prisma";
-import { Education } from "@prisma/client";
-import { TQueryParamsPaginationList } from "@_lib/types/index";
+import educationSchema from "@1. validation/4. education-schema";
+import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {
   convertToISOString,
   filterKeysObject,
-  removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
 } from "@_lib/helpers/function";
-import educationSchema from "@1. validation/4. education-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { TQueryParamsPaginationList } from "@_lib/types/index";
+import { Education } from "@prisma/client";
 
 export type TParamsListEducationDto = TQueryParamsPaginationList<
   keyof Education
@@ -192,6 +191,26 @@ export const upsertEducationDto = async (params: Education) => {
     end_at: convertToISOString(params.end_at),
   });
 
+  const include = {
+    level: {
+      select: {
+        id: true,
+        name: true,
+      },
+    },
+    major: {
+      select: {
+        id: true,
+        name: true,
+      },
+    },
+    school: {
+      select: {
+        name: true,
+        id: true,
+      },
+    },
+  };
   await validationParse({
     schema: educationSchema(!id),
     data: dataDto,
@@ -203,15 +222,40 @@ export const upsertEducationDto = async (params: Education) => {
           id,
         },
         data: dataDto,
+        include,
       })
     : await prisma.education.create({
         data: dataDto,
+        include,
       });
   const resultDto = filterKeysObject({
     object: result,
     keys: ["created_at", "updated_at"],
   });
   return result ? resultDto : null;
+};
+
+export const createBulkEducationDto = async (params: Education[]) => {
+  const dataDto = params?.map((data) => ({
+    ...trimObject({
+      gpa: data.gpa,
+      description: data.description,
+      id_user: data.id_user,
+      id_level: data.id_level,
+      id_major: data.id_major,
+      id_school: data.id_school,
+      start_at: convertToISOString(data?.start_at),
+      end_at: convertToISOString(data.end_at),
+    }),
+  }));
+
+  const result = await prisma?.education?.createMany({
+    data: dataDto,
+  });
+
+  const resultDto = result;
+
+  return resultDto;
 };
 
 export const deleteEducationByIdDto = async (param: string) => {

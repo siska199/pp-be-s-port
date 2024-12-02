@@ -1,4 +1,6 @@
 import {
+  createBulkSocialLinkDto,
+  deleteSocialLinkByIdDto,
   getListSocialLinkDto,
   upsertSocialLinkDto,
 } from "@2. dto/3. social-link-dto";
@@ -39,3 +41,26 @@ export const upsertSocialLink = catchErrors(
     });
   }
 );
+
+export const createBulkSocialLink = catchErrors(async (req, res) => {
+  const payload = req.body;
+  const result = await createBulkSocialLinkDto(payload);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.addData,
+  });
+});
+
+export const deleteSocialLink = catchErrors(async (req, res) => {
+  const id = req.params?.id;
+
+  const result = await deleteSocialLinkByIdDto(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.deleteData,
+  });
+});

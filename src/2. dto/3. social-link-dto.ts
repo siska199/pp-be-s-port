@@ -76,3 +76,33 @@ export const upsertSocialLinkDto = async (params: SocialLink) => {
 
   return result ? resultDto : null;
 };
+
+export const createBulkSocialLinkDto = async (
+  params: Omit<SocialLink, "created_at" | "updated_at" | "id">[]
+) => {
+  const listData = params?.map((data) => ({
+    url: data?.url,
+    id_category: data?.id_category,
+    id_user: data?.id_user,
+  }));
+
+  const result = await prisma?.socialLink?.createMany({
+    data: listData,
+  });
+
+  const resultDto = result;
+
+  return resultDto;
+};
+
+export const deleteSocialLinkByIdDto = async (param: string) => {
+  const id = param;
+
+  const result = await prisma?.socialLink?.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};

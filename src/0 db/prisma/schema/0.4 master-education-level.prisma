@@ -3,9 +3,9 @@ model MasterEducationLevel {
     name                String                  @unique  @db.VarChar(255) 
 
     majors              MasterLevelMajorEducation[]
+    education_schools   MasterLevelSchoolEducation[]
 
     educations          Education[]
-    education_schools   MasterEducationSchool[]
 
     created_at      DateTime @default(now())
     updated_at      DateTime @updatedAt  

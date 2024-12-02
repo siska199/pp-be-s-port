@@ -151,6 +151,26 @@ export const upsertExperianceDto = async (params: Experiance) => {
   return result ? resultDto : null;
 };
 
+export const createBulkExperianceDto = async (params: Experiance[]) => {
+  const dataDto = params?.map((data) => ({
+    id_company: data.id_company,
+    id_profession: data.id_profession,
+    id_user: data.id_user,
+    description: data.description,
+    start_at: convertToISOString(data.start_at),
+    end_at: data.end_at ? convertToISOString(data.end_at) : undefined,
+    is_currently_work_here: data.is_currently_work_here ?? false,
+  }));
+
+  const result = await prisma?.experiance?.createMany({
+    data: dataDto,
+  });
+
+  const resultDto = result;
+
+  return resultDto;
+};
+
 export const getExperianceByIdDto = async (param: string) => {
   const id = param;
 

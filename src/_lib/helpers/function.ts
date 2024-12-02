@@ -67,6 +67,7 @@ export const validationParse = async (params: {
 
 export const convertToISOString = (date: Date) => {
   const date_ = new Date(date);
+
   return date_?.toISOString();
 };
 

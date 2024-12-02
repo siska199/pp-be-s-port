@@ -15,13 +15,18 @@ export const getListMasterEducationSchoolDto = async (params: {
 
   const result = await prisma?.masterEducationSchool?.findMany({
     where: {
-      ...(id_level && { id_level }),
+      levels: {
+        some: {
+          level: {
+            ...(id_level && { id: id_level }),
+          },
+        },
+      },
     },
     include: {
-      level: {
-        select: {
-          id: true,
-          name: true,
+      levels: {
+        include: {
+          level: true,
         },
       },
     },
@@ -35,9 +40,11 @@ export const getListMasterEducationSchoolDto = async (params: {
       return {
         id: data?.id,
         name: data?.name,
-        id_level: data?.id_level,
-        level: data?.level,
         image: image,
+        levels: data?.levels?.map((level) => ({
+          id: level?.level.id,
+          name: level?.level.name,
+        })),
       };
     })
   );
@@ -66,34 +73,95 @@ export const getMasterEducationSchoolByIdDto = async (param: string) => {
 };
 
 export const upsertMasterEducationSchoolByIdDto = async (
-  params: MasterEducationSchool
+  params: MasterEducationSchool & { id_levels: string[] }
 ) => {
   const id = params?.id ?? "";
   const dataDto = {
+    ...(id && { id }),
     name: params?.name,
     image: params?.image,
-    id_level: params?.id_level,
+    ...(params?.id_levels?.length > 0 && {
+      levels: {
+        create: params?.id_levels?.map((id_level) => ({
+          level: {
+            connect: {
+              id: id_level,
+            },
+          },
+        })),
+      },
+    }),
+  };
+
+  const include = {
+    levels: {
+      include: {
+        level: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    },
   };
 
   await validationParse({
     schema: masterEducationSchoolSchema(!id),
-    data: dataDto,
+    data: {
+      ...filterKeysObject({
+        object: { ...dataDto },
+        keys: ["levels"],
+      }),
+      id_levels: params?.id_levels,
+    },
   });
 
   const result = id
     ? await prisma?.masterEducationSchool?.update({
         where: { id },
         data: removeKeyWithUndifienedValue(dataDto),
+        include,
       })
     : await prisma?.masterEducationSchool?.create({
         data: dataDto,
+        include,
       });
 
   const resultDto = filterKeysObject({
-    object: result,
+    object: {
+      ...result,
+      levels: result?.levels?.map((data) => ({
+        id: data?.level?.id,
+        name: data?.level?.name,
+      })),
+    },
     keys: ["created_at", "updated_at"],
   });
   return result ? resultDto : null;
+};
+
+export const createBulkMasterEducationSchoolDto = async (
+  params: (MasterEducationSchool & { id_levels: string[] })[]
+) => {
+  const listData = params;
+
+  console.log("list data: ", listData);
+
+  const result = await Promise.all(
+    listData?.map(async (singleData) => {
+      const resultSingleDate = await upsertMasterEducationSchoolByIdDto(
+        singleData
+      );
+      return resultSingleDate;
+    })
+  );
+
+  const resultDto = {
+    ...result,
+  };
+
+  return resultDto;
 };
 
 export const deleteMasterEducationSchoolByIdDto = async (param: string) => {
