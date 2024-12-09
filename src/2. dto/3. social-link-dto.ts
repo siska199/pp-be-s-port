@@ -92,7 +92,7 @@ export const upsertBulkSocialLinkDto = async (
   );
 
   const isUpdate = listData?.every((data) => data.id);
-
+  console.log(isUpdate, listData);
   const result = isUpdate
     ? await prisma?.socialLink?.updateMany({
         data: listData,

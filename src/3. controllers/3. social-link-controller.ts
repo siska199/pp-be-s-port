@@ -47,7 +47,7 @@ export const upsertSocialLink = catchErrors(
 export const upsertBulkSocialLink = catchErrors(
   async (req: TRequestAuthRoute, res) => {
     const payload = req.body;
-    const id_user = req.user;
+    const id_user = req.user?.id;
     const result = await upsertBulkSocialLinkDto(
       payload?.map((data: Omit<SocialLink, "created_at" | "updated_at">) => ({
         ...data,
