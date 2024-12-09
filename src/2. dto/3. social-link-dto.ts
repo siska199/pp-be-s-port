@@ -77,18 +77,29 @@ export const upsertSocialLinkDto = async (params: SocialLink) => {
   return result ? resultDto : null;
 };
 
-export const createBulkSocialLinkDto = async (
-  params: Omit<SocialLink, "created_at" | "updated_at" | "id">[]
+export const upsertBulkSocialLinkDto = async (
+  params: (Omit<SocialLink, "created_at" | "updated_at" | "id"> & {
+    id?: string;
+  })[]
 ) => {
-  const listData = params?.map((data) => ({
-    url: data?.url,
-    id_category: data?.id_category,
-    id_user: data?.id_user,
-  }));
+  const listData = params?.map((data) =>
+    removeKeyWithUndifienedValue({
+      url: data?.url,
+      id_category: data?.id_category,
+      id_user: data?.id_user,
+      id: data?.id || undefined,
+    })
+  );
 
-  const result = await prisma?.socialLink?.createMany({
-    data: listData,
-  });
+  const isUpdate = listData?.every((data) => data.id);
+
+  const result = isUpdate
+    ? await prisma?.socialLink?.updateMany({
+        data: listData,
+      })
+    : await prisma?.socialLink?.createMany({
+        data: listData as Omit<SocialLink, "created_at" | "updated_at">[],
+      });
 
   const resultDto = result;
 

@@ -1,5 +1,5 @@
 import {
-  createBulkSocialLink,
+  upsertBulkSocialLink,
   deleteSocialLink,
   getListSocialLink,
   upsertSocialLink,
@@ -9,7 +9,7 @@ import express from "express";
 
 export default (router: express.Router) => {
   router.get("/social-links", authentication(), getListSocialLink);
-  router.post("/social-links", authentication(), createBulkSocialLink);
+  router.post("/social-links", authentication(), upsertBulkSocialLink);
   router.post("/social-link", authentication(), upsertSocialLink);
   router.post("/social-link/:id", authentication(), deleteSocialLink);
 };
