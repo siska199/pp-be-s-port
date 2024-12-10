@@ -8,6 +8,9 @@
  if you running postgress in dockerfile the host should be named as <service name: postgress> if in your local a.ka not using dockerfile
  you can use localhost
 
+Set env file:
+POSTGRES_HOST=host.docker.internal #localhost #-> use localhost while you try to access db n container but through localhost
+
 
  ---Command associate with postgres containerization:
  >>create postgres container from image:

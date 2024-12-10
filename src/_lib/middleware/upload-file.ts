@@ -48,13 +48,13 @@ const uploadFile = (fileRules: TFileRules) => {
       cb(null, true);
     },
   });
-  const lsitFieldFile = Object.entries(fileRules).map(([key, value]) => ({
+  const listFieldFile = Object.entries(fileRules).map(([key, value]) => ({
     name: key,
     maxCount: value?.maxCount,
   }));
 
   return async (req: Request, res: Response, next: NextFunction) => {
-    upload.fields(lsitFieldFile)(req, res, async (err) => {
+    upload.fields(listFieldFile)(req, res, async (err) => {
       if (err) next(new CustomError(err.message, 400));
       await uploadFileToClaudinary(req, next, fileRules);
     });
