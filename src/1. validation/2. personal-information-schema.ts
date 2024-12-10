@@ -9,10 +9,10 @@ const personalInfoSchema = (mandatory: boolean = true) =>
       first_name: zString({ name: "First Name", max: 50, mandatory }),
       last_name: zString({ name: "Last Name", max: 50, mandatory }),
 
-      province: zString({ name: "Province", max: 255, mandatory }),
-      city: zString({ name: "City", max: 255, mandatory }),
-      district: zString({ name: "District", max: 255, mandatory }),
-      postal_code: zString({ name: "Postal Code", max: 255, mandatory }),
+      id_province: zString({ name: "Province", max: 255, mandatory }),
+      id_city: zString({ name: "City", max: 255, mandatory }),
+      id_district: zString({ name: "District", max: 255, mandatory }),
+      id_postal_code: zString({ name: "Postal Code", max: 255, mandatory }),
 
       phone_number: zPhoneNumber({
         name: "Phone Number",
