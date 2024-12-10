@@ -29,7 +29,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
   const listCategorySocialLink = (
     await prisma?.masterCategorySocialLink?.findMany()
   )?.map((data) => ({
-    url: data?.default_value,
+    url: "",
     id_category: data?.id,
     id_user: result?.id,
   }));

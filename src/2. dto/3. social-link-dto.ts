@@ -92,11 +92,18 @@ export const upsertBulkSocialLinkDto = async (
   );
 
   const isUpdate = listData?.every((data) => data.id);
-  console.log(isUpdate, listData);
+
   const result = isUpdate
-    ? await prisma?.socialLink?.updateMany({
-        data: listData,
-      })
+    ? await Promise.all(
+        listData?.map(async (data) => {
+          await prisma?.socialLink?.update({
+            where: {
+              id: data?.id,
+            },
+            data: data,
+          });
+        })
+      )
     : await prisma?.socialLink?.createMany({
         data: listData as Omit<SocialLink, "created_at" | "updated_at">[],
       });
