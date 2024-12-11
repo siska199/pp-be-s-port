@@ -35,78 +35,84 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
   const skip = (Number(page_no) - 1) * Number(items_perpage);
   const take = items_perpage;
 
-  const result = await prisma?.education?.findMany({
-    ...(take && { take }),
-    ...(skip && { skip }),
-    where: {
-      ...(id_user && { id_user }),
-      AND: [
-        {
-          OR: [
-            {
-              school: {
-                name: {
-                  contains: search,
-                  mode: "insensitive",
+  const result =
+    Number(page_no) > 0
+      ? await prisma?.education?.findMany({
+          ...(take && { take }),
+          ...(skip && { skip }),
+          where: {
+            ...(id_user && { id_user }),
+            AND: [
+              {
+                OR: [
+                  {
+                    school: {
+                      name: {
+                        contains: search,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                  {
+                    major: {
+                      name: {
+                        contains: search,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
+                ],
+              },
+              {
+                level: {
+                  ...(id_level && { id: id_level }),
                 },
               },
-            },
-            {
-              major: {
-                name: {
-                  contains: search,
-                  mode: "insensitive",
-                },
+              {
+                ...(start_at && {
+                  start_at: {
+                    gte: new Date(start_at),
+                    ...(end_at && { lte: new Date(end_at) }),
+                  },
+                }),
+                ...(end_at && {
+                  end_at: {
+                    ...(start_at && { gte: new Date(start_at) }),
+                    lte: new Date(end_at),
+                  },
+                }),
               },
-            },
-          ],
-        },
-        {
-          level: {
-            ...(id_level && { id: id_level }),
+            ],
           },
-        },
-        {
-          ...(start_at && {
-            start_at: {
-              gte: new Date(start_at),
-              ...(end_at && { lte: new Date(end_at) }),
+          orderBy: {
+            [sort_by]: sort_dir,
+          },
+          include: {
+            school: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
-          }),
-          ...(end_at && {
-            end_at: {
-              ...(start_at && { gte: new Date(start_at) }),
-              lte: new Date(end_at),
+            level: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
-          }),
-        },
-      ],
-    },
-    orderBy: {
-      [sort_by]: sort_dir,
-    },
-    include: {
-      school: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      level: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      major: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+            major: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        })
+      : [];
 
+  const totalItems = await prisma?.education?.count({
+    where: { id_user },
+  });
   const resultDto = {
     items: result?.map((data) => {
       return filterKeysObject({
@@ -119,10 +125,8 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
         keys: ["created_at", "updated_at"],
       });
     }),
-    total_items: await prisma?.education?.count({
-      where: { id_user },
-    }),
-    current_page: page_no,
+    total_pages: Math.ceil(totalItems / (items_perpage || 0)) ?? 0,
+    current_page: totalItems === 0 ? 0 : page_no,
   };
 
   return result ? resultDto : [];
