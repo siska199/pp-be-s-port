@@ -4,22 +4,28 @@ model PersonalInformation {
     first_name          String      @db.VarChar(50)
     last_name           String      @db.VarChar(50)
     
-    id_province            String      @db.VarChar(255)
-    id_city                String      @db.VarChar(255)
-    id_district            String      @db.VarChar(255)
-    id_postal_code         String      @db.VarChar(5)
-    
     phone_number        String      @db.VarChar(15)
     email               String      @db.VarChar(255)
     about_me            String      @db.Text
     bio                 String      @db.VarChar(255)
 
-    
     id_profession       String              @db.VarChar(36)
     profession          MasterProfession    @relation(fields: [id_profession], references: [id])
 
-    id_user             String      @unique @db.VarChar(36)
-    user                User        @relation(fields: [id_user], references: [id])
+    id_user             String              @unique @db.VarChar(36)
+    user                User                @relation(fields: [id_user], references: [id])
+
+    id_province         String              @db.VarChar(255)
+    province            MasterProvince?      @relation(fields: [id_province], references: [id])
+
+    id_city             String              @db.VarChar(255)
+    city                MasterCity?         @relation(fields: [id_city], references: [id])
+
+    id_district         String              @db.VarChar(255)
+    district            MasterDistrict?      @relation(fields: [id_district], references: [id])
+
+    id_postal_code      String      @db.VarChar(5)
+    postal_code         MasterPostalCode?      @relation(fields: [id_postal_code], references: [id])
 
     created_at          DateTime    @default(now())
     updated_at          DateTime    @updatedAt

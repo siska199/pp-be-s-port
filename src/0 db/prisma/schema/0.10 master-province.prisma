@@ -1,0 +1,15 @@
+model MasterProvince{
+    id              String      @unique
+    name            String      
+
+    id_country      String      
+    country         MasterCountry @relation(fields: [id_country], references: [id])
+
+    cities                  MasterCity[]
+    personal_information    PersonalInformation[]
+
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt
+
+    @@map("master_province")
+}

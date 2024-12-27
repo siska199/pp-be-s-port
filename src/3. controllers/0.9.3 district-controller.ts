@@ -4,9 +4,9 @@ import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
 
 export const getListMasterDistrict = catchErrors(async (req, res) => {
-  const cityCode = req.query.city_code as string;
+  const id_city = req.query.id_city as string;
 
-  const districts = await getListMasterDistrictDto(cityCode);
+  const districts = await getListMasterDistrictDto({ id_city });
 
   successResponse({
     res,

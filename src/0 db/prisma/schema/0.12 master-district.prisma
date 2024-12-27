@@ -1,0 +1,15 @@
+model MasterDistrict{
+    id              String      @unique
+    name            String     
+
+    id_city         String      
+    city            MasterCity @relation(fields: [id_city], references: [id])
+
+    postal_codes            MasterPostalCode[]
+    personal_information    PersonalInformation[]
+
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt
+
+    @@map("master_district")
+}

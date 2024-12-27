@@ -7,6 +7,7 @@ async function main() {
     where: { email: CONFIG.EMAIL_ADMIN_S_PORT },
     update: {},
     create: {
+      username: "admin",
       email: CONFIG.EMAIL_ADMIN_S_PORT,
       first_name: "admin",
       password: CONFIG.PASSWORD_ADMIN_S_PORT,

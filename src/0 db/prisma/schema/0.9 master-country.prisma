@@ -1,0 +1,12 @@
+model MasterCountry{
+    id              String      @unique
+    name            String      
+
+    provinces         MasterProvince[]
+
+
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt
+
+    @@map("master_country")
+}

@@ -32,5 +32,18 @@ POSTGRES_HOST=host.docker.internal #localhost #-> use localhost while you try to
  >>docker inspect <container_id> 
 
 
+COPY FILE TO CONTAINER DATABASE:
+docker cp ./provinces.csv c-postgres:/provinces.csv
+
+ALter Column Syntax:
+>>ALTER TABLE master_province ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
+
+>>Set Default ID Is UUID
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+ALTER TABLE master_postal_code ALTER COLUMN id SET DEFAULT 
+
+
+>>Place for remove column online for csv file:
+https://edit-csv.net/
 
 

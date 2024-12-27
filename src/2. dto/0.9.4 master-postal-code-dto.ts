@@ -1,19 +1,20 @@
-import { getMasterDistrictByCodeDto } from "@2. dto/0.9.3 master-district-dto";
-import { getUniqueListBy } from "@_lib/helpers/function";
+import prisma from "@0 db/prisma";
 
 export const getListMasterPostalCodeDto = async (params: {
-  district_name: string;
-  city_name: string;
+  id_district: string;
 }) => {
-  const { district_name, city_name } = params;
-  const data = (await getMasterDistrictByCodeDto(district_name as string))
-    ?.filter((data: any) =>
-      city_name?.toLowerCase().includes(data?.city_name?.toLowerCase())
-    )
-    ?.map((postalCode: any) => ({
-      id: postalCode?.id,
-      name: postalCode?.name,
-    }));
-
-  return getUniqueListBy(data, "id");
+  const { id_district } = params;
+  const postalCodes = await prisma?.masterPostalCode.findMany({
+    where: {
+      ...(id_district && { id_district }),
+    },
+  });
+  const resultDto = postalCodes
+    ? postalCodes?.map((data) => ({
+        id: data.id,
+        name: data?.name,
+        postal_code: data?.postal_code,
+      }))
+    : [];
+  return resultDto;
 };

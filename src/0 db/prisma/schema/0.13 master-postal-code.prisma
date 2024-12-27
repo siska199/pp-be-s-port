@@ -1,0 +1,14 @@
+model MasterPostalCode{
+    id              String      @id @default(uuid())
+    name            String    
+    postal_code     String?
+    id_district     String      
+
+    district                MasterDistrict @relation(fields: [id_district], references: [id])
+    personal_information    PersonalInformation[]
+
+    created_at      DateTime @default(now())
+    updated_at      DateTime @updatedAt
+
+    @@map("master_postal_code")
+}
