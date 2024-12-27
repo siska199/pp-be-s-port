@@ -96,6 +96,7 @@ export const upsertPersonalInformationDto = async (
     : await prisma?.personalInformation.create({
         data: dataDTO,
       });
+
   const resultDto = filterKeysObject({
     object: result,
     keys: ["created_at", "updated_at"],

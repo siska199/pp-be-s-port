@@ -145,9 +145,6 @@ export const createBulkMasterEducationSchoolDto = async (
   params: (MasterEducationSchool & { id_levels: string[] })[]
 ) => {
   const listData = params;
-
-  console.log("list data: ", listData);
-
   const result = await Promise.all(
     listData?.map(async (singleData) => {
       const resultSingleDate = await upsertMasterEducationSchoolByIdDto(

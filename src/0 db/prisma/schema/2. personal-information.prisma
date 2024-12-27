@@ -15,16 +15,16 @@ model PersonalInformation {
     id_user             String              @unique @db.VarChar(36)
     user                User                @relation(fields: [id_user], references: [id])
 
-    id_province         String              @db.VarChar(255)
+    id_province         String              @db.VarChar(36)
     province            MasterProvince?      @relation(fields: [id_province], references: [id])
 
-    id_city             String              @db.VarChar(255)
+    id_city             String              @db.VarChar(36)
     city                MasterCity?         @relation(fields: [id_city], references: [id])
 
-    id_district         String              @db.VarChar(255)
+    id_district         String              @db.VarChar(36)
     district            MasterDistrict?      @relation(fields: [id_district], references: [id])
 
-    id_postal_code      String      @db.VarChar(5)
+    id_postal_code      String              @db.VarChar(36)
     postal_code         MasterPostalCode?      @relation(fields: [id_postal_code], references: [id])
 
     created_at          DateTime    @default(now())

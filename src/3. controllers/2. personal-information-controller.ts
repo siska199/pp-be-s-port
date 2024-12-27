@@ -12,8 +12,8 @@ import { Response } from "express";
 export const getPersonalInformation = catchErrors<TRequestAuthRoute>(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
-    const id = req.query.id?.toString() || "";
-    const id_user = user?.id || "";
+    const id = req.query.id?.toString();
+    const id_user = user?.id;
     const result = await getPersonalInfoByAnyParamDto({
       id,
       id_user,
@@ -30,12 +30,12 @@ export const getPersonalInformation = catchErrors<TRequestAuthRoute>(
 export const upsertPersonalInformation = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
-
     const payload = req.body;
 
     const result = await upsertPersonalInformationDto({
       ...payload,
-      id_user: user?.id,
+      id: payload.id || undefined,
+      id_user: user?.id || undefined,
     });
 
     successResponse({
