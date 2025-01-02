@@ -75,9 +75,12 @@ export const upsertPersonalInformationDto = async (
   });
 
   if (id && dataDTO.professional_image) {
-    const currentPersonalInfo = await getPersonalInfoByAnyParamDto({
-      id_user: dataDTO?.id_user,
+    const currentPersonalInfo = await prisma.personalInformation.findFirst({
+      where: {
+        id,
+      },
     });
+
     await deleteImageFromCloudinary(
       currentPersonalInfo?.professional_image || ""
     );

@@ -38,12 +38,15 @@ docker cp ./provinces.csv c-postgres:/provinces.csv
 ALter Column Syntax:
 >>ALTER TABLE master_province ALTER COLUMN updated_at SET DEFAULT CURRENT_TIMESTAMP;
 
->>Set Default ID Is UUID
+>>Set Default ID Is UUID:
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-ALTER TABLE master_postal_code ALTER COLUMN id SET DEFAULT 
+ALTER TABLE master_postal_code ALTER COLUMN id SET DEFAULT uuid_generate_v1();
 
 
 >>Place for remove column online for csv file:
 https://edit-csv.net/
 
 
+>>COPY CSV FILE TO POSTGREE:
+COPY master_province(id,name,id_country) FROM '/provinces.csv' DELIMI
+TER ',' CSV HEADER;
