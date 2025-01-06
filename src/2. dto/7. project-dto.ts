@@ -18,7 +18,7 @@ type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {
   categories?: string;
   types?: TypeProject;
   id_skills?: string;
-  search?: string;
+  keyword?: string;
 };
 
 export const getListProjectDto = async (params: TParamsListProjectDto) => {
@@ -31,7 +31,7 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
     categories,
     types,
     id_skills,
-    search,
+    keyword,
   } = params;
 
   const listIdSkill = id_skills?.split(",");
@@ -47,18 +47,18 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
       ...(id_user && { id_user }),
       AND: [
         {
-          ...(search && {
+          ...(keyword && {
             name: {
-              contains: search,
+              contains: keyword,
             },
           }),
         },
         {
           experiance: {
-            ...(search && {
+            ...(keyword && {
               company: {
                 name: {
-                  contains: search,
+                  contains: keyword,
                 },
               },
             }),

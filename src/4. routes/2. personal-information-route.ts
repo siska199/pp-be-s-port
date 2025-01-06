@@ -14,7 +14,7 @@ export default (router: express.Router) => {
     authentication(),
     upload({
       professional_image: {
-        types: ["jpg", "jpeg", "png"],
+        types: ["jpg", "jpeg", "png", "pdf"],
         folder: "personal-information",
       },
     }),

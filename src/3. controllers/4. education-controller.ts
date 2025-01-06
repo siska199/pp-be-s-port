@@ -21,7 +21,7 @@ export const getListEducation = catchErrors(
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof Education,
       sort_dir: req.query.sort_dir as "asc" | "desc",
-      search: req.query.search?.toString() || "",
+      keyword: req.query.keyword?.toString() || "",
       id_level: req.query.id_level?.toString() || "",
       id_user: user?.id ?? "",
       start_at: req.query.start_at?.toString() || "",

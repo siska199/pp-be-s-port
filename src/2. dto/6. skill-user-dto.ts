@@ -13,7 +13,7 @@ import { Level, SkillUser } from "@prisma/client";
 type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
   id_user: string;
   id_skills?: string;
-  year_of_experiance?: number;
+  years_of_experiance?: number;
   level?: Level;
 };
 
@@ -25,7 +25,7 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
     sort_by = "created_at",
     sort_dir = "desc",
     id_skills,
-    year_of_experiance,
+    years_of_experiance,
     level,
   } = params;
   const listIdSkill = id_skills?.split(",");
@@ -50,7 +50,7 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
           ...(level && { level }),
         },
         {
-          ...(year_of_experiance && { year_of_experiance }),
+          ...(years_of_experiance && { years_of_experiance }),
         },
       ],
     },
@@ -62,6 +62,17 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
         select: {
           id: true,
           name: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+      project_tech_stacks: {
+        select: {
+          project: true,
         },
       },
     },
@@ -74,6 +85,8 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
           object: data,
           keys: ["created_at", "updated_at"],
         }),
+        id_category: data?.skill?.category?.id,
+        category_name: data?.skill?.category?.name,
         skill_name: data?.skill?.name,
       };
     }),
@@ -124,7 +137,7 @@ export const upsertSkillUserDto = async (params: SkillUser) => {
   const dataDto = trimObject({
     ...(id && { id }),
     id_skill: params.id_skill,
-    year_of_experiance: params.year_of_experiance,
+    years_of_experiance: params.years_of_experiance,
     level: params.level,
     id_user: params.id_user,
   });
@@ -155,7 +168,7 @@ export const createBulkSkillUserDto = async (params: SkillUser[]) => {
   const listData = params?.map((data) => {
     return {
       id_skill: data?.id_skill,
-      year_of_experiance: data?.year_of_experiance,
+      years_of_experiance: data?.years_of_experiance,
       level: data?.level,
       id_user: data?.id_user,
     };

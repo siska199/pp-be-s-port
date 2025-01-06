@@ -8,7 +8,7 @@ import {
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute, Tsort_dir } from "@_lib/types";
+import { TRequestAuthRoute, TSort_dir } from "@_lib/types";
 import { Experiance } from "@prisma/client";
 import { Response } from "express";
 
@@ -19,8 +19,8 @@ export const getListExperiance = catchErrors(
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: (req.query.sort_by || "start_at") as keyof Experiance,
-      sort_dir: (req.query.sort_dir || "desc") as Tsort_dir,
-      search: req.query.search?.toString(),
+      sort_dir: (req.query.sort_dir || "desc") as TSort_dir,
+      keyword: req.query.keyword?.toString(),
       id_company: req.query.id_company?.toString(),
       id_description: req.query.id_description?.toString(),
       start_at: req.query.start_at?.toString(),

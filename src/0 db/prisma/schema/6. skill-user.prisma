@@ -3,7 +3,7 @@ model SkillUser {
 
     id_skill            String      @db.VarChar(36)
 
-    year_of_experiance  Int         
+    years_of_experiance Float           @db.DoublePrecision()        
     level               Level
 
     id_user             String      @db.VarChar(36)
@@ -11,7 +11,7 @@ model SkillUser {
     skill               MasterSkill @relation(fields: [id_skill], references: [id])
     user                User        @relation(fields: [id_user], references: [id])
 
-    projectTechStacks   ProjectTechStack[]
+    project_tech_stacks   ProjectTechStack[]
 
     created_at          DateTime    @default(now())
     updated_at          DateTime    @updatedAt
@@ -23,6 +23,6 @@ model SkillUser {
 
 enum Level{
     BEGINNER
-    INTERMEDIET
+    INTERMEDIATE
     ADVANCE
 }

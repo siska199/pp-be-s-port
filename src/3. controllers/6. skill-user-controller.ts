@@ -1,6 +1,7 @@
 import { deleteEducationByIdDto } from "@2. dto/4. education-dto";
 import {
   createBulkSkillUserDto,
+  deleteSkillUserByIdDto,
   getListSkillUserDto,
   getSkillUserByIdDto,
   upsertSkillUserDto,
@@ -8,7 +9,7 @@ import {
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute, Tsort_dir } from "@_lib/types";
+import { TRequestAuthRoute, TSort_dir } from "@_lib/types";
 import { Level, SkillUser } from "@prisma/client";
 import { Response } from "express";
 
@@ -19,9 +20,9 @@ export const getListSkillUser = catchErrors(
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof SkillUser,
-      sort_dir: req.query.sort_dir as Tsort_dir,
+      sort_dir: req.query.sort_dir as TSort_dir,
       id_skills: req.query.id_skills?.toString(),
-      year_of_experiance: Number(req.query.year_of_experiance),
+      years_of_experiance: Number(req.query.years_of_experiance),
       level: req.query.level as Level,
       id_user: user?.id?.toString() || "",
     };
@@ -79,7 +80,7 @@ export const getSkillUserById = catchErrors(async (req, res) => {
 
 export const deleteSkillUserById = catchErrors(async (req, res) => {
   const id = req.params?.id;
-  const result = await deleteEducationByIdDto(id);
+  const result = await deleteSkillUserByIdDto(id);
 
   successResponse({
     res,

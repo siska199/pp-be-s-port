@@ -7,7 +7,7 @@ import {
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute, Tsort_dir } from "@_lib/types";
+import { TRequestAuthRoute, TSort_dir } from "@_lib/types";
 import { CategoryProject, Project, TypeProject } from "@prisma/client";
 import { Response } from "express";
 
@@ -18,11 +18,11 @@ export const getListProject = catchErrors(
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof Project,
-      sort_dir: req.query.sort_dir as Tsort_dir,
+      sort_dir: req.query.sort_dir as TSort_dir,
       categories: req.query.categories as CategoryProject,
       types: req.query.types as TypeProject,
       id_skills: req.query.id_skills?.toString() || "",
-      search: req.query.search?.toString() || "",
+      keyword: req.query.keyword?.toString() || "",
       id_user: user?.id?.toString() || "",
     };
 

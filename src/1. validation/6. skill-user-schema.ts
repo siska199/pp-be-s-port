@@ -10,7 +10,7 @@ const skillUserSchema = (mandatory: boolean = true) =>
         name: "Skill",
         mandatory,
       }),
-      year_of_experiance: zNumber({
+      years_of_experiance: zNumber({
         name: "Year Of Experiance",
         mandatory,
       }),

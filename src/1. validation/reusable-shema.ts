@@ -30,18 +30,13 @@ export const zString = <TMandatory extends boolean = true>(params: {
     : ZodOptional<ZodString>;
 };
 
-interface TParamsNumber {
+export const zNumber = (params: {
   name: string;
   min?: number;
   max?: number;
   mandatory?: boolean;
-}
-export const zNumber = ({
-  name,
-  max = 255,
-  min = 1,
-  mandatory = true,
-}: TParamsNumber): z.ZodNumber | z.ZodOptional<z.ZodNumber> => {
+}): z.ZodNumber | z.ZodOptional<z.ZodNumber> => {
+  const { name, max = 255, min = 1, mandatory = true } = params;
   const numberSchema = z.number().max(max, {
     message: messageError.maxNumber(name, max),
   });

@@ -25,7 +25,7 @@ export const getListExperianceDto = async (
     items_perpage,
     sort_by,
     sort_dir,
-    search,
+    keyword,
     start_at,
     end_at,
     id_user,
@@ -45,7 +45,7 @@ export const getListExperianceDto = async (
             {
               company: {
                 name: {
-                  contains: search,
+                  contains: keyword,
                   mode: "insensitive",
                 },
               },
@@ -53,7 +53,7 @@ export const getListExperianceDto = async (
             {
               profession: {
                 name: {
-                  contains: search,
+                  contains: keyword,
                   mode: "insensitive",
                 },
               },

@@ -25,7 +25,7 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
     items_perpage,
     sort_by = "start_at",
     sort_dir = "desc",
-    search,
+    keyword,
     id_level,
     id_user,
     start_at,
@@ -48,7 +48,7 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
                   {
                     school: {
                       name: {
-                        contains: search,
+                        contains: keyword,
                         mode: "insensitive",
                       },
                     },
@@ -56,7 +56,7 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
                   {
                     major: {
                       name: {
-                        contains: search,
+                        contains: keyword,
                         mode: "insensitive",
                       },
                     },
@@ -169,9 +169,9 @@ export const getEducationByIdDto = async (param: string) => {
   const resultDto = filterKeysObject({
     object: {
       ...result,
+      level_name: result?.level?.name,
       school_name: result?.school?.name,
       major_name: result?.major?.name,
-      level: result?.level?.name,
       school_image,
     },
     keys: ["created_at", "updated_at"],

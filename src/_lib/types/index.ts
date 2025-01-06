@@ -1,14 +1,14 @@
 import { User } from "@prisma/client";
 import { Request } from "express";
 
-export type Tsort_dir = "desc" | "asc";
+export type TSort_dir = "desc" | "asc";
 
 export type TQueryParamsPaginationList<TKeysort_by> = {
   page_no?: number;
   items_perpage?: number;
   sort_by?: TKeysort_by;
-  sort_dir?: Tsort_dir;
-  search?: string;
+  sort_dir?: TSort_dir;
+  keyword?: string;
 };
 
 export interface TGeneralObject {
