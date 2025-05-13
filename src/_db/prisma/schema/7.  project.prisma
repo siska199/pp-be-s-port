@@ -1,0 +1,40 @@
+model Project {
+    id                          String          @id @default(uuid())
+    
+    name                        String          @db.VarChar(255)
+    thumbnail_image             String          @db.VarChar(2083)
+    description                 String          @db.Text
+    
+    category                    CategoryProject
+    type                        TypeProject
+    id_experiance               String?         @db.VarChar(36)
+    id_user                     String          @db.VarChar(36)
+
+    project_menus               ProjectMenu[]  
+    project_responsibilities    ProjectResponsibility[]  
+    tech_stacks                 ProjectTechStack[]
+
+    experiance                  Experiance?  @relation(fields: [id_experiance], references: [id])
+
+    user                        User        @relation(fields: [id_user], references: [id])
+
+    created_at                  DateTime    @default(now())
+    updated_at                  DateTime    @updatedAt
+
+    @@map("project")
+}
+
+
+enum CategoryProject{
+    WEBSITE
+    MOBILE
+    API
+    UI_UX
+}
+
+
+enum TypeProject {
+    PERSONAL_PROJECT
+    COMPANY_PROJECT
+    FREELANCE
+}

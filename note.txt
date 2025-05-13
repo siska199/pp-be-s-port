@@ -1,4 +1,4 @@
- - npx prisma migrate --schema=src/db/prisma
+ - npx prisma migrate --schema=src/_db/prisma // -> npx prisma migrate dev
  - npx prisma migrate reset --schema=src/db/prisma
  - npx prisma generate --schema=src/db/prisma
  - npx prisma db push --schema=src/db/prisma
@@ -50,3 +50,7 @@ https://edit-csv.net/
 >>COPY CSV FILE TO POSTGREE:
 COPY master_province(id,name,id_country) FROM '/provinces.csv' DELIMI
 TER ',' CSV HEADER;
+
+
+>>API KEy Postgress Vercel:
+->eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZTJmNmNjMDktNWUwNy00ZTY5LWI2OWYtYjY4NmUzM2EwY2Y3IiwidGVuYW50X2lkIjoiOGVlYzM5NTA4YTdjMmMxMGMwOWQ1OTVlOGIwZGZmOGM2ODIxOWNkZWE3ZGQ5M2Y1NzM0N2JhZDU0YTMzYzUxOSIsImludGVybmFsX3NlY3JldCI6IjMwYWVjMDlkLTVlZTMtNGY3YS04MTdjLTcxZDcxMThiYjE1MCJ9.wAyYqi-OpGLM7bru5G0jXNKfJJmWaEx_IG60K08I4Gc

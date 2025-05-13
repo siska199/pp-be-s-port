@@ -3,7 +3,7 @@ import {
   removeKeyWithUndifienedValue,
   trimObject,
 } from "./../_lib/helpers/function";
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import { MasterEducationMajor } from "@prisma/client";
 
 export const getListMasterEducationMajorDto = async (params: {

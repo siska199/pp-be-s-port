@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 
 export const getListMasterPostalCodeDto = async (params: {
   id_district: string;

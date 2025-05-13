@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import educationSchema from "@1. validation/4. education-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {

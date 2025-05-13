@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 
 export const getListMasterProvinceDto = async (): Promise<
   { id: string; name: string }[]

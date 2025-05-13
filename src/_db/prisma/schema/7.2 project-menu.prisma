@@ -1,0 +1,19 @@
+model ProjectMenu{
+    id                  String      @default(uuid()) @unique
+    
+    name                String      @db.VarChar(255)
+    description         String      @db.Text
+    main_image          String      @db.VarChar(2083)
+    features            String      @db.Text
+
+    id_project          String      @db.VarChar(36)
+    project             Project     @relation(fields:[id_project],references:[id] )
+
+    related_images      ProjectMenuRelatedImage[]
+
+
+    created_at          DateTime    @default(now())
+    updated_at          DateTime    @updatedAt
+
+    @@map("project_menu")
+}

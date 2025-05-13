@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import masterProfessionSchema from "@1. validation/0.2 master-profession-schema";
 import {
   filterKeysObject,

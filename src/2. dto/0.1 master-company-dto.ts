@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import masterCompanySchema from "@1. validation/0.1 master-company-schema";
 import {
   deleteImageFromCloudinary,

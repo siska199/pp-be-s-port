@@ -16,7 +16,7 @@ const skillUserSchema = (mandatory: boolean = true) =>
       }),
       level: zEnum({
         name: "Level",
-        enum: [Level.BEGINNER, Level.INTERMEDIET, Level.ADVANCE],
+        enum: [Level.BEGINNER, Level.INTERMEDIATE, Level.ADVANCE],
         mandatory,
       }),
       id_user: zString({

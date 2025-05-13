@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import masterSkillSchema from "@1. validation/0.8 master-skill-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {

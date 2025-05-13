@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import projectRelatedImageSchema from "@1. validation/7.2.1 project-related-image-schema";
 import {
   filterKeysObject,

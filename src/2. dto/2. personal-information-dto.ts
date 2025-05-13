@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import personalInfoSchema from "@1. validation/2. personal-information-schema";
 import {
   deleteImageFromCloudinary,

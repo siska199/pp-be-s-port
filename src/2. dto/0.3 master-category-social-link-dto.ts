@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import masterCategorySocialLinkSchema from "@1. validation/0.3 master-category-social-link-schema";
 import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
 import {

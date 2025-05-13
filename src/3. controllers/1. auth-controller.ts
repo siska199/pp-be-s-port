@@ -1,4 +1,4 @@
-import prisma from "@0 db/prisma";
+import prisma from "@_db/prisma";
 import { getUserByAnyParamDto, upsertUserDto } from "@2. dto/1. user-dto";
 import { upsertBulkSocialLinkDto } from "@2. dto/3. social-link-dto";
 import catchErrors from "@_lib/helpers/catch-error";
