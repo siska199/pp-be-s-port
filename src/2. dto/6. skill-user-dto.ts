@@ -8,7 +8,7 @@ import {
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types";
-import { Level, SkillUser } from "@prisma/client";
+import { Level, Prisma, SkillUser } from "@prisma/client";
 
 type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
   id_user: string;
@@ -20,84 +20,82 @@ type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
 export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
   const {
     id_user,
-    page_no,
-    items_perpage,
+    page_no = 1,
+    items_perpage = 10,
     sort_by = "created_at",
     sort_dir = "desc",
     id_skills,
     years_of_experiance,
     level,
   } = params;
-  const listIdSkill = id_skills?.split(",");
 
+  const listIdSkill = id_skills?.split(",") || [];
   const skip = Number(items_perpage) * (Number(page_no) - 1);
   const take = items_perpage;
 
-  const result = await prisma?.skillUser?.findMany({
+  const whereFilter: Prisma.SkillUserWhereInput = {
+    ...(id_user && { id_user }),
+    AND: [
+      ...(listIdSkill.length
+        ? [
+            {
+              OR: listIdSkill.map((id_skill) => ({
+                skill: { is: { id: id_skill } },
+              })),
+            },
+          ]
+        : []),
+      ...(level ? [{ level }] : []),
+      ...(years_of_experiance ? [{ years_of_experiance }] : []),
+    ],
+  };
+
+  const relationOrderMap: Record<string, Prisma.SkillUserOrderByWithRelationInput> = {
+    skill_name: { skill: { name: sort_dir } },
+    category_name: { skill: { category: { name: sort_dir } } },
+  };
+
+  const orderBy: Prisma.SkillUserOrderByWithRelationInput | undefined =
+    sort_by ? relationOrderMap[sort_by] || { [sort_by as keyof Prisma.SkillUserOrderByWithRelationInput]: sort_dir } : undefined;
+
+  const result = await prisma.skillUser.findMany({
     ...(skip && { skip }),
     ...(take && { take }),
-    where: {
-      ...(id_user && { id_user }),
-      AND: [
-        {
-          OR: listIdSkill?.map((id_skill) => ({
-            skill: {
-              id: id_skill,
-            },
-          })),
-        },
-        {
-          ...(level && { level }),
-        },
-        {
-          ...(years_of_experiance && { years_of_experiance }),
-        },
-      ],
-    },
-    orderBy: {
-      ...(sort_by && { [sort_by]: sort_dir }),
-    },
+    where: whereFilter,
+    orderBy,
     include: {
       skill: {
         select: {
           id: true,
           name: true,
-          category: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
+          category: { select: { id: true, name: true } },
         },
       },
-      project_tech_stacks: {
-        select: {
-          project: true,
-        },
-      },
+      project_tech_stacks: { select: { project: true } },
     },
   });
 
-  const resultDto = {
-    items: result?.map((data) => {
-      return {
-        ...filterKeysObject({
-          object: data,
-          keys: ["created_at", "updated_at"],
-        }),
-        id_category: data?.skill?.category?.id,
-        category_name: data?.skill?.category?.name,
-        skill_name: data?.skill?.name,
-      };
-    }),
-    total_items: await prisma?.skillUser?.count({
-      where: { id_user },
-    }),
-    current_page: page_no ?? 1,
-  };
+  const totalItems = await prisma.skillUser.count({ where: whereFilter });
+  const totalPages = Math.ceil(totalItems / (items_perpage || 1));
 
-  return result ? resultDto : null;
+  const items = result.map((data) => ({
+    ...filterKeysObject({
+      object: data,
+      keys: ["created_at", "updated_at"],
+    }),
+    id_category: data.skill?.category?.id,
+    category_name: data.skill?.category?.name,
+    skill_name: data.skill?.name,
+  }));
+
+  return {
+    items,
+    total_items: totalItems,
+    total_pages: totalPages,
+    current_page: page_no,
+  };
 };
+
 
 export const getSkillUserByIdDto = async (param: string) => {
   const id = param;

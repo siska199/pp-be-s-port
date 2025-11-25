@@ -8,7 +8,7 @@ import {
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
-import { Education } from "@prisma/client";
+import { Education, Prisma } from "@prisma/client";
 
 export type TParamsListEducationDto = TQueryParamsPaginationList<
   keyof Education
@@ -21,8 +21,8 @@ export type TParamsListEducationDto = TQueryParamsPaginationList<
 
 export const getListEducationDto = async (params: TParamsListEducationDto) => {
   const {
-    page_no,
-    items_perpage,
+    page_no = 1,
+    items_perpage = 10,
     sort_by = "start_at",
     sort_dir = "desc",
     keyword,
@@ -35,102 +35,90 @@ export const getListEducationDto = async (params: TParamsListEducationDto) => {
   const skip = (Number(page_no) - 1) * Number(items_perpage);
   const take = items_perpage;
 
-  const result =
-    Number(page_no) > 0
-      ? await prisma?.education?.findMany({
-          ...(take && { take }),
-          ...(skip && { skip }),
-          where: {
-            ...(id_user && { id_user }),
-            AND: [
-              {
-                OR: [
-                  {
-                    school: {
-                      name: {
-                        contains: keyword,
-                        mode: "insensitive",
-                      },
-                    },
-                  },
-                  {
-                    major: {
-                      name: {
-                        contains: keyword,
-                        mode: "insensitive",
-                      },
-                    },
-                  },
-                ],
-              },
-              {
-                level: {
-                  ...(id_level && { id: id_level }),
-                },
-              },
-              {
-                ...(start_at && {
-                  start_at: {
-                    gte: new Date(start_at),
-                    ...(end_at && { lte: new Date(end_at) }),
-                  },
-                }),
-                ...(end_at && {
-                  end_at: {
-                    ...(start_at && { gte: new Date(start_at) }),
-                    lte: new Date(end_at),
-                  },
-                }),
-              },
-            ],
-          },
-          orderBy: {
-            [sort_by]: sort_dir,
-          },
-          include: {
-            school: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-            level: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-            major: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        })
-      : [];
-
-  const totalItems = await prisma?.education?.count({
-    where: { id_user },
-  });
-  const resultDto = {
-    items: result?.map((data) => {
-      return filterKeysObject({
-        object: {
-          ...data,
-          school_name: data?.school?.name,
-          major_name: data?.major?.name,
-          level_name: data?.level?.name,
-        },
-        keys: ["created_at", "updated_at"],
-      });
-    }),
-    total_pages: Math.ceil(totalItems / (items_perpage || 0)) ?? 0,
-    current_page: totalItems === 0 ? 0 : page_no,
+  const relationOrderMap: Record<string, Prisma.EducationOrderByWithRelationInput> = {
+    level_name: { level: { name: sort_dir } },
+    school_name: { school: { name: sort_dir } },
+    major_name: { major: { name: sort_dir } },
   };
 
-  return result ? resultDto : [];
+  const orderBy: Prisma.EducationOrderByWithRelationInput | undefined =
+    sort_by ? relationOrderMap[sort_by] || { [sort_by as keyof Prisma.EducationOrderByWithRelationInput]: sort_dir } : undefined;
+
+  const whereFilter: Prisma.EducationWhereInput = {
+    ...(id_user && { id_user }),
+    AND: [
+      {
+        OR: [
+          {
+            school: {
+              is: {
+                name: { contains: keyword || "", mode: "insensitive" },
+              },
+            },
+          },
+          {
+            major: {
+              is: {
+                name: { contains: keyword || "", mode: "insensitive" },
+              },
+            },
+          },
+        ],
+      },
+      ...(id_level
+        ? [{ level: { is: { id: id_level } } }]
+        : []),
+      ...(start_at || end_at
+        ? [
+            {
+              ...(start_at && {
+                start_at: {
+                  gte: new Date(start_at),
+                  ...(end_at && { lte: new Date(end_at) }),
+                },
+              }),
+              ...(end_at && {
+                end_at: {
+                  lte: new Date(end_at),
+                  ...(start_at && { gte: new Date(start_at) }),
+                },
+              }),
+            },
+          ]
+        : []),
+    ],
+  };
+
+  const result = await prisma.education.findMany({
+    ...(skip && { skip }),
+    ...(take && { take }),
+    where: whereFilter,
+    orderBy,
+    include: {
+      school: { select: { id: true, name: true } },
+      level: { select: { id: true, name: true } },
+      major: { select: { id: true, name: true } },
+    },
+  });
+
+  const items = result.map((data) => ({
+    ...data,
+    school_name: data.school?.name,
+    major_name: data.major?.name,
+    level_name: data.level?.name,
+  }));
+
+  const totalItems = await prisma.education.count({ where: whereFilter });
+  const totalPages = Math.ceil(totalItems / (items_perpage || 1));
+
+  return {
+    items,
+    total_items: totalItems,
+    total_pages: totalPages,
+    current_page: page_no,
+  };
 };
+
 
 export const getEducationByIdDto = async (param: string) => {
   const id = param;

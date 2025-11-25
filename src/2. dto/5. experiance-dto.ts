@@ -9,7 +9,7 @@ import {
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
-import { Experiance } from "@prisma/client";
+import { Experiance, Prisma } from "@prisma/client";
 
 type TParamsListExperianceDto = TQueryParamsPaginationList<keyof Experiance> & {
   start_at?: string;
@@ -21,10 +21,10 @@ export const getListExperianceDto = async (
   params: TParamsListExperianceDto
 ) => {
   const {
-    page_no,
-    items_perpage,
+    page_no = 1,
+    items_perpage = 10,
     sort_by,
-    sort_dir,
+    sort_dir = "desc",
     keyword,
     start_at,
     end_at,
@@ -34,86 +34,83 @@ export const getListExperianceDto = async (
   const skip = (Number(page_no) - 1) * Number(items_perpage);
   const take = items_perpage;
 
-  const result = await prisma.experiance?.findMany({
-    ...(skip && { skip }),
-    ...(take && { take }),
-    where: {
-      id_user,
-      AND: [
-        {
-          OR: [
-            {
-              company: {
-                name: {
-                  contains: keyword,
-                  mode: "insensitive",
-                },
+  const whereFilter: Prisma.ExperianceWhereInput = {
+    id_user,
+    AND: [
+      {
+        OR: [
+          {
+            company: {
+              is: {
+                name: { contains: keyword || "", mode: "insensitive" },
               },
             },
-            {
-              profession: {
-                name: {
-                  contains: keyword,
-                  mode: "insensitive",
-                },
+          },
+          {
+            profession: {
+              is: {
+                name: { contains: keyword || "", mode: "insensitive" },
               },
             },
-          ],
-        },
-        {
-          ...(start_at && {
-            start_at: {
-              ...(start_at && { gte: new Date(start_at) }),
-              ...(end_at && { lte: end_at }),
+          },
+        ],
+      },
+      ...(start_at || end_at
+        ? [
+            {
+              ...(start_at && {
+                start_at: {
+                  gte: new Date(start_at),
+                  ...(end_at && { lte: new Date(end_at) }),
+                },
+              }),
+              ...(end_at && {
+                end_at: {
+                  lte: new Date(end_at),
+                  ...(start_at && { gte: new Date(start_at) }),
+                },
+              }),
             },
-          }),
-          ...(end_at && {
-            end_at: {
-              ...(start_at && { gte: new Date(start_at) }),
-              ...(end_at && { lte: end_at }),
-            },
-          }),
-        },
-      ],
-    },
-    orderBy: {
-      ...(sort_by && { [sort_by]: sort_dir }),
-    },
+          ]
+        : []),
+    ],
+  };
+
+  const relationOrderMap: Record<string, any> = {
+    company_name: { company: { name: sort_dir } },
+    profession_name: { profession: { name: sort_dir } },
+  };
+
+  const orderBy = sort_by
+    ? relationOrderMap[sort_by] || { [sort_by]: sort_dir }
+    : undefined;
+  const result = await prisma.experiance.findMany({
+    skip,
+    take,
+    where: whereFilter,
+    orderBy,
     include: {
-      company: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-      profession: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      company: { select: { id: true, name: true } },
+      profession: { select: { id: true, name: true } },
     },
   });
 
-  const items = await Promise.all(
-    result?.map(async (data) => {
-      return {
-        ...data,
-        company_name: data?.company?.name,
-        profession_name: data?.profession?.name,
-      };
-    })
-  );
+  const items = result.map((data) => ({
+    ...data,
+    company_name: data.company?.name,
+    profession_name: data.profession?.name,
+  }));
 
-  const resultDto = {
+  const totalItems = await prisma.experiance.count({ where: whereFilter });
+
+  const totalPages = Math.ceil(totalItems / (items_perpage || 1));
+
+  return {
     items,
-    total_items: await prisma?.experiance.count({
-      where: { id_user },
-    }),
-    current_page: page_no || 1,
+    total_items: totalItems,
+    total_pages: totalPages,
+    current_page: page_no,
   };
-
-  return result ? resultDto : [];
 };
 
 export const upsertExperianceDto = async (params: Experiance) => {
