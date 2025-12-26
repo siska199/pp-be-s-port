@@ -8,7 +8,7 @@ import {
 
 import { MasterEducationLevel } from "@prisma/client";
 
-export const getListMasterEducationLevelDto = async () => {
+export const getListMasterEducationLevelService = async () => {
   const result = await prisma.masterEducationLevel.findMany({
     include: {
       education_schools: true,
@@ -19,14 +19,14 @@ export const getListMasterEducationLevelDto = async () => {
       },
     },
   });
-  const resultDto = result?.map((data) => ({
+  const resultDto = result?.map((data:MasterEducationLevel) => ({
     id: data?.id,
     name: data?.name,
   }));
   return result ? resultDto : [];
 };
 
-export const getMasterEducationLevelByIdDto = async (param: string) => {
+export const getMasterEducationLevelByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterEducationLevel?.findFirst({
     where: {
@@ -63,7 +63,7 @@ export const createBulkMasterEducationLevelDto = async (
   return result ? resultDto : null;
 };
 
-export const upsertMasterEducationLevelDto = async (
+export const upsertMasterEducationLevelService = async (
   params: MasterEducationLevel
 ) => {
   const id = params?.id ?? "";
@@ -100,7 +100,7 @@ export const upsertMasterEducationLevelDto = async (
   return result ? resultDto : null;
 };
 
-export const deleteMasterEducationLevelByIdDto = async (param: string) => {
+export const deleteMasterEducationLevelByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterEducationLevel?.delete({

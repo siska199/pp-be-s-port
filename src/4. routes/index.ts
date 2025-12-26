@@ -18,6 +18,7 @@ import experianceRoute from "@4. routes/5. experiance-route";
 import skillUserRoute from "@4. routes/6. skill-user-route";
 import projectRoute from "@4. routes/7.0 project-route";
 import projectMenuRoute from "@4. routes/7.2 project-menu-route";
+import keyMetricRoute from "@4. routes/2.1 key-metric-route"
 import express from "express";
 
 const router = express.Router();
@@ -38,6 +39,7 @@ export default () => {
 
   authRoute(router);
   personalInformationRoute(router);
+  keyMetricRoute(router)
   socialLinkRoute(router);
   educationRoute(router);
   experianceRoute(router);

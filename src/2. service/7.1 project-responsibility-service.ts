@@ -5,7 +5,7 @@ import {
 } from "@_lib/helpers/function";
 import { ProjectResponsibility } from "@prisma/client";
 
-export const getListProjectResponsibilityDto = async (param: string) => {
+export const getListProjectResponsibilityService = async (param: string) => {
   const id_project = param;
 
   const result = await prisma?.projectResponsibility?.findMany({
@@ -19,7 +19,7 @@ export const getListProjectResponsibilityDto = async (param: string) => {
   return result ? resultDto : [];
 };
 
-export const upsertProjectResponsiblityDto = async (
+export const upsertProjectResponsiblityService = async (
   params: ProjectResponsibility
 ) => {
   const id = params?.id;

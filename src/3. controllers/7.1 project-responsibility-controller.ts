@@ -1,7 +1,7 @@
 import {
-  getListProjectResponsibilityDto,
-  upsertProjectResponsiblityDto,
-} from "@2. dto/7.1 project-responsibility-dto";
+  getListProjectResponsibilityService,
+  upsertProjectResponsiblityService,
+} from "@2. service/7.1 project-responsibility-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -12,7 +12,7 @@ export const getListProjectResponsibility = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
 
-    const result = await getListProjectResponsibilityDto(String(user?.id));
+    const result = await getListProjectResponsibilityService(String(user?.id));
 
     successResponse({
       res,
@@ -28,7 +28,7 @@ export const upsertProjectResponsibility = catchErrors(
     const user = req.user;
     const payload = req.body;
 
-    const result = await upsertProjectResponsiblityDto({
+    const result = await upsertProjectResponsiblityService({
       ...payload,
       id,
       id_user: String(user?.id),

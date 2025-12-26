@@ -1,4 +1,4 @@
-import { getUserByAnyParamDto } from "@2. dto/1. user-dto";
+import { getUserByAnyParamService } from "@2. service/1. user-service";
 import CONFIG from "@_lib/config";
 import { CustomError } from "@_lib/middleware/error-handler";
 import { TRequestAuthRoute } from "@_lib/types";
@@ -14,7 +14,7 @@ const getTokeFromHeader = (authHeader?: string) => {
 const verifyToken = async (token: string) => {
   try {
     const decryptedToken = jwt.verify(token, CONFIG.SECRET_KEY) as any;
-    const user = await getUserByAnyParamDto({ id: decryptedToken.id_user });
+    const user = await getUserByAnyParamService({ id: decryptedToken.id_user });
     return user;
   } catch (error) {
     throw new CustomError("Token has been expired", 403);

@@ -17,6 +17,10 @@ export default (router: express.Router) => {
         types: ["jpg", "jpeg", "png", "pdf"],
         folder: "personal-information",
       },
+      resume: {
+        types: [ "pdf"],
+        folder: "resume",
+      },
     }),
     upsertPersonalInformation
   );

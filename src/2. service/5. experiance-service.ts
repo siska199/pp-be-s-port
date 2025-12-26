@@ -9,7 +9,7 @@ import {
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types/index";
-import { Experiance, Prisma } from "@prisma/client";
+import { Experiance, Prisma, ProjectMenu } from "@prisma/client";
 
 type TParamsListExperianceDto = TQueryParamsPaginationList<keyof Experiance> & {
   start_at?: string;
@@ -17,7 +17,7 @@ type TParamsListExperianceDto = TQueryParamsPaginationList<keyof Experiance> & {
   id_user: string;
 };
 
-export const getListExperianceDto = async (
+export const getListExperianceService = async (
   params: TParamsListExperianceDto
 ) => {
   const {
@@ -82,16 +82,18 @@ export const getListExperianceDto = async (
   };
 
   const orderBy = sort_by
-    ? relationOrderMap[sort_by] || { [sort_by]: sort_dir }
+    ? relationOrderMap[sort_by as string] || { [sort_by]: sort_dir }
     : undefined;
   const result = await prisma.experiance.findMany({
-    skip,
-    take,
+    ...(page_no && items_perpage
+        ? { skip, take }
+        : {}),
     where: whereFilter,
     orderBy,
     include: {
       company: { select: { id: true, name: true } },
       profession: { select: { id: true, name: true } },
+      projects :{select: {id:true, name:true, tech_stacks:true}}
     },
   });
 
@@ -99,7 +101,11 @@ export const getListExperianceDto = async (
     ...data,
     company_name: data.company?.name,
     profession_name: data.profession?.name,
-  }));
+    tech_stacks :  [
+    ...new Set(
+      data?.projects?.flatMap((project ) => project.tech_stacks) ?? []
+    )
+  ] }));
 
   const totalItems = await prisma.experiance.count({ where: whereFilter });
 
@@ -113,7 +119,7 @@ export const getListExperianceDto = async (
   };
 };
 
-export const upsertExperianceDto = async (params: Experiance) => {
+export const upsertExperianceService = async (params: Experiance) => {
   const id = params.id ?? "";
   const dataDto = trimObject({
     ...(id && { id }),
@@ -148,7 +154,7 @@ export const upsertExperianceDto = async (params: Experiance) => {
   return result ? resultDto : null;
 };
 
-export const createBulkExperianceDto = async (params: Experiance[]) => {
+export const createBulkExperianceService = async (params: Experiance[]) => {
   const dataDto = params?.map((data) => ({
     id_company: data.id_company,
     id_profession: data.id_profession,
@@ -168,7 +174,7 @@ export const createBulkExperianceDto = async (params: Experiance[]) => {
   return resultDto;
 };
 
-export const getExperianceByIdDto = async (param: string) => {
+export const getExperianceByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.experiance?.findUnique({
@@ -212,7 +218,7 @@ export const getExperianceByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const deleteExperianceByIdDto = async (param: string) => {
+export const deleteExperianceByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.experiance?.delete({
     where: { id },

@@ -1,6 +1,7 @@
 import prisma from "@_db/prisma";
+import { MasterPostalCode } from "@prisma/client";
 
-export const getListMasterPostalCodeDto = async (params: {
+export const getListMasterPostalCodeService = async (params: {
   id_district: string;
 }) => {
   const { id_district } = params;
@@ -10,7 +11,7 @@ export const getListMasterPostalCodeDto = async (params: {
     },
   });
   const resultDto = postalCodes
-    ? postalCodes?.map((data) => ({
+    ? postalCodes?.map((data:MasterPostalCode) => ({
         id: data.id,
         name: data?.name,
         postal_code: data?.postal_code,

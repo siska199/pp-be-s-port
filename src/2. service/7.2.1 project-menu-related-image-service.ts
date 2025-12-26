@@ -7,7 +7,7 @@ import {
 } from "@_lib/helpers/function";
 import { ProjectMenuRelatedImage } from "@prisma/client";
 
-export const getListProjectMenuRelatedImageDto = async (param: string) => {
+export const getListProjectMenuRelatedImageService = async (param: string) => {
   const id_project_menu = param;
 
   const result = await prisma?.projectMenuRelatedImage.findMany({
@@ -21,7 +21,7 @@ export const getListProjectMenuRelatedImageDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const upsertProjectMenuRelatedImageDto = async (
+export const upsertProjectMenuRelatedImageService = async (
   params: ProjectMenuRelatedImage
 ) => {
   const id = params?.id;

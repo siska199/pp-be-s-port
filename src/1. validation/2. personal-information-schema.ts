@@ -6,13 +6,15 @@ const personalInfoSchema = (mandatory: boolean = true) =>
     .object({
       id: zString({ name: "ID", mandatory: !mandatory }),
       professional_image: zString({ name: "Professional Image", mandatory }),
+      resume: zString({ name: "Resume", mandatory }),
+
       first_name: zString({ name: "First Name", max: 50, mandatory }),
       last_name: zString({ name: "Last Name", max: 50, mandatory }),
 
-      id_province: zString({ name: "Province", max: 255, mandatory }),
-      id_city: zString({ name: "City", max: 255, mandatory }),
-      id_district: zString({ name: "District", max: 255, mandatory }),
-      id_postal_code: zString({ name: "Postal Code", max: 255, mandatory }),
+      id_province: zString({ name: "Province", max: 255, mandatory:false }),
+      id_city: zString({ name: "City", max: 255, mandatory:false }),
+      id_district: zString({ name: "District", max: 255, mandatory:false }),
+      id_postal_code: zString({ name: "Postal Code", max: 255, mandatory:false }),
 
       phone_number: zPhoneNumber({
         name: "Phone Number",

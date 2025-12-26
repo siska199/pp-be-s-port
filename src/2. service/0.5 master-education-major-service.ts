@@ -2,11 +2,14 @@ import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
-} from "./../_lib/helpers/function";
+} from "../_lib/helpers/function";
 import prisma from "@_db/prisma";
-import { MasterEducationMajor } from "@prisma/client";
+import { MasterEducationLevel, MasterEducationMajor, MasterLevelMajorEducation } from "@prisma/client";
 
-export const getListMasterEducationMajorDto = async (params: {
+type TMasterEducationMajor = MasterEducationMajor & {
+  levels: (MasterLevelMajorEducation & { level: MasterEducationLevel })[]
+}
+export const getListMasterEducationMajorService = async (params: {
   id_level: string;
 }) => {
   const { id_level } = params;
@@ -29,7 +32,8 @@ export const getListMasterEducationMajorDto = async (params: {
     },
   });
 
-  const resultDto = result?.map((data) => ({
+
+  const resultDto = result?.map((data: TMasterEducationMajor) => ({
     id: data?.id,
     name: data?.name,
     levels: data?.levels?.map((level) => ({
@@ -40,7 +44,7 @@ export const getListMasterEducationMajorDto = async (params: {
   return result ? resultDto : [];
 };
 
-export const getMasterEducationMajorByIdDto = async (param: string) => {
+export const getMasterEducationMajorByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterEducationMajor?.findUnique({
@@ -59,7 +63,7 @@ export const getMasterEducationMajorByIdDto = async (param: string) => {
         },
       },
     },
-  });
+  }) as TMasterEducationMajor
 
   const resultDto = {
     id: result?.id,
@@ -73,13 +77,13 @@ export const getMasterEducationMajorByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const createBulkMasterEducationMajorDto = async (
+export const createBulkMasterEducationMajorService = async (
   params: (MasterEducationMajor & { id_levels: string[] })[]
 ) => {
   const listData = params;
   const result = await Promise.all(
     listData?.map(async (singleData) => {
-      const resulSignData = await upsertMasterEducationMajorByIdDto(singleData);
+      const resulSignData = await upsertMasterEducationMajorByIdService(singleData);
       return resulSignData;
     })
   );
@@ -91,7 +95,7 @@ export const createBulkMasterEducationMajorDto = async (
   return result ? resultDto : null;
 };
 
-export const upsertMasterEducationMajorByIdDto = async (
+export const upsertMasterEducationMajorByIdService = async (
   params: MasterEducationMajor & { id_levels?: string[] }
 ) => {
   const id = params?.id ?? "";
@@ -101,7 +105,7 @@ export const upsertMasterEducationMajorByIdDto = async (
     name: params?.name,
     ...(params?.id_levels && {
       levels: {
-        create: params?.id_levels?.map((id_level) => ({
+        create: params?.id_levels?.map((id_level:string) => ({
           level: {
             connect: {
               id: id_level,
@@ -131,7 +135,7 @@ export const upsertMasterEducationMajorByIdDto = async (
   return result ? resultDto : null;
 };
 
-export const deleteMasterEducationMajorByIdDto = async (param: string) => {
+export const deleteMasterEducationMajorByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterEducationMajor?.findUnique({

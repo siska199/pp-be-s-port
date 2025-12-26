@@ -1,9 +1,9 @@
 import {
-  deleteProjectByIdDto,
-  getListProjectDto,
-  getProjectByIdDto,
-  upsertProjectDto,
-} from "@2. dto/7. project-dto";
+  deleteProjectByIdService,
+  getListProjectService,
+  getProjectByIdService,
+  upsertProjectService,
+} from "@2. service/7. project-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -26,7 +26,7 @@ export const getListProject = catchErrors(
       id_user: user?.id?.toString() || "",
     };
 
-    const result = await getListProjectDto(queryObject);
+    const result = await getListProjectService(queryObject);
 
     successResponse({
       res,
@@ -40,7 +40,7 @@ export const upsertProject = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
     const payload = req.body;
-    const result = await upsertProjectDto({
+    const result = await upsertProjectService({
       ...payload,
       id_user: user?.id,
     });
@@ -56,7 +56,7 @@ export const upsertProject = catchErrors(
 export const getProjectById = catchErrors(async (req, res) => {
   const id = req?.params?.id;
 
-  const result = await getProjectByIdDto(id);
+  const result = await getProjectByIdService(id);
 
   successResponse({
     res,
@@ -68,7 +68,7 @@ export const getProjectById = catchErrors(async (req, res) => {
 export const deleteProjectById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await deleteProjectByIdDto(id);
+  const result = await deleteProjectByIdService(id);
 
   successResponse({
     res,

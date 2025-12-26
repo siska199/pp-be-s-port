@@ -1,7 +1,7 @@
 import {
-  getPersonalInfoByAnyParamDto,
-  upsertPersonalInformationDto,
-} from "@2. dto/2. personal-information-dto";
+  getPersonalInfoByAnyParamService,
+  upsertPersonalInformationService,
+} from "@2. service/2. personal-information-service";
 
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
@@ -14,7 +14,7 @@ export const getPersonalInformation = catchErrors<TRequestAuthRoute>(
     const user = req.user;
     const id = req.query.id?.toString();
     const id_user = user?.id;
-    const result = await getPersonalInfoByAnyParamDto({
+    const result = await getPersonalInfoByAnyParamService({
       id,
       id_user,
     });
@@ -32,7 +32,7 @@ export const upsertPersonalInformation = catchErrors(
     const user = req.user;
     const payload = req.body;
 
-    const result = await upsertPersonalInformationDto({
+    const result = await upsertPersonalInformationService({
       ...payload,
       id: payload.id || undefined,
       id_user: user?.id || undefined,

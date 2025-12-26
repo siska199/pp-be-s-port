@@ -11,7 +11,7 @@ import {
   validationParse,
 } from "@_lib/helpers/function";
 import { TQueryParamsPaginationList } from "@_lib/types";
-import { CategoryProject, Prisma, Project, TypeProject } from "@prisma/client";
+import { CategoryProject, Prisma, Project, ProjectTechStack, TypeProject } from "@prisma/client";
 
 type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {
   id_user: string;
@@ -21,7 +21,7 @@ type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {
   keyword?: string;
 };
 
-export const getListProjectDto = async (params: TParamsListProjectDto) => {
+export const getListProjectService = async (params: TParamsListProjectDto) => {
   const {
     page_no = 1,
     items_perpage = 10,
@@ -89,12 +89,13 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
 
   const orderBy: Prisma.ProjectOrderByWithRelationInput | undefined =
     sort_by
-      ? relationOrderMap[sort_by] || { [sort_by as keyof Prisma.ProjectOrderByWithRelationInput]: sort_dir }
-      : undefined;
+      ? relationOrderMap[sort_by as string] || { [sort_by as keyof Prisma.ProjectOrderByWithRelationInput]: sort_dir }
+      : undefined;    
 
   const result = await prisma.project.findMany({
-    skip,
-    take,
+    ...(page_no && items_perpage
+        ? { skip, take }
+        : {}),
     where: whereFilter,
     orderBy,
     include: {
@@ -136,7 +137,6 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
     })
   );
 
-  // -------------------- TOTAL & PAGINATION --------------------
   const totalItems = await prisma.project.count({ where: whereFilter });
   const totalPages = Math.ceil(totalItems / (items_perpage || 1));
 
@@ -148,9 +148,7 @@ export const getListProjectDto = async (params: TParamsListProjectDto) => {
   };
 };
 
-
-
-export const upsertProjectDto = async (
+export const upsertProjectService = async (
   params: Project & { id_skill_users: string[] }
 ) => {
   const id = params.id ?? "";
@@ -165,7 +163,7 @@ export const upsertProjectDto = async (
     id_user: params?.id_user,
     id_skill_users: params?.id_skill_users,
     tech_stacks: {
-      create: params?.id_skill_users?.map((id_skill_user) => ({
+      create: params?.id_skill_users?.map((id_skill_user:string) => ({
         skill_user: {
           connect: {
             id: id_skill_user,
@@ -216,7 +214,7 @@ export const upsertProjectDto = async (
   return result ? resultDto : null;
 };
 
-export const getProjectByIdDto = async (param: string) => {
+export const getProjectByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.project?.findUnique({
@@ -280,7 +278,7 @@ export const getProjectByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const deleteProjectByIdDto = async (param: string) => {
+export const deleteProjectByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.project?.delete({

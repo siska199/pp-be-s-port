@@ -8,16 +8,16 @@ import {
 } from "@_lib/helpers/function";
 import { MasterProfession } from "@prisma/client";
 
-export const getListMasterProfessionDto = async () => {
+export const getListMasterProfessionService = async () => {
   const result = await prisma.masterProfession.findMany();
-  const resultDto = result?.map((data) => ({
+  const resultDto = result?.map((data:MasterProfession) => ({
     id: data?.id,
     name: data?.name,
   }));
   return result ? resultDto : [];
 };
 
-export const getMasterProfessionByIdDto = async (param: string) => {
+export const getMasterProfessionByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterProfession?.findFirst({
     where: {
@@ -32,7 +32,7 @@ export const getMasterProfessionByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const createBulkMasterProfessionDto = async (
+export const createBulkMasterProfessionService = async (
   params: MasterProfession[]
 ) => {
   const listDataDto = params?.map((data) => ({
@@ -55,7 +55,7 @@ export const createBulkMasterProfessionDto = async (
   return result ? resultDto : null;
 };
 
-export const upsertMasterProfessionDto = async (params: MasterProfession) => {
+export const upsertMasterProfessionService = async (params: MasterProfession) => {
   const id = params?.id ?? "";
   const dataDto = trimObject({
     ...(id && { id }),
@@ -88,7 +88,7 @@ export const upsertMasterProfessionDto = async (params: MasterProfession) => {
   return result ? resultDto : null;
 };
 
-export const deleteMasterProfessionByIdDto = async (param: string) => {
+export const deleteMasterProfessionByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterProfession?.delete({
     where: {

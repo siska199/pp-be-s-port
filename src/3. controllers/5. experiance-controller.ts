@@ -1,10 +1,10 @@
 import {
-  createBulkExperianceDto,
-  deleteExperianceByIdDto,
-  getExperianceByIdDto,
-  getListExperianceDto,
-  upsertExperianceDto,
-} from "@2. dto/5. experiance-dto";
+  createBulkExperianceService,
+  deleteExperianceByIdService,
+  getExperianceByIdService,
+  getListExperianceService,
+  upsertExperianceService,
+} from "@2. service/5. experiance-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -28,7 +28,7 @@ export const getListExperiance = catchErrors(
       id_user: user?.id?.toString() || "",
     };
 
-    const result = await getListExperianceDto(queryObject);
+    const result = await getListExperianceService(queryObject);
 
     successResponse({
       res,
@@ -43,7 +43,7 @@ export const upsertExperiance = catchErrors(
     const user = req.user;
     const payload = req.body;
 
-    const result = await upsertExperianceDto({
+    const result = await upsertExperianceService({
       ...payload,
       id_user: String(user?.id),
     });
@@ -58,7 +58,7 @@ export const upsertExperiance = catchErrors(
 export const createBulkExperiance = catchErrors(async (req, res) => {
   const payload = req.body;
 
-  const result = await createBulkExperianceDto(payload);
+  const result = await createBulkExperianceService(payload);
 
   successResponse({
     res,
@@ -70,7 +70,7 @@ export const createBulkExperiance = catchErrors(async (req, res) => {
 export const getExperianceById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await getExperianceByIdDto(id);
+  const result = await getExperianceByIdService(id);
 
   successResponse({
     res,
@@ -82,7 +82,7 @@ export const getExperianceById = catchErrors(async (req, res) => {
 export const deleteExperianceById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await deleteExperianceByIdDto(id);
+  const result = await deleteExperianceByIdService(id);
 
   successResponse({
     res,

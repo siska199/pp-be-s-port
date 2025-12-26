@@ -1,14 +1,14 @@
 import {
-  createBulkMasterCategorySkillDto,
-  getListMasterCategorySkillDto,
-  upsertMasterCategorySkillDto,
-} from "@2. dto/0.7 master-category-skill-dto";
+  createBulkMasterCategorySkillService,
+  getListMasterCategorySkillService,
+  upsertMasterCategorySkillService,
+} from "@2. service/0.7 master-category-skill-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
 
 export const getListmasterCategorySkill = catchErrors(async (req, res) => {
-  const cotegoriesSkill = await getListMasterCategorySkillDto();
+  const cotegoriesSkill = await getListMasterCategorySkillService();
   successResponse({
     res,
     data: cotegoriesSkill,
@@ -18,7 +18,7 @@ export const getListmasterCategorySkill = catchErrors(async (req, res) => {
 
 export const upsertMasterCategorySkill = catchErrors(async (req, res) => {
   const payload = req.body;
-  const result = await upsertMasterCategorySkillDto(payload);
+  const result = await upsertMasterCategorySkillService(payload);
 
   successResponse({
     res,
@@ -29,7 +29,7 @@ export const upsertMasterCategorySkill = catchErrors(async (req, res) => {
 
 export const createBulkMasterCategorySkill = catchErrors(async (req, res) => {
   const payload = req.body;
-  const result = await createBulkMasterCategorySkillDto(payload);
+  const result = await createBulkMasterCategorySkillService(payload);
   successResponse({
     res,
     message: message.success.addData,

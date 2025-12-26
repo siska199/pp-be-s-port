@@ -1,9 +1,9 @@
 import {
-  createBulkMasterProfessionDto,
-  deleteMasterProfessionByIdDto,
-  getListMasterProfessionDto,
-  upsertMasterProfessionDto,
-} from "@2. dto/0.2 master-profession-dto";
+  createBulkMasterProfessionService,
+  deleteMasterProfessionByIdService,
+  getListMasterProfessionService,
+  upsertMasterProfessionService,
+} from "@2. service/0.2 master-profession-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -11,7 +11,7 @@ import { successResponse } from "@_lib/helpers/response";
 import { TRequestAuthRoute } from "@_lib/types";
 
 export const getListMasterProfession = catchErrors(async (req, res) => {
-  const result = await getListMasterProfessionDto();
+  const result = await getListMasterProfessionService();
   successResponse({
     res,
     message: message.success.getData,
@@ -22,7 +22,7 @@ export const getListMasterProfession = catchErrors(async (req, res) => {
 export const upsertMasterProfession = catchErrors(async (req, res) => {
   const payload = req.body;
 
-  const result = await upsertMasterProfessionDto({ ...payload });
+  const result = await upsertMasterProfessionService({ ...payload });
 
   successResponse({
     res,
@@ -33,7 +33,7 @@ export const upsertMasterProfession = catchErrors(async (req, res) => {
 
 export const createBulkMasterProfession = catchErrors(async (req, res) => {
   const professions = req.body;
-  const result = await createBulkMasterProfessionDto(professions);
+  const result = await createBulkMasterProfessionService(professions);
   successResponse({
     res,
     message: message.success.addData,
@@ -44,7 +44,7 @@ export const createBulkMasterProfession = catchErrors(async (req, res) => {
 export const deleteMasterProfessionById = catchErrors(
   async (req: TRequestAuthRoute, res) => {
     const id = req.params.id;
-    const result = await deleteMasterProfessionByIdDto(id);
+    const result = await deleteMasterProfessionByIdService(id);
     successResponse({
       res,
       message: message.success.deleteData,

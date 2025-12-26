@@ -12,10 +12,10 @@ import {
 } from "@_lib/helpers/function";
 import { MasterCompany } from "@prisma/client";
 
-export const getListMasterCompanyDto = async () => {
+export const getListMasterCompanyService = async () => {
   const result = await prisma.masterCompany?.findMany();
   const resultDto = await Promise.all(
-    result?.map(async (company) => {
+    result?.map(async (company: MasterCompany) => {
       const url_image = await getImageUrlFromClaudinary({
         publicId: company?.image as string,
       });
@@ -29,7 +29,7 @@ export const getListMasterCompanyDto = async () => {
   return result ? resultDto : [];
 };
 
-export const getMasterCompanyByIdDto = async (param: string) => {
+export const getMasterCompanyByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterCompany?.findFirst({
     where: {
@@ -49,7 +49,7 @@ export const getMasterCompanyByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const upsertMasterCompanyDto = async (params: MasterCompany) => {
+export const upsertMasterCompanyService = async (params: MasterCompany) => {
   const id = params?.id ?? "";
   const dataDto = trimObject({
     ...(id && { id }),
@@ -94,7 +94,7 @@ export const upsertMasterCompanyDto = async (params: MasterCompany) => {
   return result ? resultDto : null;
 };
 
-export const deleteMasterCompanyByIdDto = async (param: string) => {
+export const deleteMasterCompanyByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterCompany?.delete({
     where: {

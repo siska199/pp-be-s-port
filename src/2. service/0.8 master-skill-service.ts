@@ -9,7 +9,7 @@ import {
 } from "@_lib/helpers/function";
 import { MasterSkill } from "@prisma/client";
 
-export const getListMasterSkillDto = async (params: {
+export const getListMasterSkillService = async (params: {
   id_category?: string;
 }) => {
   const { id_category } = params;
@@ -28,7 +28,7 @@ export const getListMasterSkillDto = async (params: {
   });
 
   const resultDto = await Promise.all(
-    result?.map(async (data) => {
+    result?.map(async (data:MasterSkill) => {
       const image_url = await getImageUrlFromClaudinary({
         publicId: data?.image || "",
       });
@@ -44,7 +44,7 @@ export const getListMasterSkillDto = async (params: {
   return result ? resultDto : [];
 };
 
-export const getMasterSkillByIdDto = async (param: string) => {
+export const getMasterSkillByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterSkill?.findUnique({
@@ -74,7 +74,7 @@ export const getMasterSkillByIdDto = async (param: string) => {
   return result ? reusltDto : null;
 };
 
-export const upsertMasterSkillDto = async (params: MasterSkill) => {
+export const upsertMasterSkillService = async (params: MasterSkill) => {
   const id = params?.id ?? "";
   const dataDto = trimObject({
     ...(id && { id }),
@@ -106,7 +106,7 @@ export const upsertMasterSkillDto = async (params: MasterSkill) => {
   return result ? resultDto : null;
 };
 
-export const deleteMasterSkillByIdDto = async (param: string) => {
+export const deleteMasterSkillByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterSkill?.delete({

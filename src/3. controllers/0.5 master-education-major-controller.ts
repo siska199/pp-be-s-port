@@ -1,16 +1,16 @@
 import {
-  createBulkMasterEducationMajorDto,
-  getListMasterEducationMajorDto,
-  getMasterEducationMajorByIdDto,
-  upsertMasterEducationMajorByIdDto,
-} from "@2. dto/0.5 master-education-major-dto";
+  createBulkMasterEducationMajorService,
+  getListMasterEducationMajorService,
+  getMasterEducationMajorByIdService,
+  upsertMasterEducationMajorByIdService,
+} from "@2. service/0.5 master-education-major-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
 
 export const getListMasterEducationMajor = catchErrors(async (req, res) => {
   const { id_level } = req.query;
-  const majors = await getListMasterEducationMajorDto({
+  const majors = await getListMasterEducationMajorService({
     id_level: id_level as string,
   });
 
@@ -23,7 +23,7 @@ export const getListMasterEducationMajor = catchErrors(async (req, res) => {
 
 export const getMasterEducationMajorById = catchErrors(async (req, res) => {
   const id = req.params.id;
-  const major = await getMasterEducationMajorByIdDto(id);
+  const major = await getMasterEducationMajorByIdService(id);
 
   successResponse({
     res,
@@ -34,7 +34,7 @@ export const getMasterEducationMajorById = catchErrors(async (req, res) => {
 
 export const createBulkMasterEducationMajor = catchErrors(async (req, res) => {
   const payload = req.body;
-  const result = await createBulkMasterEducationMajorDto(payload);
+  const result = await createBulkMasterEducationMajorService(payload);
 
   successResponse({
     res,
@@ -45,7 +45,7 @@ export const createBulkMasterEducationMajor = catchErrors(async (req, res) => {
 
 export const upsertMasterEducationMajor = catchErrors(async (req, res) => {
   const paylaod = req.body;
-  const result = await upsertMasterEducationMajorByIdDto(paylaod);
+  const result = await upsertMasterEducationMajorByIdService(paylaod);
   successResponse({
     res,
     message: message?.success?.addData,

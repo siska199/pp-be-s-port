@@ -1,37 +1,33 @@
-import {
-  upsertBulkSocialLinkService,
-  deleteSocialLinkByIdService,
-  getListSocialLinkService,
-  upsertSocialLinkService,
-} from "@2. service/3. social-link-service";
+
+import { deleteKeyMetricByIdService, getListKeyMetricService, upsertBulkKeyMetricService, upsertKeyMetricService } from "@2. service/2.1 key-metric";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
 import { TRequestAuthRoute } from "@_lib/types";
-import { SocialLink } from "@prisma/client";
+import { KeyMetric } from "@prisma/client";
 import { Response } from "express";
 
-export const getListSocialLink = catchErrors(
+export const getListKeyMetric = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
 
-    const result = await getListSocialLinkService({
+    const result = await getListKeyMetricService({
       id_user: String(user?.id),
     });
     successResponse({
       res,
       data: result,
-      message: "Success Get Social links User",
+      message: "Success Get Key Metric User",
     });
   }
 );
 
-export const upsertSocialLink = catchErrors(
+export const upsertKeyMetric = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const user = req.user;
     const payload = req.body;
 
-    const result = await upsertSocialLinkService({
+    const result = await upsertKeyMetricService({
       ...payload,
       id_user: user?.id,
     });
@@ -44,12 +40,12 @@ export const upsertSocialLink = catchErrors(
   }
 );
 
-export const upsertBulkSocialLink = catchErrors(
+export const upsertBulkKeyMetric = catchErrors(
   async (req: TRequestAuthRoute, res) => {
     const payload = req.body;
     const id_user = req.user?.id;
-    const result = await upsertBulkSocialLinkService(
-      payload?.map((data: Omit<SocialLink, "created_at" | "updated_at">) => ({
+    const result = await upsertBulkKeyMetricService(
+      payload?.map((data: Omit<KeyMetric, "created_at" | "updated_at">) => ({
         ...data,
         id_user,
       }))
@@ -63,10 +59,10 @@ export const upsertBulkSocialLink = catchErrors(
   }
 );
 
-export const deleteSocialLink = catchErrors(async (req, res) => {
+export const deleteKeyMetric = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await deleteSocialLinkByIdService(id);
+  const result = await deleteKeyMetricByIdService(id);
 
   successResponse({
     res,

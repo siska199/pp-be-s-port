@@ -1,11 +1,11 @@
-import { deleteEducationByIdDto } from "@2. dto/4. education-dto";
+import { deleteEducationByIdService } from "@2. service/4. education-service";
 import {
-  createBulkSkillUserDto,
-  deleteSkillUserByIdDto,
-  getListSkillUserDto,
-  getSkillUserByIdDto,
-  upsertSkillUserDto,
-} from "@2. dto/6. skill-user-dto";
+  createBulkSkillUserService,
+  deleteSkillUserByIdService,
+  getListSkillUserService,
+  getSkillUserByIdService,
+  upsertSkillUserService,
+} from "@2. service/6. skill-user-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -27,7 +27,7 @@ export const getListSkillUser = catchErrors(
       id_user: user?.id?.toString() || "",
     };
 
-    const result = await getListSkillUserDto(queryObject);
+    const result = await getListSkillUserService(queryObject);
 
     successResponse({
       res,
@@ -45,7 +45,7 @@ export const upsertSkillUser = catchErrors(
       id_user: user?.id?.toString() || "",
     };
 
-    const result = await upsertSkillUserDto(payload);
+    const result = await upsertSkillUserService(payload);
 
     successResponse({
       message: message.success.upserData(payload.id),
@@ -57,7 +57,7 @@ export const upsertSkillUser = catchErrors(
 
 export const createBulkSkillUser = catchErrors(async (req, res) => {
   const payload = req.body;
-  const result = await createBulkSkillUserDto(payload);
+  const result = await createBulkSkillUserService(payload);
 
   successResponse({
     res,
@@ -69,7 +69,7 @@ export const createBulkSkillUser = catchErrors(async (req, res) => {
 export const getSkillUserById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await getSkillUserByIdDto(id);
+  const result = await getSkillUserByIdService(id);
 
   successResponse({
     res,
@@ -80,7 +80,7 @@ export const getSkillUserById = catchErrors(async (req, res) => {
 
 export const deleteSkillUserById = catchErrors(async (req, res) => {
   const id = req.params?.id;
-  const result = await deleteSkillUserByIdDto(id);
+  const result = await deleteSkillUserByIdService(id);
 
   successResponse({
     res,

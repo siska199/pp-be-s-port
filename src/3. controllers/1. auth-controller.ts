@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
-import { getUserByAnyParamDto, upsertUserDto } from "@2. dto/1. user-dto";
-import { upsertBulkSocialLinkDto } from "@2. dto/3. social-link-dto";
+import { getUserByAnyParamService, upsertUserService } from "@2. service/1. user-service";
+import { upsertBulkSocialLinkService } from "@2. service/3. social-link-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
 import { successResponse } from "@_lib/helpers/response";
@@ -11,7 +11,7 @@ import { Request, Response } from "express";
 export const signUp = catchErrors(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
 
-  const userExist = await getUserByAnyParamDto({ username, email });
+  const userExist = await getUserByAnyParamService({ username, email });
   if (userExist?.id)
     throw new CustomError(
       `This ${
@@ -21,7 +21,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
 
   const hashPassword = await encryptBycrypt(password);
 
-  const result = await upsertUserDto({
+  const result = await upsertUserService({
     ...req.body,
     password: hashPassword,
   });
@@ -33,7 +33,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
     id_category: data?.id,
     id_user: result?.id,
   }));
-  await upsertBulkSocialLinkDto(listCategorySocialLink);
+  await upsertBulkSocialLinkService(listCategorySocialLink);
   successResponse({
     res,
     message: "Successfully Created User",
@@ -44,7 +44,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
 export const signIn = catchErrors(async (req, res) => {
   const { username, password } = req.body;
 
-  const userExist = await getUserByAnyParamDto({ username });
+  const userExist = await getUserByAnyParamService({ username });
   const isPasswordValid = await dycriptBycrypt({
     encryptData: userExist?.password as string,
     unEncryptData: password,

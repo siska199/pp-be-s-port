@@ -1,6 +1,7 @@
 import prisma from "@_db/prisma";
+import { MasterDistrict } from "@prisma/client";
 
-export const getListMasterDistrictDto = async (params: { id_city: string }) => {
+export const getListMasterDistrictService = async (params: { id_city: string }) => {
   const { id_city } = params;
 
   const districts = await prisma?.masterDistrict?.findMany({
@@ -10,7 +11,7 @@ export const getListMasterDistrictDto = async (params: { id_city: string }) => {
   });
 
   const resultDto = districts
-    ? districts?.map((data) => ({
+    ? districts?.map((data:MasterDistrict) => ({
         id: data?.id,
         name: data?.name,
       }))

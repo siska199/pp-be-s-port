@@ -12,7 +12,7 @@ import {
 } from "@_lib/helpers/function";
 import { PersonalInformation } from "@prisma/client";
 
-export const getPersonalInfoByAnyParamDto = async (params: {
+export const getPersonalInfoByAnyParamService = async (params: {
   id_user?: string;
   id?: string;
 }) => {
@@ -35,11 +35,14 @@ export const getPersonalInfoByAnyParamDto = async (params: {
   const professional_image = await getImageUrlFromClaudinary({
     publicId: result?.professional_image || "",
   });
-
+  const resume = await getImageUrlFromClaudinary({
+    publicId: result?.resume || "",
+  });
   const resultDto = filterKeysObject({
     object: {
       ...result,
       professional_image,
+      resume
     },
     keys: ["created_at", "updated_at"],
   });
@@ -47,7 +50,7 @@ export const getPersonalInfoByAnyParamDto = async (params: {
   return result ? resultDto : null;
 };
 
-export const upsertPersonalInformationDto = async (
+export const upsertPersonalInformationService = async (
   params: PersonalInformation
 ) => {
   const id = params.id ?? "";
@@ -57,16 +60,17 @@ export const upsertPersonalInformationDto = async (
     id_user: params.id_user,
     first_name: params?.first_name,
     last_name: params?.last_name,
-    id_province: params?.id_province,
-    id_city: params?.id_city,
-    id_district: params?.id_district,
-    id_postal_code: params?.id_postal_code,
+    ...(params?.id_province && {id_province: params?.id_province}),
+    ...(params?.id_city && {id_city: params?.id_city}),
+    ...(params?.id_district && {id_district: params?.id_district}),
+    ...(params?.id_postal_code && {id_postal_code: params?.id_postal_code}),
     phone_number: params.phone_number,
     email: params?.email,
     about_me: params.about_me,
     bio: params.bio,
     id_profession: params.id_profession,
     professional_image: params.professional_image,
+    resume: params.resume,
   });
 
   await validationParse({
@@ -74,15 +78,18 @@ export const upsertPersonalInformationDto = async (
     data: dataDTO,
   });
 
-  if (id && dataDTO.professional_image) {
+  if (id) {
     const currentPersonalInfo = await prisma.personalInformation.findFirst({
       where: {
         id,
       },
     });
 
-    await deleteImageFromCloudinary(
+    dataDTO.professional_image && await deleteImageFromCloudinary(
       currentPersonalInfo?.professional_image || ""
+    );
+    dataDTO.resume && await deleteImageFromCloudinary(
+      currentPersonalInfo?.resume || ""
     );
   }
 

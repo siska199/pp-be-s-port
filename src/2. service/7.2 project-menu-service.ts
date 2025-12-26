@@ -10,9 +10,9 @@ import {
   trimObject,
   validationParse,
 } from "@_lib/helpers/function";
-import { ProjectMenu } from "@prisma/client";
+import { ProjectMenu, ProjectMenuRelatedImage } from "@prisma/client";
 
-export const getListProjectMenuDto = async (param: string) => {
+export const getListProjectMenuService = async (param: string) => {
   const id_project = param;
   const result = await prisma?.projectMenu?.findMany({
     where: {
@@ -52,7 +52,7 @@ export const getListProjectMenuDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const upsertProjectMenuDto = async (
+export const upsertProjectMenuService = async (
   params: ProjectMenu & {
     related_images: string[];
   }
@@ -87,7 +87,7 @@ export const upsertProjectMenuDto = async (
       },
     });
     await Promise.all(
-      prev_related_images?.map(async (rm) => {
+      prev_related_images?.map(async (rm:ProjectMenuRelatedImage) => {
         await deleteImageFromCloudinary(rm.image);
         await prisma?.projectMenuRelatedImage?.delete({
           where: {
@@ -121,7 +121,7 @@ export const upsertProjectMenuDto = async (
   return result ? resultDto : null;
 };
 
-export const deleteProjectMenuByIdDto = async (param: string) => {
+export const deleteProjectMenuByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.projectMenu?.delete({

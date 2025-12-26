@@ -17,7 +17,7 @@ type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
   level?: Level;
 };
 
-export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
+export const getListSkillUserService = async (params: TParamsListSkillUserDto) => {
   const {
     id_user,
     page_no = 1,
@@ -56,11 +56,12 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
   };
 
   const orderBy: Prisma.SkillUserOrderByWithRelationInput | undefined =
-    sort_by ? relationOrderMap[sort_by] || { [sort_by as keyof Prisma.SkillUserOrderByWithRelationInput]: sort_dir } : undefined;
+    sort_by ? relationOrderMap[sort_by as string] || { [sort_by as keyof Prisma.SkillUserOrderByWithRelationInput]: sort_dir } : undefined;
 
   const result = await prisma.skillUser.findMany({
-    ...(skip && { skip }),
-    ...(take && { take }),
+    ...(page_no && items_perpage
+        ? { skip, take }
+        : {}),
     where: whereFilter,
     orderBy,
     include: {
@@ -97,7 +98,7 @@ export const getListSkillUserDto = async (params: TParamsListSkillUserDto) => {
 };
 
 
-export const getSkillUserByIdDto = async (param: string) => {
+export const getSkillUserByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.skillUser?.findUnique({
     where: {
@@ -130,7 +131,7 @@ export const getSkillUserByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const upsertSkillUserDto = async (params: SkillUser) => {
+export const upsertSkillUserService = async (params: SkillUser) => {
   const id = params.id ?? "";
   const dataDto = trimObject({
     ...(id && { id }),
@@ -162,7 +163,7 @@ export const upsertSkillUserDto = async (params: SkillUser) => {
   return result ? resultDto : null;
 };
 
-export const createBulkSkillUserDto = async (params: SkillUser[]) => {
+export const createBulkSkillUserService = async (params: SkillUser[]) => {
   const listData = params?.map((data) => {
     return {
       id_skill: data?.id_skill,
@@ -179,7 +180,7 @@ export const createBulkSkillUserDto = async (params: SkillUser[]) => {
   return result ? resultDto : null;
 };
 
-export const deleteSkillUserByIdDto = async (param: string) => {
+export const deleteSkillUserByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.skillUser?.delete({

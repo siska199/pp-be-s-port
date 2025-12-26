@@ -7,16 +7,16 @@ import {
 } from "@_lib/helpers/function";
 import { MasterCategorySkill } from "@prisma/client";
 
-export const getListMasterCategorySkillDto = async () => {
+export const getListMasterCategorySkillService = async () => {
   const result = await prisma.masterCategorySkill?.findMany();
-  const resultDto = result?.map((data) => ({
+  const resultDto = result?.map((data:MasterCategorySkill) => ({
     id: data?.id,
     name: data?.name,
   }));
   return result ? resultDto : [];
 };
 
-export const getMasterCategorySkillByIdDto = async (param: string) => {
+export const getMasterCategorySkillByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterCategorySkill?.findFirst({
     where: {
@@ -30,7 +30,7 @@ export const getMasterCategorySkillByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const createBulkMasterCategorySkillDto = async (
+export const createBulkMasterCategorySkillService = async (
   params: MasterCategorySkill[]
 ) => {
   const result = await prisma?.masterCategorySkill?.createMany({
@@ -40,7 +40,7 @@ export const createBulkMasterCategorySkillDto = async (
   return result ? resultDto : null;
 };
 
-export const upsertMasterCategorySkillDto = async (
+export const upsertMasterCategorySkillService = async (
   params: MasterCategorySkill
 ) => {
   const id = params?.id ?? "";
@@ -72,7 +72,7 @@ export const upsertMasterCategorySkillDto = async (
   return result ? resultDto : null;
 };
 
-export const deleteMasterCategorySkillByIdDto = async (param: string) => {
+export const deleteMasterCategorySkillByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterCategorySkill?.delete({
     where: {

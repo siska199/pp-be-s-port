@@ -1,15 +1,15 @@
 import {
-  createBulkMasterCategorySocialLinkDto,
-  getListMasterCategorySocialLinkDto,
-} from "@2. dto/0.3 master-category-social-link-dto";
+  createBulkMasterCategorySocialLinkService,
+  getListMasterCategorySocialLinkService,
+} from "@2. service/0.3 master-category-social-link-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
-import { upsertMasterCategorySocialLinkDto } from "@2. dto/0.3 master-category-social-link-dto";
-import { deleteMasterCategorySkillByIdDto } from "@2. dto/0.7 master-category-skill-dto";
+import { upsertMasterCategorySocialLinkService } from "@2. service/0.3 master-category-social-link-service";
+import { deleteMasterCategorySkillByIdService } from "@2. service/0.7 master-category-skill-service";
 
 export const getListMasterCategorySocialLink = catchErrors(async (req, res) => {
-  const result = await getListMasterCategorySocialLinkDto();
+  const result = await getListMasterCategorySocialLinkService();
 
   successResponse({
     data: result,
@@ -21,7 +21,7 @@ export const getListMasterCategorySocialLink = catchErrors(async (req, res) => {
 export const createBulkMasterCategorySocialLink = catchErrors(
   async (req, res) => {
     const categorySocialLinks = req.body;
-    const result = await createBulkMasterCategorySocialLinkDto(
+    const result = await createBulkMasterCategorySocialLinkService(
       categorySocialLinks
     );
     successResponse({
@@ -35,7 +35,7 @@ export const createBulkMasterCategorySocialLink = catchErrors(
 export const upsertMasterCategorySocialLink = catchErrors(async (req, res) => {
   const payload = req.body;
 
-  const result = await upsertMasterCategorySocialLinkDto({
+  const result = await upsertMasterCategorySocialLinkService({
     ...payload,
   });
 
@@ -50,7 +50,7 @@ export const deleteMasterCategorySocialLinkById = catchErrors(
   async (req, res) => {
     const id = req.params?.id;
 
-    const result = await deleteMasterCategorySkillByIdDto(id);
+    const result = await deleteMasterCategorySkillByIdService(id);
 
     successResponse({
       res,

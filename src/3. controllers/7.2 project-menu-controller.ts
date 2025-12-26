@@ -1,8 +1,8 @@
-import { deleteProjectByIdDto } from "@2. dto/7. project-dto";
+import { deleteProjectByIdService } from "@2. service/7. project-service";
 import {
-  getListProjectMenuDto,
-  upsertProjectMenuDto,
-} from "@2. dto/7.2 project-menu-dto";
+  getListProjectMenuService,
+  upsertProjectMenuService,
+} from "@2. service/7.2 project-menu-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -12,7 +12,7 @@ import { Response } from "express";
 export const getListProjectMenu = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const id_project = String(req.query?.id_project);
-    const result = await getListProjectMenuDto(id_project);
+    const result = await getListProjectMenuService(id_project);
     successResponse({
       res,
       message: message?.success?.getData,
@@ -25,7 +25,7 @@ export const upsertProjectMenu = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const payload = req.body;
 
-    const result = await upsertProjectMenuDto({
+    const result = await upsertProjectMenuService({
       ...payload,
     });
 
@@ -41,7 +41,7 @@ export const deleteProjectMenuById = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const id = req.params.id;
 
-    const result = await deleteProjectByIdDto(id);
+    const result = await deleteProjectByIdService(id);
 
     successResponse({
       res,

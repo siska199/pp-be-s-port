@@ -9,7 +9,7 @@ import {
 } from "@_lib/helpers/function";
 import { User } from "@prisma/client";
 
-export const getUserByAnyParamDto = async (params: Partial<User>) => {
+export const getUserByAnyParamService = async (params: Partial<User>) => {
   const paramsDto = {
     id: params?.id,
     email: params?.email,
@@ -55,7 +55,7 @@ export const getUserByAnyParamDto = async (params: Partial<User>) => {
   return result ? resultDto : null;
 };
 
-export const upsertUserDto = async (params: User) => {
+export const upsertUserService = async (params: User) => {
   const id = params.id ?? "";
   const dataDto = trimObject({
     ...(id && { id }),

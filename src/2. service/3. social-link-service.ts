@@ -7,7 +7,7 @@ import {
 } from "@_lib/helpers/function";
 import { SocialLink } from "@prisma/client";
 
-export const getListSocialLinkDto = async (params: { id_user: string }) => {
+export const getListSocialLinkService = async (params: { id_user: string }) => {
   const { id_user } = params;
   const result = await prisma.socialLink.findMany({
     where: {
@@ -46,7 +46,7 @@ export const getListSocialLinkDto = async (params: { id_user: string }) => {
   return result ? resultDto : null;
 };
 
-export const upsertSocialLinkDto = async (params: SocialLink) => {
+export const upsertSocialLinkService = async (params: SocialLink) => {
   const id = params.id ?? "";
 
   const dataDto = trimObject({
@@ -77,7 +77,7 @@ export const upsertSocialLinkDto = async (params: SocialLink) => {
   return result ? resultDto : null;
 };
 
-export const upsertBulkSocialLinkDto = async (
+export const upsertBulkSocialLinkService = async (
   params: (Omit<SocialLink, "created_at" | "updated_at" | "id"> & {
     id?: string;
   })[]
@@ -105,7 +105,7 @@ export const upsertBulkSocialLinkDto = async (
         })
       )
     : await prisma?.socialLink?.createMany({
-        data: listData as Omit<SocialLink, "created_at" | "updated_at">[],
+        data: listData as SocialLink[],
       });
 
   const resultDto = result;
@@ -113,7 +113,7 @@ export const upsertBulkSocialLinkDto = async (
   return resultDto;
 };
 
-export const deleteSocialLinkByIdDto = async (param: string) => {
+export const deleteSocialLinkByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.socialLink?.delete({

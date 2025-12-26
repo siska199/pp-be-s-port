@@ -9,10 +9,10 @@ import {
 } from "@_lib/helpers/function";
 import { MasterCategorySocialLink } from "@prisma/client";
 
-export const getListMasterCategorySocialLinkDto = async () => {
+export const getListMasterCategorySocialLinkService = async () => {
   const result = await prisma.masterCategorySocialLink.findMany();
   const resultDto = await Promise.all(
-    result?.map(async (data) => {
+    result?.map(async (data:MasterCategorySocialLink) => {
       const image = await getImageUrlFromClaudinary({
         publicId: data.image,
       });
@@ -28,7 +28,7 @@ export const getListMasterCategorySocialLinkDto = async () => {
   return result ? resultDto : [];
 };
 
-export const getMasterCategorySocialLinkByIdDto = async (param: string) => {
+export const getMasterCategorySocialLinkByIdService = async (param: string) => {
   const id = param;
   const result = await prisma?.masterCategorySocialLink?.findFirst({
     where: {
@@ -49,7 +49,7 @@ export const getMasterCategorySocialLinkByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const createBulkMasterCategorySocialLinkDto = async (
+export const createBulkMasterCategorySocialLinkService = async (
   params: MasterCategorySocialLink[]
 ) => {
   const listDataDto = params?.map((data) => ({
@@ -76,7 +76,7 @@ export const createBulkMasterCategorySocialLinkDto = async (
   return result ? resultDto : null;
 };
 
-export const upsertMasterCategorySocialLinkDto = async (
+export const upsertMasterCategorySocialLinkService = async (
   params: MasterCategorySocialLink
 ) => {
   const id = params?.id ?? "";
@@ -116,7 +116,7 @@ export const upsertMasterCategorySocialLinkDto = async (
   return result ? resultDto : null;
 };
 
-export const deleteMasterCategorySocialLinkByIdDto = async (param: string) => {
+export const deleteMasterCategorySocialLinkByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterCategorySocialLink?.delete({

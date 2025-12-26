@@ -6,9 +6,13 @@ import {
   removeKeyWithUndifienedValue,
   validationParse,
 } from "@_lib/helpers/function";
-import { MasterEducationSchool } from "@prisma/client";
+import { MasterEducationLevel, MasterEducationSchool, MasterLevelSchoolEducation } from "@prisma/client";
 
-export const getListMasterEducationSchoolDto = async (params: {
+
+type TMasterEducationSchool = MasterEducationSchool&{
+  levels: (MasterLevelSchoolEducation & { level: MasterEducationLevel })[]
+}
+export const getListMasterEducationSchoolService = async (params: {
   id_level?: string;
 }) => {
   const { id_level } = params;
@@ -33,7 +37,7 @@ export const getListMasterEducationSchoolDto = async (params: {
   });
 
   const resultDto = await Promise.all(
-    result?.map(async (data) => {
+    result?.map(async (data:TMasterEducationSchool) => {
       const image = await getImageUrlFromClaudinary({
         publicId: data.image,
       });
@@ -52,7 +56,7 @@ export const getListMasterEducationSchoolDto = async (params: {
   return result ? resultDto : [];
 };
 
-export const getMasterEducationSchoolByIdDto = async (param: string) => {
+export const getMasterEducationSchoolByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterEducationSchool?.findUnique({
@@ -72,7 +76,7 @@ export const getMasterEducationSchoolByIdDto = async (param: string) => {
   return result ? resultDto : null;
 };
 
-export const upsertMasterEducationSchoolByIdDto = async (
+export const upsertMasterEducationSchoolByIdService = async (
   params: MasterEducationSchool & { id_levels: string[] }
 ) => {
   const id = params?.id ?? "";
@@ -82,7 +86,7 @@ export const upsertMasterEducationSchoolByIdDto = async (
     image: params?.image,
     ...(params?.id_levels?.length > 0 && {
       levels: {
-        create: params?.id_levels?.map((id_level) => ({
+        create: params?.id_levels?.map((id_level:string) => ({
           level: {
             connect: {
               id: id_level,
@@ -117,7 +121,7 @@ export const upsertMasterEducationSchoolByIdDto = async (
     },
   });
 
-  const result = id
+  const result =( id
     ? await prisma?.masterEducationSchool?.update({
         where: { id },
         data: removeKeyWithUndifienedValue(dataDto),
@@ -126,7 +130,7 @@ export const upsertMasterEducationSchoolByIdDto = async (
     : await prisma?.masterEducationSchool?.create({
         data: dataDto,
         include,
-      });
+      })) as TMasterEducationSchool
 
   const resultDto = filterKeysObject({
     object: {
@@ -141,13 +145,13 @@ export const upsertMasterEducationSchoolByIdDto = async (
   return result ? resultDto : null;
 };
 
-export const createBulkMasterEducationSchoolDto = async (
+export const createBulkMasterEducationSchoolService = async (
   params: (MasterEducationSchool & { id_levels: string[] })[]
 ) => {
   const listData = params;
   const result = await Promise.all(
     listData?.map(async (singleData) => {
-      const resultSingleDate = await upsertMasterEducationSchoolByIdDto(
+      const resultSingleDate = await upsertMasterEducationSchoolByIdService(
         singleData
       );
       return resultSingleDate;
@@ -161,7 +165,7 @@ export const createBulkMasterEducationSchoolDto = async (
   return resultDto;
 };
 
-export const deleteMasterEducationSchoolByIdDto = async (param: string) => {
+export const deleteMasterEducationSchoolByIdService = async (param: string) => {
   const id = param;
 
   const result = await prisma?.masterEducationSchool?.delete({

@@ -1,19 +1,22 @@
 
 import CONFIG from "@_lib/config";
 import { TGeneralObject } from "@_lib/types";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
 
 export const generateToken = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 export const generateTokenJwt = (payload: TGeneralObject) => {
-  const secretKey = CONFIG.SECRET_KEY;
-  const options = {
+  if (!CONFIG.SECRET_KEY) {
+    throw new Error("SECRET_KEY is not defined");
+  }
+
+  const secretKey: jwt.Secret = CONFIG.SECRET_KEY;
+
+  const options: SignOptions = {
     expiresIn: "1d",
   };
 
-  const token = jwt.sign(payload, secretKey, options);
-  return token;
+  return jwt.sign(payload, secretKey, options);
 };
-

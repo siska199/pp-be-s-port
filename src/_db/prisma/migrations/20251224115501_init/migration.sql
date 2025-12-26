@@ -181,6 +181,7 @@ CREATE TABLE "master_user" (
 CREATE TABLE "personal_information" (
     "id" TEXT NOT NULL,
     "professional_image" VARCHAR(2083) NOT NULL,
+    "resume" VARCHAR(2083) NOT NULL,
     "first_name" VARCHAR(50) NOT NULL,
     "last_name" VARCHAR(50) NOT NULL,
     "phone_number" VARCHAR(15) NOT NULL,
@@ -197,6 +198,18 @@ CREATE TABLE "personal_information" (
     "updated_at" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "personal_information_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "key_metric" (
+    "id" TEXT NOT NULL,
+    "id_user" VARCHAR(36) NOT NULL,
+    "key" VARCHAR(50) NOT NULL,
+    "value" VARCHAR(50) NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "key_metric_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -377,6 +390,9 @@ CREATE UNIQUE INDEX "master_user_email_key" ON "master_user"("email");
 CREATE UNIQUE INDEX "personal_information_id_user_key" ON "personal_information"("id_user");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "key_metric_id_user_key" ON "key_metric"("id_user");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "social_link_id_category_id_user_key" ON "social_link"("id_category", "id_user");
 
 -- CreateIndex
@@ -444,6 +460,9 @@ ALTER TABLE "personal_information" ADD CONSTRAINT "personal_information_id_distr
 
 -- AddForeignKey
 ALTER TABLE "personal_information" ADD CONSTRAINT "personal_information_id_postal_code_fkey" FOREIGN KEY ("id_postal_code") REFERENCES "master_postal_code"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "key_metric" ADD CONSTRAINT "key_metric_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "master_user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "social_link" ADD CONSTRAINT "social_link_id_category_fkey" FOREIGN KEY ("id_category") REFERENCES "master_category_social_link"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

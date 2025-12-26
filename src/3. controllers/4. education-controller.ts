@@ -1,11 +1,11 @@
 import {
-  createBulkEducationDto,
-  deleteEducationByIdDto,
-  getEducationByIdDto,
-  getListEducationDto,
+  createBulkEducationService,
+  deleteEducationByIdService,
+  getEducationByIdService,
+  getListEducationService,
   TParamsListEducationDto,
-  upsertEducationDto,
-} from "@2. dto/4. education-dto";
+  upsertEducationService,
+} from "@2. service/4. education-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
 import { successResponse } from "@_lib/helpers/response";
@@ -28,7 +28,7 @@ export const getListEducation = catchErrors(
       end_at: req.query.end_at?.toString() || "",
     };
 
-    const result = await getListEducationDto({
+    const result = await getListEducationService({
       ...queryObject,
     });
 
@@ -43,7 +43,7 @@ export const getListEducation = catchErrors(
 export const getEducationById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await getEducationByIdDto(id);
+  const result = await getEducationByIdService(id);
 
   successResponse({
     res,
@@ -57,7 +57,7 @@ export const upsertEducation = catchErrors(
     const user = req.user;
     const payload = req.body;
 
-    const result = await upsertEducationDto({
+    const result = await upsertEducationService({
       ...payload,
       id_user: String(user?.id),
     });
@@ -73,7 +73,7 @@ export const upsertEducation = catchErrors(
 export const createBulkEducation = catchErrors(async (req, res) => {
   const payload = req?.body;
 
-  const result = await createBulkEducationDto(payload);
+  const result = await createBulkEducationService(payload);
 
   successResponse({
     res,
@@ -85,7 +85,7 @@ export const createBulkEducation = catchErrors(async (req, res) => {
 export const deleteEducationById = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
-  const result = await deleteEducationByIdDto(id);
+  const result = await deleteEducationByIdService(id);
 
   successResponse({
     res,

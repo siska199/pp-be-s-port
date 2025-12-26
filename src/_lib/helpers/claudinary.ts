@@ -1,6 +1,6 @@
 import CONFIG from "@_lib/config";
 import { CustomError } from "@_lib/middleware/error-handler";
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import { v2 as cloudinary, UploadApiOptions, UploadApiResponse } from "cloudinary";
 
 cloudinary.config({
   cloud_name: CONFIG.CLAUDINARY_CLOUD_NAME,
@@ -10,22 +10,45 @@ cloudinary.config({
 
 const baseFolder = CONFIG.DB_NAME;
 
-const uploadFileToCloudinary = async (
+type SupportedFileCategory = 'image' | 'pdf' | 'other';
+
+const getFileCategory = (mimeType: string): SupportedFileCategory => {
+  if (mimeType.startsWith('image/')) return 'image';
+  if (mimeType === 'application/pdf') return 'pdf';
+  return 'other';
+};
+
+export const uploadFileToCloudinary = async (
   file: Express.Multer.File,
-  folder?: string
-): Promise<UploadApiResponse | undefined> => {
+  folder?: string,
+): Promise<UploadApiResponse> => {
+  if (!file?.buffer || !file?.mimetype) {
+    throw new Error('Invalid file provided');
+  }
+
+  const fileCategory = getFileCategory(file.mimetype);
+
+  const uploadOptions: UploadApiOptions = {
+    folder: `${baseFolder}/${folder ?? ''}`,
+    resource_type: fileCategory === 'image' ? 'image' : 'raw',
+    type: 'upload',
+  };
+
   return new Promise((resolve, reject) => {
     cloudinary.uploader
-      .upload_stream(
-        { resource_type: "auto", folder: `${baseFolder}/${folder}` },
-        (error, result) => {
-          if (error) {
-            reject(new Error(error?.message));
-          } else {
-            resolve(result);
-          }
+      .upload_stream(uploadOptions, (error, result) => {
+        if (error) {
+          reject(new Error(error.message));
+          return;
         }
-      )
+
+        if (!result) {
+          reject(new Error('Cloudinary upload failed with no result'));
+          return;
+        }
+
+        resolve(result);
+      })
       .end(file.buffer);
   });
 };

@@ -1,0 +1,13 @@
+model KeyMetric {
+    id                  String      @id @default(uuid())
+
+    id_user             String      @unique @db.VarChar(36)
+    user                User        @relation(fields: [id_user], references: [id])
+
+    key                 String      @db.VarChar(50)
+    value               String      @db.VarChar(50)
+    
+    created_at          DateTime    @default(now())
+    updated_at          DateTime    @updatedAt
+    @@map("key_metric")
+}

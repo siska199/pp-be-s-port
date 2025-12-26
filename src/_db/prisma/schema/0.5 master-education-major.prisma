@@ -13,12 +13,12 @@ model MasterEducationMajor{
 }
 
 model MasterLevelMajorEducation{
-    id         String               @id @default(uuid())
+    id          String               @id @default(uuid())
     level       MasterEducationLevel       @relation(fields: [id_level], references: [id], onDelete: Cascade, onUpdate: Cascade)
     major       MasterEducationMajor       @relation(fields: [id_major], references: [id],onDelete: Cascade, onUpdate: Cascade)
     
-    id_level             String      @db.VarChar(36)
-    id_major             String      @db.VarChar(36)
+    id_level    String      @db.VarChar(36)
+    id_major    String      @db.VarChar(36)
 
     @@index([id_level, id_major])
     @@unique([id_level, id_major])
