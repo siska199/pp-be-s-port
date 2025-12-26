@@ -72,7 +72,6 @@ const uploadFileToClaudinary = async (
     // @ts-ignore
     const fileArray = req?.files?.[field];
     if (!Array.isArray(fileArray)) return null;
-
     await Promise.all(
       fileArray?.map(async (file, i) => {
         const fileSize = file.buffer.length;

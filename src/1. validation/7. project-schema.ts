@@ -1,5 +1,5 @@
 import { messageError } from "@1. validation";
-import { zArrar, zEnum, zString } from "@1. validation/reusable-shema";
+import { zArray, zEnum, zString } from "@1. validation/reusable-shema";
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
 
@@ -31,7 +31,7 @@ const projectSchema = (mandatory = true) =>
       type: zEnum({
         name: "Type",
         enum: [
-          TypeProject.COMPANY_PROJECT,
+          TypeProject.PERSONAL_PROJECT,
           TypeProject.COMPANY_PROJECT,
           TypeProject.FREELANCE,
         ],
@@ -44,7 +44,7 @@ const projectSchema = (mandatory = true) =>
         name: "ID User",
         mandatory,
       }),
-      id_skill_users: zArrar({
+      id_skill_users: zArray({
         name: "Tech Stack",
         mandatory,
       }),

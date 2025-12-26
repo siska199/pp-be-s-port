@@ -1,4 +1,4 @@
-import { zString } from "@1. validation/reusable-shema";
+import { zArray, zString } from "@1. validation/reusable-shema";
 import { z } from "zod";
 
 const projectMenuSchema = (mandatory = true) =>
@@ -17,6 +17,10 @@ const projectMenuSchema = (mandatory = true) =>
         name: "Main Image",
         mandatory,
       }),
+      // related_images: zArray({
+      //   name: "Related Images",
+      //   mandatory,
+      // }),
       features: zString({
         name: "Features",
         mandatory,

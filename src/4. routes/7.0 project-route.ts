@@ -16,7 +16,7 @@ export default (router: express.Router) => {
     authentication(),
     uploadFile({
       thumbnail_image: {
-        folder: "/project",
+        folder: "project",
         types: listCommonTypeFileImage,
       },
     }),

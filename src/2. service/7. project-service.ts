@@ -62,7 +62,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
         ? [
             {
               OR: listIdSkill.map((id_skill) => ({
-                tech_stacks: { some: { skill_user: { id_skill } } },
+                tech_stacks: { some: { skill_user: { skill : {id:id_skill} } } },
               })) as Prisma.ProjectWhereInput[],
             } as Prisma.ProjectWhereInput,
           ]
@@ -265,9 +265,12 @@ export const getProjectByIdService = async (param: string) => {
         })
       )
     : [];
-
+  const thumbnail_image = await getCloudinaryUrl({
+    publicId: result?.thumbnail_image || "",
+  });
   const resultDto = {
     ...result,
+    thumbnail_image,
     tech_stacks: result?.tech_stacks?.map((techStack, i) => ({
       id: techStack?.id,
       id_skill: techStack?.skill_user?.skill?.id,
@@ -275,6 +278,7 @@ export const getProjectByIdService = async (param: string) => {
       color: techStack?.skill_user?.skill?.color,
       image: skill_images[i],
     })),
+    id_skill_users : result?.tech_stacks?.map((techStack)=>techStack?.skill_user.id)
   };
 
   return result ? resultDto : null;

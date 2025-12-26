@@ -1,5 +1,5 @@
 model Project {
-    id                          String          @id @default(uuid())
+    id                          String          @id @default(uuid()) @unique
     
     name                        String          @db.VarChar(255)
     thumbnail_image             String          @db.VarChar(2083)

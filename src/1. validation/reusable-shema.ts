@@ -122,7 +122,7 @@ export const zDatetime = (params: { name: string; mandatory?: boolean }) => {
     : dateSchema.optional();
 };
 
-export const zArrar = (params: { name: string; mandatory?: boolean }) => {
+export const zArray = (params: { name: string; mandatory?: boolean }) => {
   const { name, mandatory = true } = params;
   const dateSchema = z.string().array();
   return mandatory

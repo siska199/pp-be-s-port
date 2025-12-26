@@ -15,11 +15,11 @@ export default (router: express.Router) => {
     uploadFile({
       main_image: {
         types: [TTypeFile.PNG, TTypeFile.JPEG, TTypeFile.JPG],
-        folder: "/project-menu",
+        folder: "project-menu",
       },
       related_images: {
         types: [TTypeFile.PNG, TTypeFile.JPEG, TTypeFile.JPG],
-        folder: "/project-menu-related-image",
+        folder: "project-menu-related-image",
         maxCount: 20,
       },
     }),

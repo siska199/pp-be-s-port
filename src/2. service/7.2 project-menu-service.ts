@@ -30,6 +30,9 @@ export const getListProjectMenuService = async (param: string) => {
 
   const resultDto = await Promise.all(
     result?.map(async (projectMenu) => {
+      const main_image = await getCloudinaryUrl({
+        publicId: projectMenu?.main_image || "",
+      });
       const related_images = await Promise.all(
         projectMenu?.related_images?.map(async (related_image) => {
           const related_image_url = await getCloudinaryUrl({
@@ -45,6 +48,7 @@ export const getListProjectMenuService = async (param: string) => {
       return {
         ...projectMenu,
         related_images,
+        main_image 
       };
     })
   );
@@ -71,6 +75,7 @@ export const upsertProjectMenuService = async (
       })),
     },
   });
+  console.log("testtt: ", dataDto)
 
   await validationParse({
     schema: projectMenuSchema(!id),
