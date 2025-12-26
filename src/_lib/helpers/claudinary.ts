@@ -12,11 +12,6 @@ const baseFolder = CONFIG.DB_NAME;
 
 type SupportedFileCategory = 'image' | 'pdf' | 'other';
 
-const getFileCategory = (mimeType: string): SupportedFileCategory => {
-  if (mimeType.startsWith('image/')) return 'image';
-  if (mimeType === 'application/pdf') return 'pdf';
-  return 'other';
-};
 
 export const uploadFileToCloudinary = async (
   file: Express.Multer.File,
@@ -26,12 +21,10 @@ export const uploadFileToCloudinary = async (
     throw new Error('Invalid file provided');
   }
 
-  const fileCategory = getFileCategory(file.mimetype);
-
   const uploadOptions: UploadApiOptions = {
     folder: `${baseFolder}/${folder ?? ''}`,
-    resource_type: fileCategory === 'image' ? 'image' : 'raw',
     type: 'upload',
+    access_mode: "public"
   };
 
   return new Promise((resolve, reject) => {
@@ -53,35 +46,47 @@ export const uploadFileToCloudinary = async (
   });
 };
 
-export const getImageUrlFromClaudinary = async (params: {
-  publicId: string;
-  options?: object;
-}) => {
-  if (!params?.publicId) return;
 
-  const { publicId, options } = params;
-  const result = cloudinary.url(publicId, {
-    secure: true,
+
+type CloudinaryResourceType = 'image' | 'raw' | 'video';
+
+export const getCloudinaryUrl = (params: {
+  publicId: string;
+  options?: Record<string, any>;
+}) => {
+  if (!params?.publicId) return '';
+
+  const {
+    publicId,
+    options = {},
+  } = params;
+
+  return cloudinary.url(publicId, {
     ...options,
   });
-  return result;
 };
 
-export const deleteImageFromCloudinary = async (
-  publicId: string
-): Promise<void> => {
-  try {
-    if (!publicId) return;
+export const deleteFromCloudinary = async (params: {
+  publicId: string;
+  resourceType?: CloudinaryResourceType;
+}): Promise<void> => {
+  const { publicId, resourceType = 'image' } = params;
 
-    const result = await cloudinary.uploader.destroy(publicId);
-    if (result.result !== "ok") {
+  if (!publicId) return;
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: resourceType,
+    });
+
+    if (result.result !== 'ok') {
       throw new CustomError(
-        `Failed to delete image from Cloudinary: ${result.result}`
+        `Failed to delete ${resourceType} from Cloudinary: ${result.result}`
       );
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new CustomError(
-      `Error deleting image from Cloudinary: ${error.message}`
+      `Error deleting ${resourceType} from Cloudinary: ${error?.message ?? error}`
     );
   }
 };

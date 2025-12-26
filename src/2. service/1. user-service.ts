@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import userSchema from "@1. validation/1. user-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -40,7 +40,7 @@ export const getUserByAnyParamService = async (params: Partial<User>) => {
     },
   });
 
-  const image_url = await getImageUrlFromClaudinary({
+  const image_url = await getCloudinaryUrl({
     publicId: String(result?.image),
   });
 

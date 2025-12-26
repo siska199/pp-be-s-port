@@ -63,6 +63,8 @@ export const upsertBulkKeyMetricService = async (
     removeKeyWithUndifienedValue({
       key: data?.key,
       value: data?.value,
+      id_user: data?.id_user,
+      id: data?.id || undefined,
     })
   );
 

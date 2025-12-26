@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import skillUserSchema from "@1. validation/6. skill-user-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -115,7 +115,7 @@ export const getSkillUserByIdService = async (param: string) => {
     },
   });
 
-  const skill_image = await getImageUrlFromClaudinary({
+  const skill_image = await getCloudinaryUrl({
     publicId: result?.skill?.image || "",
   });
 

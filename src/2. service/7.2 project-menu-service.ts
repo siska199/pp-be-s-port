@@ -1,8 +1,8 @@
 import prisma from "@_db/prisma";
 import projectMenuSchema from "@1. validation/7.2 project-menu-schema";
 import {
-  deleteImageFromCloudinary,
-  getImageUrlFromClaudinary,
+  deleteFromCloudinary,
+  getCloudinaryUrl,
 } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
@@ -32,7 +32,7 @@ export const getListProjectMenuService = async (param: string) => {
     result?.map(async (projectMenu) => {
       const related_images = await Promise.all(
         projectMenu?.related_images?.map(async (related_image) => {
-          const related_image_url = await getImageUrlFromClaudinary({
+          const related_image_url = await getCloudinaryUrl({
             publicId: related_image?.image,
           });
           return {
@@ -88,7 +88,9 @@ export const upsertProjectMenuService = async (
     });
     await Promise.all(
       prev_related_images?.map(async (rm:ProjectMenuRelatedImage) => {
-        await deleteImageFromCloudinary(rm.image);
+        await deleteFromCloudinary({
+          publicId : rm.image
+        });
         await prisma?.projectMenuRelatedImage?.delete({
           where: {
             id: rm?.id,

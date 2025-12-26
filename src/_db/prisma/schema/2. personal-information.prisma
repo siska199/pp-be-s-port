@@ -20,7 +20,7 @@ model PersonalInformation {
     province            MasterProvince?      @relation(fields: [id_province], references: [id])
 
     id_city             String?              @db.VarChar(36)
-    city                MasterCity?         @relation(fields: [id_city], references: [id])
+    city                MasterCity?          @relation(fields: [id_city], references: [id])
 
     id_district         String?              @db.VarChar(36)
     district            MasterDistrict?      @relation(fields: [id_district], references: [id])

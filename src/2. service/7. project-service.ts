@@ -1,8 +1,8 @@
 import prisma from "@_db/prisma";
 import projectSchema from "@1. validation/7. project-schema";
 import {
-  deleteImageFromCloudinary,
-  getImageUrlFromClaudinary,
+  deleteFromCloudinary,
+  getCloudinaryUrl,
 } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
@@ -121,7 +121,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
   const items = await Promise.all(
     result.map(async (project) => {
       const thumbnail_image = project.thumbnail_image
-        ? await getImageUrlFromClaudinary({ publicId: project.thumbnail_image })
+        ? await getCloudinaryUrl({ publicId: project.thumbnail_image })
         : null;
 
       return {
@@ -187,7 +187,9 @@ export const upsertProjectService = async (
         id,
       },
     });
-    await deleteImageFromCloudinary(existingData?.thumbnail_image || "");
+    await deleteFromCloudinary({
+      publicId:existingData?.thumbnail_image || ""
+    });
   }
 
   const result = id
@@ -256,7 +258,7 @@ export const getProjectByIdService = async (param: string) => {
   const skill_images = Array.isArray(result?.tech_stacks)
     ? await Promise.all(
         result?.tech_stacks?.map(async (tech_stack) => {
-          const skill_image = await getImageUrlFromClaudinary({
+          const skill_image = await getCloudinaryUrl({
             publicId: tech_stack?.skill_user?.skill?.image,
           });
           return skill_image;

@@ -1,8 +1,8 @@
 import prisma from "@_db/prisma";
 import personalInfoSchema from "@1. validation/2. personal-information-schema";
 import {
-  deleteImageFromCloudinary,
-  getImageUrlFromClaudinary,
+  deleteFromCloudinary,
+  getCloudinaryUrl,
 } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
@@ -32,10 +32,10 @@ export const getPersonalInfoByAnyParamService = async (params: {
     },
   });
 
-  const professional_image = await getImageUrlFromClaudinary({
+  const professional_image = await getCloudinaryUrl({
     publicId: result?.professional_image || "",
   });
-  const resume = await getImageUrlFromClaudinary({
+  const resume = await getCloudinaryUrl({
     publicId: result?.resume || "",
   });
   const resultDto = filterKeysObject({
@@ -85,11 +85,16 @@ export const upsertPersonalInformationService = async (
       },
     });
 
-    dataDTO.professional_image && await deleteImageFromCloudinary(
-      currentPersonalInfo?.professional_image || ""
+    dataDTO.professional_image && await deleteFromCloudinary(
+      {
+        publicId:currentPersonalInfo?.professional_image || ""
+      }
     );
-    dataDTO.resume && await deleteImageFromCloudinary(
-      currentPersonalInfo?.resume || ""
+    dataDTO.resume && await deleteFromCloudinary(
+      {
+        publicId: currentPersonalInfo?.resume || "",
+        resourceType: 'raw'
+      }
     );
   }
 

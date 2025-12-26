@@ -1,7 +1,7 @@
 model KeyMetric {
     id                  String      @id @default(uuid())
 
-    id_user             String      @unique @db.VarChar(36)
+    id_user             String      @db.VarChar(36)
     user                User        @relation(fields: [id_user], references: [id])
 
     key                 String      @db.VarChar(50)
@@ -9,5 +9,8 @@ model KeyMetric {
     
     created_at          DateTime    @default(now())
     updated_at          DateTime    @updatedAt
+    
+    @@unique(name:"userKeyMetric",[key,value, id_user])
     @@map("key_metric")
+
 }

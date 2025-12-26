@@ -1,5 +1,5 @@
 import prisma from "@_db/prisma";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -28,7 +28,7 @@ export const getListSocialLinkService = async (params: { id_user: string }) => {
 
   const resultDto = await Promise.all(
     result?.map(async (data) => {
-      const image_url = await getImageUrlFromClaudinary({
+      const image_url = await getCloudinaryUrl({
         publicId: data?.category?.image,
       });
       return {

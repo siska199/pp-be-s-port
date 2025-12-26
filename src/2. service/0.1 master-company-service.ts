@@ -1,8 +1,8 @@
 import prisma from "@_db/prisma";
 import masterCompanySchema from "@1. validation/0.1 master-company-schema";
 import {
-  deleteImageFromCloudinary,
-  getImageUrlFromClaudinary,
+  deleteFromCloudinary,
+  getCloudinaryUrl,
 } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
@@ -16,7 +16,7 @@ export const getListMasterCompanyService = async () => {
   const result = await prisma.masterCompany?.findMany();
   const resultDto = await Promise.all(
     result?.map(async (company: MasterCompany) => {
-      const url_image = await getImageUrlFromClaudinary({
+      const url_image = await getCloudinaryUrl({
         publicId: company?.image as string,
       });
       return {
@@ -37,7 +37,7 @@ export const getMasterCompanyByIdService = async (param: string) => {
     },
   });
 
-  const image_url = await getImageUrlFromClaudinary({
+  const image_url = await getCloudinaryUrl({
     publicId: String(result?.image),
   });
 
@@ -68,7 +68,9 @@ export const upsertMasterCompanyService = async (params: MasterCompany) => {
         id,
       },
     });
-    await deleteImageFromCloudinary(String(currMasterCompany?.id));
+    await deleteFromCloudinary({
+      publicId:String(currMasterCompany?.id)
+    });
   }
 
   const result = id

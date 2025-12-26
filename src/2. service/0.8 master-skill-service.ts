@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import masterSkillSchema from "@1. validation/0.8 master-skill-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -29,7 +29,7 @@ export const getListMasterSkillService = async (params: {
 
   const resultDto = await Promise.all(
     result?.map(async (data:MasterSkill) => {
-      const image_url = await getImageUrlFromClaudinary({
+      const image_url = await getCloudinaryUrl({
         publicId: data?.image || "",
       });
       return filterKeysObject({
@@ -61,7 +61,7 @@ export const getMasterSkillByIdService = async (param: string) => {
     },
   });
 
-  const image_url = await getImageUrlFromClaudinary({
+  const image_url = await getCloudinaryUrl({
     publicId: result?.image || "",
   });
   const reusltDto = filterKeysObject({

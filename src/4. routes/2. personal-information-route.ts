@@ -14,12 +14,13 @@ export default (router: express.Router) => {
     authentication(),
     upload({
       professional_image: {
-        types: ["jpg", "jpeg", "png", "pdf"],
+        types: ["jpg", "jpeg", "png",],
         folder: "personal-information",
       },
       resume: {
         types: [ "pdf"],
         folder: "resume",
+        size: 10
       },
     }),
     upsertPersonalInformation

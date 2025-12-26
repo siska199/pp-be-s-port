@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import experianceSchema from "@1. validation/5. experiance-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   convertToISOString,
   filterKeysObject,
@@ -198,7 +198,7 @@ export const getExperianceByIdService = async (param: string) => {
     },
   });
 
-  const image_company = await getImageUrlFromClaudinary({
+  const image_company = await getCloudinaryUrl({
     publicId: result?.company?.image || "",
   });
 

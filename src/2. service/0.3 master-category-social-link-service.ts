@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import masterCategorySocialLinkSchema from "@1. validation/0.3 master-category-social-link-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -13,7 +13,7 @@ export const getListMasterCategorySocialLinkService = async () => {
   const result = await prisma.masterCategorySocialLink.findMany();
   const resultDto = await Promise.all(
     result?.map(async (data:MasterCategorySocialLink) => {
-      const image = await getImageUrlFromClaudinary({
+      const image = await getCloudinaryUrl({
         publicId: data.image,
       });
       return {
@@ -35,7 +35,7 @@ export const getMasterCategorySocialLinkByIdService = async (param: string) => {
       id,
     },
   });
-  const image_url = await getImageUrlFromClaudinary({
+  const image_url = await getCloudinaryUrl({
     publicId: String(result?.image),
   });
 

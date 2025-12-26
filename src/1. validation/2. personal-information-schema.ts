@@ -6,7 +6,7 @@ const personalInfoSchema = (mandatory: boolean = true) =>
     .object({
       id: zString({ name: "ID", mandatory: !mandatory }),
       professional_image: zString({ name: "Professional Image", mandatory }),
-      resume: zString({ name: "Resume", mandatory }),
+      resume: zString({ name: "Resume", mandatory: mandatory}),
 
       first_name: zString({ name: "First Name", max: 50, mandatory }),
       last_name: zString({ name: "Last Name", max: 50, mandatory }),

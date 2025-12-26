@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import masterEducationSchoolSchema from "@1. validation/0.6 master-education-school";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
@@ -38,7 +38,7 @@ export const getListMasterEducationSchoolService = async (params: {
 
   const resultDto = await Promise.all(
     result?.map(async (data:TMasterEducationSchool) => {
-      const image = await getImageUrlFromClaudinary({
+      const image = await getCloudinaryUrl({
         publicId: data.image,
       });
       return {
@@ -65,7 +65,7 @@ export const getMasterEducationSchoolByIdService = async (param: string) => {
     },
   });
 
-  const image = await getImageUrlFromClaudinary({
+  const image = await getCloudinaryUrl({
     publicId: String(result?.image),
   });
 

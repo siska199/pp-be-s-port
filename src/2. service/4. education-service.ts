@@ -1,6 +1,6 @@
 import prisma from "@_db/prisma";
 import educationSchema from "@1. validation/4. education-schema";
-import { getImageUrlFromClaudinary } from "@_lib/helpers/claudinary";
+import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
 import {
   convertToISOString,
   filterKeysObject,
@@ -151,7 +151,7 @@ export const getEducationByIdService = async (param: string) => {
     },
   });
 
-  const school_image = await getImageUrlFromClaudinary({
+  const school_image = await getCloudinaryUrl({
     publicId: result?.school?.image || "",
   });
 

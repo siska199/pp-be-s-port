@@ -14,7 +14,7 @@ model User {
     
     experiance              Experiance[]
     personal_information    PersonalInformation?
-    key_metric              KeyMetric?
+    key_metric              KeyMetric[]
     education               Education[]
     
     social_links            SocialLink[]
