@@ -7,9 +7,9 @@ import authentication from "@_lib/middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {
-  router.get("project-responsibilities", getListProjectResponsibility);
+  router.get("/project-responsibilities", getListProjectResponsibility);
   router.post(
-    "project-responsibility",
+    "/project-responsibility",
     authentication(),
     upsertProjectResponsibility
   );

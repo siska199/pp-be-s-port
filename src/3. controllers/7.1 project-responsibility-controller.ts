@@ -1,7 +1,7 @@
 import {
   deleteProjectResponsibilityByIdService,
   getListProjectResponsibilityService,
-  zArrayupsertProjectResponsibilityService,
+  upsertProjectResponsibilityService,
 } from "@2. service/7.1 project-responsibility-service";
 import catchErrors from "@_lib/helpers/catch-error";
 import message from "@_lib/helpers/message";
@@ -11,9 +11,9 @@ import { Response } from "express";
 
 export const getListProjectResponsibility = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const user = req.user;
+    const id_project = String(req.query?.id_project);
 
-    const result = await getListProjectResponsibilityService(String(user?.id));
+    const result = await getListProjectResponsibilityService(id_project);
 
     successResponse({
       res,
@@ -25,13 +25,10 @@ export const getListProjectResponsibility = catchErrors(
 
 export const upsertProjectResponsibility = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const id = req.params;
     const user = req.user;
     const payload = req.body;
-
-    const result = await zArrayupsertProjectResponsibilityService({
+    const result = await upsertProjectResponsibilityService({
       ...payload,
-      id,
       id_user: String(user?.id),
     });
 

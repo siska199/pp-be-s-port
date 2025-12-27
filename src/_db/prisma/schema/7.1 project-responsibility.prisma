@@ -1,5 +1,5 @@
 model ProjectResponsibility {
-    id              String      @unique @default(uuid())
+    id              String      @id @default(uuid()) @unique
     description     String      @db.VarChar(255)
     
     id_project      String      @db.VarChar(36)

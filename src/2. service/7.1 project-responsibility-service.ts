@@ -19,7 +19,7 @@ export const getListProjectResponsibilityService = async (param: string) => {
   return result ? resultDto : [];
 };
 
-export const zArrayupsertProjectResponsibilityService = async (
+export const upsertProjectResponsibilityService = async (
   params: ProjectResponsibility
 ) => {
   const id = params?.id;
@@ -33,10 +33,9 @@ export const zArrayupsertProjectResponsibilityService = async (
         where: {
           id,
         },
-        data: filterKeysObject({
-          object: removeKeyWithUndifienedValue(dataDto),
-          keys: ["id_project"],
-        }),
+      data: {
+          description: dataDto?.description
+        },
       })
     : await prisma?.projectResponsibility?.create({
         data: dataDto,

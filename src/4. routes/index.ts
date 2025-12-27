@@ -20,6 +20,7 @@ import projectRoute from "@4. routes/7.0 project-route";
 import projectMenuRoute from "@4. routes/7.2 project-menu-route";
 import keyMetricRoute from "@4. routes/2.1 key-metric-route"
 import express from "express";
+import projectResponsibilityRoute from "@4. routes/7.1 project-responsibility-route";
 
 const router = express.Router();
 export default () => {
@@ -46,5 +47,6 @@ export default () => {
   skillUserRoute(router);
   projectRoute(router);
   projectMenuRoute(router);
+  projectResponsibilityRoute(router);
   return router;
 };

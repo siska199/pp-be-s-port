@@ -75,7 +75,6 @@ export const upsertProjectMenuService = async (
       })),
     },
   });
-  console.log("testtt: ", dataDto)
 
   await validationParse({
     schema: projectMenuSchema(!id),
