@@ -12,6 +12,9 @@ export const getListProjectResponsibilityService = async (param: string) => {
     where: {
       id_project,
     },
+    orderBy: {
+      created_at: "desc"
+    }
   });
 
   const resultDto = result;

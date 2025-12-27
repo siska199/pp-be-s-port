@@ -93,7 +93,20 @@ export const getListExperianceService = async (
     include: {
       company: { select: { id: true, name: true } },
       profession: { select: { id: true, name: true } },
-      projects :{select: {id:true, name:true, tech_stacks:true}}
+      projects: {
+        select: {
+          id: true, name: true, tech_stacks: {
+            select: {
+              id: true,
+              skill_user: {
+                include: {
+                  skill: { select: { id: true, name: true, color: true } },
+                },
+              },
+            },
+          }
+        }
+      }
     },
   });
 
@@ -103,9 +116,13 @@ export const getListExperianceService = async (
     profession_name: data.profession?.name,
     tech_stacks :  [
     ...new Set(
-      data?.projects?.flatMap((project ) => project.tech_stacks) ?? []
+      data?.projects?.flatMap((project ) => project.tech_stacks) ?? [],
     )
-  ] }));
+    ]?.map((data) => ({
+      ...data,
+      name: data?.skill_user.skill.name,
+      color : data?.skill_user?.skill?.color
+  })) }));
 
   const totalItems = await prisma.experiance.count({ where: whereFilter });
 

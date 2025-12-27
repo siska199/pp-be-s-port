@@ -26,6 +26,9 @@ export const getListProjectMenuService = async (param: string) => {
         },
       },
     },
+    orderBy: {
+      created_at: "desc"
+    }
   });
 
   const resultDto = await Promise.all(
