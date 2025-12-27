@@ -37,52 +37,72 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
   const skip = (page_no - 1) * items_perpage;
   const take = items_perpage;
 
-  const listIdSkill = id_skills?.split(",") || [];
-  const listCategory = (categories?.split(",") as CategoryProject[]) || [];
-  const listType = (types?.split(",") as TypeProject[]) || [];
+  const listIdSkill =id_skills? id_skills?.split(",") :[]
+  const listCategory = categories? (categories?.split(",") as CategoryProject[]) : [];
+  const listType = types? (types?.split(",") as TypeProject[]) : [];
 
-  const whereFilter:  Prisma.ProjectWhereInput = {
+  const whereFilter: Prisma.ProjectWhereInput = {
     ...(id_user && { id_user }),
     AND: [
-      ...(keyword
+      {
+        OR: [
+          {
+            name: {
+              contains: keyword || '',
+              mode: 'insensitive',
+            },
+          },
+          {
+            experiance: {
+              company: {
+                name: {
+                  contains: keyword || '',
+                  mode: 'insensitive',
+                },
+              },
+            },
+          },
+        ],
+      },
+      ...(listIdSkill.length > 0
         ? [
             {
-              OR: [
-                { name: { contains: keyword as string, mode: "insensitive" as Prisma.QueryMode } },
-                {
-                  experiance: {
-                    company: { name: { contains: keyword as string, mode: "insensitive" as Prisma.QueryMode } },
+              tech_stacks: {
+                some: {
+                  skill_user: {
+                    skill: {
+                      id: {
+                        in: listIdSkill,
+                      },
+                    },
                   },
                 },
-              ],
-            } as Prisma.ProjectWhereInput,
+              },
+            },
           ]
-        : []),
-      ...(listIdSkill.length
-        ? [
-            {
-              OR: listIdSkill.map((id_skill) => ({
-                tech_stacks: { some: { skill_user: { skill : {id:id_skill} } } },
-              })) as Prisma.ProjectWhereInput[],
-            } as Prisma.ProjectWhereInput,
-          ]
-        : []),
+      : []),
       ...(listCategory.length
         ? [
             {
-              OR: listCategory.map((category) => ({ category: { equals: category } })) as Prisma.ProjectWhereInput[],
-            } as Prisma.ProjectWhereInput,
+              category: {
+                in: listCategory,
+              },
+            },
           ]
         : []),
+
       ...(listType.length
         ? [
             {
-              OR: listType.map((type) => ({ type: { equals: type } })) as Prisma.ProjectWhereInput[],
-            } as Prisma.ProjectWhereInput,
+              type: {
+                in: listType,
+              },
+            },
           ]
         : []),
     ],
   };
+
 
   const relationOrderMap: Record<string, Prisma.ProjectOrderByWithRelationInput> = {
   };
@@ -133,6 +153,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
           name: techStack.skill_user?.skill?.name,
           color: techStack.skill_user?.skill?.color,
         })),
+        company_name : project.experiance?.company.name
       };
     })
   );

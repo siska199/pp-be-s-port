@@ -1,4 +1,5 @@
 import {
+  deleteProjectResponsibilityById,
   getListProjectResponsibility,
   upsertProjectResponsibility,
 } from "@3. controllers/7.1 project-responsibility-controller";
@@ -12,5 +13,7 @@ export default (router: express.Router) => {
     authentication(),
     upsertProjectResponsibility
   );
+  router.delete("/project-responsibility/:id", authentication(), deleteProjectResponsibilityById);
+
   return router;
 };

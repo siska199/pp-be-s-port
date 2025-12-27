@@ -1,5 +1,6 @@
 import { deleteProjectByIdService } from "@2. service/7. project-service";
 import {
+  deleteProjectMenuByIdService,
   getListProjectMenuService,
   upsertProjectMenuService,
 } from "@2. service/7.2 project-menu-service";
@@ -41,7 +42,7 @@ export const deleteProjectMenuById = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const id = req.params.id;
 
-    const result = await deleteProjectByIdService(id);
+    const result = await deleteProjectMenuByIdService(id);
 
     successResponse({
       res,
