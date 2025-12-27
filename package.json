@@ -4,7 +4,9 @@
   "description": "The backend repository for s-port website",
   "main": "index.ts",
   "scripts": {
-    "start": "npx nodemon"
+    "start": "npx nodemon",
+    "dev": "vercel dev",
+    "build": "tsc"
   },
   "prisma": {
     "schema": "src/_db/prisma",
