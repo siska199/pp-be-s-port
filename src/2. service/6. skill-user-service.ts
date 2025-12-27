@@ -82,11 +82,14 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
   const items = result.map((data) => ({
     ...filterKeysObject({
       object: data,
-      keys: ["created_at", "updated_at"],
+      keys: ["created_at", "updated_at",],
     }),
     id_category: data.skill?.category?.id,
     category_name: data.skill?.category?.name,
     skill_name: data.skill?.name,
+    project_tech_stacks: data?.project_tech_stacks?.map((data) => ({
+       ...data?.project
+     }))
   }));
 
   return {

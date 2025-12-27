@@ -3,7 +3,7 @@ model SkillUser {
 
     id_skill            String      @db.VarChar(36)
 
-    years_of_experiance Float           @db.DoublePrecision()        
+    years_of_experiance Float       @db.DoublePrecision()        
     level               Level
 
     id_user             String      @db.VarChar(36)
