@@ -1,4 +1,4 @@
-import CONFIG from "@_lib/config";
+import CONFIG from "../../_lib/config";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 

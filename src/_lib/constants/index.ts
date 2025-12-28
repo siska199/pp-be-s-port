@@ -1,4 +1,4 @@
-import { TTypeFile } from "@_lib/types";
+import { TTypeFile } from "../types";
 
 export const listCommonTypeFileImage = [
   TTypeFile.JPEG,
