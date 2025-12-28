@@ -40,9 +40,9 @@ export const getUserByAnyParamService = async (params: Partial<User>) => {
     },
   });
 
-  const image_url = await getCloudinaryUrl({
+  const image_url = result?.image? await getCloudinaryUrl({
     publicId: String(result?.image),
-  });
+  }) : null
 
   const resultDto = filterKeysObject({
     object: {
