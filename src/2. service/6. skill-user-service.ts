@@ -38,15 +38,20 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
   const whereFilter: Prisma.SkillUserWhereInput = {
     AND: [
       ...(id_user ? [{ id_user }] : []),
+
       ...(username
-          ? [
-              {
-                user: {
-                  username,
+        ? [
+            {
+              user: {
+                username: {
+                  equals: username,
+                  mode: Prisma.QueryMode.insensitive,
                 },
               },
-            ]
-          : []),
+            },
+          ]
+        : []),
+
       ...(id_category
         ? [
             {
@@ -56,28 +61,37 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
             },
           ]
         : []),
-      {
-        OR: [
-          {
-            skill: {
-              name: {
-                contains: keyword || '',
-                mode: 'insensitive',
+
+      ...(keyword
+        ? [
+            {
+              skill: {
+                OR: [
+                  {
+                    name: {
+                      contains: keyword,
+                      mode: Prisma.QueryMode.insensitive,
+                    },
+                  },
+                  {
+                    category: {
+                      name: {
+                        contains: keyword,
+                        mode: Prisma.QueryMode.insensitive,
+                      },
+                    },
+                  },
+                ],
               },
-              category: {
-                name: {
-                  contains: keyword || '',
-                  mode: 'insensitive',
-                },
-              }
-            }
-          }
-        ]
-      },
+            },
+          ]
+        : []),
+
       ...(level ? [{ level }] : []),
       ...(years_of_experiance ? [{ years_of_experiance }] : []),
     ],
   };
+
 
   const relationOrderMap: Record<string, Prisma.SkillUserOrderByWithRelationInput> = {
     skill_name: { skill: { name: sort_dir } },
