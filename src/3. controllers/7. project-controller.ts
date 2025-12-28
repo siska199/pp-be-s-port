@@ -11,20 +11,28 @@ import { TRequestAuthRoute, TSort_dir } from "../_lib/types";
 import { CategoryProject, Project, TypeProject } from "@prisma/client";
 import { Response } from "express";
 
+
+export const mapProjectListQuery = (req:TRequestAuthRoute) => {
+  return {
+    page_no: req.query.page_no ? Number(req.query.page_no) : undefined,
+    items_perpage: req.query.items_perpage
+      ? Number(req.query.items_perpage)
+      : undefined,
+    sort_by: req.query.sort_by as keyof Project,
+    sort_dir: req.query.sort_dir as TSort_dir,
+    categories: req.query.categories as CategoryProject,
+    types: req.query.types as TypeProject,
+    id_skills: req.query.id_skills?.toString() || "",
+    keyword: req.query.keyword?.toString() || "",
+    id_user: req.user?.id || "",
+    username : req.query.username?.toString()
+
+  }
+}
+
 export const getListProject = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const user = req.user;
-    const queryObject = {
-      page_no: Number(req.query.page_no),
-      items_perpage: Number(req.query.items_perpage),
-      sort_by: req.query.sort_by as keyof Project,
-      sort_dir: req.query.sort_dir as TSort_dir,
-      categories: req.query.categories as CategoryProject,
-      types: req.query.types as TypeProject,
-      id_skills: req.query.id_skills?.toString() || "",
-      keyword: req.query.keyword?.toString() || "",
-      id_user: user?.id?.toString() || "",
-    };
+    const queryObject = mapProjectListQuery(req)
 
     const result = await getListProjectService(queryObject);
 

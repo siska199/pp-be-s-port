@@ -12,10 +12,8 @@ import { TRequestAuthRoute, TSort_dir } from "../_lib/types";
 import { Experiance } from "@prisma/client";
 import { Response } from "express";
 
-export const getListExperiance = catchErrors(
-  async (req: TRequestAuthRoute, res: Response) => {
-    const user = req.user;
-    const queryObject = {
+export const mapExperianceListQuery = (req:TRequestAuthRoute) => {
+  return {
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: (req.query.sort_by || "start_at") as keyof Experiance,
@@ -25,9 +23,14 @@ export const getListExperiance = catchErrors(
       id_description: req.query.id_description?.toString(),
       start_at: req.query.start_at?.toString(),
       end_at: req.query.end_at?.toString(),
-      id_user: user?.id?.toString() || "",
-    };
+      id_user: req.user?.id?.toString() || "",
+      username : req.query.username?.toString()
+  }
+}
 
+export const getListExperiance = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const queryObject = mapExperianceListQuery(req)
     const result = await getListExperianceService(queryObject);
 
     successResponse({

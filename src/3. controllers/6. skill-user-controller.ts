@@ -13,10 +13,8 @@ import { TRequestAuthRoute, TSort_dir } from "../_lib/types";
 import { Level, SkillUser } from "@prisma/client";
 import { Response } from "express";
 
-export const getListSkillUser = catchErrors(
-  async (req: TRequestAuthRoute, res: Response) => {
-    const user = req.user;
-    const queryObject = {
+export const mapSkillUserListQuery = (req:TRequestAuthRoute) => {
+  return {
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof SkillUser,
@@ -24,11 +22,15 @@ export const getListSkillUser = catchErrors(
       id_skills: req.query.id_skills?.toString(),
       years_of_experiance: Number(req.query.years_of_experiance),
       level: req.query.level as Level,
-      id_user: user?.id?.toString() || "",
-    };
+      id_user: req.user?.id?.toString() || "",
+      username : req.query.username?.toString()
+  }
+}
 
+export const getListSkillUser = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const queryObject = mapSkillUserListQuery(req)
     const result = await getListSkillUserService(queryObject);
-
     successResponse({
       res,
       data: result,

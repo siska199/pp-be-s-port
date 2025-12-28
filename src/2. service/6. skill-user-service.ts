@@ -1,5 +1,6 @@
-import prisma from "../_db/prisma";
+import { Level, Prisma, SkillUser } from "@prisma/client";
 import skillUserSchema from "../1. validation/6. skill-user-schema";
+import prisma from "../_db/prisma";
 import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
@@ -8,10 +9,10 @@ import {
   validationParse,
 } from "../_lib/helpers/function";
 import { TQueryParamsPaginationList } from "../_lib/types";
-import { Level, Prisma, SkillUser } from "@prisma/client";
 
 type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
   id_user: string;
+  username?: string;
   id_skills?: string;
   years_of_experiance?: number;
   level?: Level;
@@ -27,6 +28,7 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
     id_skills,
     years_of_experiance,
     level,
+    username
   } = params;
 
   const listIdSkill = id_skills?.split(",") || [];
@@ -35,6 +37,9 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
 
   const whereFilter: Prisma.SkillUserWhereInput = {
     ...(id_user && { id_user }),
+    ...(username && {
+      user: { username }}
+    ),
     AND: [
       ...(listIdSkill.length
         ? [
@@ -195,3 +200,66 @@ export const deleteSkillUserByIdService = async (param: string) => {
   const resultDto = result;
   return result ? resultDto : null;
 };
+interface TParamsListSkillUserCategory{
+  username? : string
+}
+export const getListSkillUserCategoryService = async (
+params: TParamsListSkillUserCategory
+) => {
+  const { username} = params
+  const skillUsers = await prisma.skillUser.findMany({
+    where: {
+      user: {
+        username
+      },
+    },
+    select: {
+      id: true,
+      level: true,
+      years_of_experiance: true,
+      skill: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          color: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  })
+
+  const categoryMap = new Map<string, any>()
+
+  for (const item of skillUsers) {
+    const category = item.skill.category
+
+    if (!categoryMap.has(category.id)) {
+      categoryMap.set(category.id, {
+        categoryId: category.id,
+        categoryName: category.name,
+        skills: [],
+      })
+    }
+
+    categoryMap.get(category.id).skills.push({
+      skillUserId: item.id,
+      skillId: item.skill.id,
+      skillName: item.skill.name,
+      image: item.skill.image,
+      color: item.skill.color,
+      level: item.level,
+      yearsOfExperience: item.years_of_experiance,
+    })
+  }
+
+  return Array.from(categoryMap.values())
+}

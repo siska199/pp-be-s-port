@@ -15,12 +15,14 @@ import { PersonalInformation } from "@prisma/client";
 export const getPersonalInfoByAnyParamService = async (params: {
   id_user?: string;
   id?: string;
+  username?: string;
 }) => {
-  const { id_user, id } = params;
+  const { id_user, id, username } = params;
   const result = await prisma.personalInformation.findFirst({
     where: {
       ...(id_user && { id_user }),
       ...(id && { id }),
+      ...(username && {username})
     },
     include: {
       profession: {

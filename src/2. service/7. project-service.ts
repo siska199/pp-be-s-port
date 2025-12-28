@@ -19,6 +19,7 @@ type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {
   types?: TypeProject;
   id_skills?: string;
   keyword?: string;
+  username?: string;
 };
 
 export const getListProjectService = async (params: TParamsListProjectDto) => {
@@ -51,6 +52,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
               contains: keyword || '',
               mode: 'insensitive',
             },
+            
           },
           {
             experiance: {
@@ -58,6 +60,36 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
                 name: {
                   contains: keyword || '',
                   mode: 'insensitive',
+                },
+              },
+            },
+          },
+          {
+            tech_stacks: {
+              some: {
+                skill_user: {
+                  skill: {
+                    name: {
+                      contains: keyword,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            tech_stacks: {
+              some: {
+                skill_user: {
+                  skill: {
+                    category: {
+                      name: {
+                        contains: keyword,
+                        mode: "insensitive",
+                      },
+                    },
+                  },
                 },
               },
             },

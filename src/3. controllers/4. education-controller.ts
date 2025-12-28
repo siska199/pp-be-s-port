@@ -13,21 +13,24 @@ import { TRequestAuthRoute } from "../_lib/types";
 import { Education } from "@prisma/client";
 import { Response } from "express";
 
-export const getListEducation = catchErrors(
-  async (req: TRequestAuthRoute, res: Response) => {
-    const user = req.user;
-    const queryObject: TParamsListEducationDto = {
+export const mapEducationListQuery = (req:TRequestAuthRoute) => {
+  return {
       page_no: Number(req.query.page_no),
       items_perpage: Number(req.query.items_perpage),
       sort_by: req.query.sort_by as keyof Education,
       sort_dir: req.query.sort_dir as "asc" | "desc",
       keyword: req.query.keyword?.toString() || "",
       id_level: req.query.id_level?.toString() || "",
-      id_user: user?.id ?? "",
+      id_user: req.user?.id ?? "",
       start_at: req.query.start_at?.toString() || "",
       end_at: req.query.end_at?.toString() || "",
-    };
+      username : req.query.username?.toString()
+  }
+}
 
+export const getListEducation = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const queryObject: TParamsListEducationDto = mapEducationListQuery(req)
     const result = await getListEducationService({
       ...queryObject,
     });
