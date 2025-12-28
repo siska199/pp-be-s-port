@@ -10,12 +10,13 @@ import {
 } from "../_lib/helpers/function";
 import { TQueryParamsPaginationList } from "../_lib/types";
 
-type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
+export type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {
   id_user: string;
   username?: string;
-  id_skills?: string;
   years_of_experiance?: number;
   level?: Level;
+  keyword?: string;
+  id_category?: string;
 };
 
 export const getListSkillUserService = async (params: TParamsListSkillUserDto) => {
@@ -25,31 +26,54 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
     items_perpage = 10,
     sort_by = "created_at",
     sort_dir = "desc",
-    id_skills,
     years_of_experiance,
     level,
-    username
+    username,
+    keyword,
+    id_category
   } = params;
-
-  const listIdSkill = id_skills?.split(",") || [];
   const skip = Number(items_perpage) * (Number(page_no) - 1);
   const take = items_perpage;
 
   const whereFilter: Prisma.SkillUserWhereInput = {
-    ...(id_user && { id_user }),
-    ...(username && {
-      user: { username }}
-    ),
     AND: [
-      ...(listIdSkill.length
+      ...(id_user ? [{ id_user }] : []),
+      ...(username
+          ? [
+              {
+                user: {
+                  username,
+                },
+              },
+            ]
+          : []),
+      ...(id_category
         ? [
             {
-              OR: listIdSkill.map((id_skill) => ({
-                skill: { is: { id: id_skill } },
-              })),
+              skill: {
+                id_category,
+              },
             },
           ]
         : []),
+      {
+        OR: [
+          {
+            skill: {
+              name: {
+                contains: keyword || '',
+                mode: 'insensitive',
+              },
+              category: {
+                name: {
+                  contains: keyword || '',
+                  mode: 'insensitive',
+                },
+              }
+            }
+          }
+        ]
+      },
       ...(level ? [{ level }] : []),
       ...(years_of_experiance ? [{ years_of_experiance }] : []),
     ],

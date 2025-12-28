@@ -14,7 +14,8 @@ import { TQueryParamsPaginationList } from "../_lib/types/index";
 type TParamsListExperianceDto = TQueryParamsPaginationList<keyof Experiance> & {
   start_at?: string;
   end_at?: string;
-  id_user: string;
+  id_user?: string;
+  username?: string;
 };
 
 export const getListExperianceService = async (
@@ -29,14 +30,24 @@ export const getListExperianceService = async (
     start_at,
     end_at,
     id_user,
+    username
   } = params;
 
   const skip = (Number(page_no) - 1) * Number(items_perpage);
   const take = items_perpage;
 
   const whereFilter: Prisma.ExperianceWhereInput = {
-    id_user,
     AND: [
+      ...(id_user ? [{ id_user }] : []),
+      ...(username
+          ? [
+              {
+                user: {
+                  username,
+                },
+              },
+            ]
+          : []),
       {
         OR: [
           {

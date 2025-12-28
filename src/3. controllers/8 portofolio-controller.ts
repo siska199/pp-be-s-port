@@ -16,10 +16,6 @@ import { Response } from "express";
 export const getPersonalInformationPortofolio = catchErrors<TRequestAuthRoute>(
   async (req: TRequestAuthRoute, res: Response) => {
     const username = req.query.username?.toString();
-
-    if (!username) {
-      throw new Error('Username is required');
-    }
     
     const result = await getPersonalInfoByAnyParamService({
       username
@@ -36,9 +32,7 @@ export const getPersonalInformationPortofolio = catchErrors<TRequestAuthRoute>(
 export const getListSkillUserCategoryPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const username =req.query.username?.toString() 
-    if (!username) {
-      throw new Error('Username is required');
-    }
+
     const queryObject = {
         username 
     }
@@ -54,10 +48,6 @@ export const getListSkillUserCategoryPortofolio = catchErrors(
 
 export const getListSkillUserPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const username =req.query.username?.toString() 
-    if (!username) {
-      throw new Error('Username is required');
-    }
     const queryObject = mapSkillUserListQuery(req)
     const result = await getListSkillUserService(queryObject);
     successResponse({
@@ -70,10 +60,7 @@ export const getListSkillUserPortofolio = catchErrors(
 
 export const getListProjectPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const username =req.query.username?.toString() 
-    if (!username) {
-      throw new Error('Username is required');
-    }
+
     const queryObject = mapProjectListQuery(req)
     const result = await getListProjectService(queryObject);
     successResponse({
@@ -86,11 +73,6 @@ export const getListProjectPortofolio = catchErrors(
 
 export const getListExperiancePortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const username =req.query.username?.toString() 
-    if (!username) {
-      throw new Error('Username is required');
-    }
-
     const queryObject = mapExperianceListQuery(req)
     const result = await getListExperianceService(queryObject);
 
@@ -104,11 +86,6 @@ export const getListExperiancePortofolio = catchErrors(
 
 export const getListEducationPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const username =req.query.username?.toString() 
-    if (!username) {
-      throw new Error('Username is required');
-    }
-
     const queryObject: TParamsListEducationDto = mapEducationListQuery(req)
     const result = await getListEducationService({
       ...queryObject,

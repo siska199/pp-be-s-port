@@ -13,7 +13,7 @@ export const removeKeyWithUndifienedValue = <TData extends object>(
   obj: TData
 ) => {
   return Object.fromEntries(
-    Object.entries(obj).filter(([key, value]) => value !== undefined)
+    Object.entries(obj).filter(([key, value]) => ![undefined, '', null]?.includes(value))
   );
 };
 
