@@ -1,12 +1,12 @@
-import prisma from "@_db/prisma";
-import masterSkillSchema from "@1. validation/0.8 master-skill-schema";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import masterSkillSchema from "../1. validation/0.8 master-skill-schema";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { MasterSkill } from "@prisma/client";
 
 export const getListMasterSkillService = async (params: {

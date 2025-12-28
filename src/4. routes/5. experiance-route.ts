@@ -4,8 +4,8 @@ import {
   getExperianceById,
   getListExperiance,
   upsertExperiance,
-} from "@3. controllers/5. experiance-controller";
-import authentication from "@_lib/middleware/authentication";
+} from "../3. controllers/5. experiance-controller";
+import authentication from "../_lib/middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {

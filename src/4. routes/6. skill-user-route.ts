@@ -4,8 +4,8 @@ import {
   getListSkillUser,
   getSkillUserById,
   upsertSkillUser,
-} from "@3. controllers/6. skill-user-controller";
-import authentication from "@_lib/middleware/authentication";
+} from "../3. controllers/6. skill-user-controller";
+import authentication from "../_lib/middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {

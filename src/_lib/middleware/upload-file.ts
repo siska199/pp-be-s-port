@@ -1,5 +1,5 @@
-import uploadFileToCloudinary from "@_lib/helpers/claudinary";
-import { CustomError } from "@_lib/middleware/error-handler";
+import uploadFileToCloudinary from "../helpers/claudinary";
+import { CustomError } from "../middleware/error-handler";
 import { Request, Response, NextFunction } from "express";
 import multer, { FileFilterCallback } from "multer";
 

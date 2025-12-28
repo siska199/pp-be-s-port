@@ -3,10 +3,10 @@ import {
   getListMasterSkillService,
   getMasterSkillByIdService,
   upsertMasterSkillService,
-} from "@2. service/0.8 master-skill-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
+} from "../2. service/0.8 master-skill-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
 
 import { Request, Response } from "express";
 

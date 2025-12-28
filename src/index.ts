@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import routes from "@4. routes";
-import errorHandler from "@_lib/middleware/error-handler";
-import CONFIG from "@_lib/config";
+import routes from "./4. routes";
+import errorHandler from "./_lib/middleware/error-handler";
+import CONFIG from "./_lib/config";
 
 const app = express();
 

@@ -3,8 +3,8 @@ import {
   deleteSocialLink,
   getListSocialLink,
   upsertSocialLink,
-} from "@3. controllers/3. social-link-controller";
-import authentication from "@_lib/middleware/authentication";
+} from "../3. controllers/3. social-link-controller";
+import authentication from "../_lib/middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {

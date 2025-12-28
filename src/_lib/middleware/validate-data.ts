@@ -1,4 +1,4 @@
-import { validationParse } from "@_lib/helpers/function";
+import { validationParse } from "../helpers/function";
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
 

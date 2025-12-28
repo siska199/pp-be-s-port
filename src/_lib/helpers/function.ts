@@ -1,5 +1,5 @@
-import { CustomError } from "@_lib/middleware/error-handler";
-import { TGeneralObject } from "@_lib/types";
+import { CustomError } from "../middleware/error-handler";
+import { TGeneralObject } from "../types";
 import { z } from "zod";
 
 export const generateTimeExpired = (day: number = 1) => {

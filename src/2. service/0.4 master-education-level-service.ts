@@ -1,10 +1,10 @@
-import prisma from "@_db/prisma";
-import masterEducationLevelSchema from "@1. validation/0.4 master-education-level-schema";
+import prisma from "../_db/prisma";
+import masterEducationLevelSchema from "../1. validation/0.4 master-education-level-schema";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 
 import { MasterEducationLevel } from "@prisma/client";
 

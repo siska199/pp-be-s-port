@@ -1,15 +1,15 @@
-import prisma from "@_db/prisma";
-import experianceSchema from "@1. validation/5. experiance-schema";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import { Experiance, Prisma } from "@prisma/client";
+import experianceSchema from "../1. validation/5. experiance-schema";
+import prisma from "../_db/prisma";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   convertToISOString,
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
-import { TQueryParamsPaginationList } from "@_lib/types/index";
-import { Experiance, Prisma, ProjectMenu } from "@prisma/client";
+} from "../_lib/helpers/function";
+import { TQueryParamsPaginationList } from "../_lib/types/index";
 
 type TParamsListExperianceDto = TQueryParamsPaginationList<keyof Experiance> & {
   start_at?: string;

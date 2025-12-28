@@ -1,13 +1,13 @@
-import { deleteProjectByIdService } from "@2. service/7. project-service";
+import { deleteProjectByIdService } from "../2. service/7. project-service";
 import {
   deleteProjectMenuByIdService,
   getListProjectMenuService,
   upsertProjectMenuService,
-} from "@2. service/7.2 project-menu-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute } from "@_lib/types";
+} from "../2. service/7.2 project-menu-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute } from "../_lib/types";
 import { Response } from "express";
 
 export const getListProjectMenu = catchErrors(

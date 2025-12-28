@@ -1,5 +1,5 @@
-import CONFIG from "@_lib/config";
-import { CustomError } from "@_lib/middleware/error-handler";
+import CONFIG from "../config";
+import { CustomError } from "../middleware/error-handler";
 import { v2 as cloudinary, UploadApiOptions, UploadApiResponse } from "cloudinary";
 
 cloudinary.config({

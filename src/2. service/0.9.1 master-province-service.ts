@@ -1,4 +1,4 @@
-import prisma from "@_db/prisma";
+import prisma from "../_db/prisma";
 import { MasterProvince } from "@prisma/client";
 
 export const getListMasterProvinceService = async (): Promise<

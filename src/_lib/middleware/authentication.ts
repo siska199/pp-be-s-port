@@ -1,7 +1,7 @@
-import { getUserByAnyParamService } from "@2. service/1. user-service";
-import CONFIG from "@_lib/config";
-import { CustomError } from "@_lib/middleware/error-handler";
-import { TRequestAuthRoute } from "@_lib/types";
+import { getUserByAnyParamService } from "../../2. service/1. user-service";
+import CONFIG from "../config";
+import { CustomError } from "../middleware/error-handler";
+import { TRequestAuthRoute } from "../types";
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 

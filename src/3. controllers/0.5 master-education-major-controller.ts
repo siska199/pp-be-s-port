@@ -3,10 +3,10 @@ import {
   getListMasterEducationMajorService,
   getMasterEducationMajorByIdService,
   upsertMasterEducationMajorByIdService,
-} from "@2. service/0.5 master-education-major-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
+} from "../2. service/0.5 master-education-major-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
 
 export const getListMasterEducationMajor = catchErrors(async (req, res) => {
   const { id_level } = req.query;

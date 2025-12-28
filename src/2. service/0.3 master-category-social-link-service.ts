@@ -1,12 +1,12 @@
-import prisma from "@_db/prisma";
-import masterCategorySocialLinkSchema from "@1. validation/0.3 master-category-social-link-schema";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import masterCategorySocialLinkSchema from "../1. validation/0.3 master-category-social-link-schema";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { MasterCategorySocialLink } from "@prisma/client";
 
 export const getListMasterCategorySocialLinkService = async () => {

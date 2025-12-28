@@ -1,12 +1,12 @@
-import prisma from "@_db/prisma";
-import userSchema from "@1. validation/1. user-schema";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import userSchema from "../1. validation/1. user-schema";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { User } from "@prisma/client";
 
 export const getUserByAnyParamService = async (params: Partial<User>) => {

@@ -1,6 +1,6 @@
 
-import { deleteKeyMetric, getListKeyMetric, upsertBulkKeyMetric, upsertKeyMetric } from "@3. controllers/2.1 key-metric-controller";
-import authentication from "@_lib/middleware/authentication";
+import { deleteKeyMetric, getListKeyMetric, upsertBulkKeyMetric, upsertKeyMetric } from "../3. controllers/2.1 key-metric-controller";
+import authentication from "../_lib/middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {

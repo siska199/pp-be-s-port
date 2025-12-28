@@ -1,4 +1,4 @@
-import { zEmail, zPhoneNumber, zString } from "@1. validation/reusable-shema";
+import { zEmail, zPhoneNumber, zString } from "../1. validation/reusable-shema";
 import z from "zod";
 
 const keyMetricSchema = (mandatory: boolean = true) =>

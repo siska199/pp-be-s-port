@@ -1,9 +1,9 @@
 
-import { deleteKeyMetricByIdService, getListKeyMetricService, upsertBulkKeyMetricService, upsertKeyMetricService } from "@2. service/2.1 key-metric";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute } from "@_lib/types";
+import { deleteKeyMetricByIdService, getListKeyMetricService, upsertBulkKeyMetricService, upsertKeyMetricService } from "../2. service/2.1 key-metric";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute } from "../_lib/types";
 import { KeyMetric } from "@prisma/client";
 import { Response } from "express";
 

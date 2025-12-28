@@ -3,7 +3,7 @@ import {
   zDatetime,
   zNumber,
   zString,
-} from "@1. validation/reusable-shema";
+} from "../1. validation/reusable-shema";
 import { z } from "zod";
 
 const educationSchema = (mandatory = true) =>

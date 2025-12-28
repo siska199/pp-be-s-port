@@ -1,4 +1,4 @@
-import { zString } from "@1. validation/reusable-shema";
+import { zString } from "../1. validation/reusable-shema";
 import { z } from "zod";
 
 const projectResponsiblitySchema = (mandatory = true) =>

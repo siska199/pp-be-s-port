@@ -1,13 +1,13 @@
-import prisma from "@_db/prisma";
-import educationSchema from "@1. validation/4. education-schema";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import educationSchema from "../1. validation/4. education-schema";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   convertToISOString,
   filterKeysObject,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
-import { TQueryParamsPaginationList } from "@_lib/types/index";
+} from "../_lib/helpers/function";
+import { TQueryParamsPaginationList } from "../_lib/types/index";
 import { Education, Prisma } from "@prisma/client";
 
 export type TParamsListEducationDto = TQueryParamsPaginationList<

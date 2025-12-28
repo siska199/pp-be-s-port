@@ -1,15 +1,15 @@
-import prisma from "@_db/prisma";
-import masterCompanySchema from "@1. validation/0.1 master-company-schema";
+import prisma from "../_db/prisma";
+import masterCompanySchema from "../1. validation/0.1 master-company-schema";
 import {
   deleteFromCloudinary,
   getCloudinaryUrl,
-} from "@_lib/helpers/claudinary";
+} from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { MasterCompany } from "@prisma/client";
 
 export const getListMasterCompanyService = async () => {

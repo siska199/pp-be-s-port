@@ -1,16 +1,16 @@
-import prisma from "@_db/prisma";
-import projectSchema from "@1. validation/7. project-schema";
+import prisma from "../_db/prisma";
+import projectSchema from "../1. validation/7. project-schema";
 import {
   deleteFromCloudinary,
   getCloudinaryUrl,
-} from "@_lib/helpers/claudinary";
+} from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
-import { TQueryParamsPaginationList } from "@_lib/types";
+} from "../_lib/helpers/function";
+import { TQueryParamsPaginationList } from "../_lib/types";
 import { CategoryProject, Prisma, Project, ProjectTechStack, TypeProject } from "@prisma/client";
 
 type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {

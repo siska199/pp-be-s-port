@@ -2,11 +2,11 @@ import {
   deleteMasterCompanyByIdService,
   getListMasterCompanyService,
   upsertMasterCompanyService,
-} from "@2. service/0.1 master-company-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { CustomError } from "@_lib/middleware/error-handler";
+} from "../2. service/0.1 master-company-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { CustomError } from "../_lib/middleware/error-handler";
 import { Request, Response } from "express";
 
 export const getListMasterCompany = catchErrors(

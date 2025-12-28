@@ -1,9 +1,5 @@
-import prisma from "@_db/prisma";
-import {
-  filterKeysObject,
-  removeKeyWithUndifienedValue,
-} from "@_lib/helpers/function";
 import { ProjectResponsibility } from "@prisma/client";
+import prisma from "../_db/prisma";
 
 export const getListProjectResponsibilityService = async (param: string) => {
   const id_project = param;

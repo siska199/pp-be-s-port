@@ -3,11 +3,11 @@ import {
   getListProjectService,
   getProjectByIdService,
   upsertProjectService,
-} from "@2. service/7. project-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute, TSort_dir } from "@_lib/types";
+} from "../2. service/7. project-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute, TSort_dir } from "../_lib/types";
 import { CategoryProject, Project, TypeProject } from "@prisma/client";
 import { Response } from "express";
 

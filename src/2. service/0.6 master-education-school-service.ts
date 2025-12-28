@@ -1,11 +1,11 @@
-import prisma from "@_db/prisma";
-import masterEducationSchoolSchema from "@1. validation/0.6 master-education-school";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import masterEducationSchoolSchema from "../1. validation/0.6 master-education-school";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { MasterEducationLevel, MasterEducationSchool, MasterLevelSchoolEducation } from "@prisma/client";
 
 

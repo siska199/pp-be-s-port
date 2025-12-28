@@ -1,10 +1,10 @@
-import prisma from "@_db/prisma";
-import projectRelatedImageSchema from "@1. validation/7.2.1 project-related-image-schema";
+import prisma from "../_db/prisma";
+import projectRelatedImageSchema from "../1. validation/7.2.1 project-related-image-schema";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { ProjectMenuRelatedImage } from "@prisma/client";
 
 export const getListProjectMenuRelatedImageService = async (param: string) => {

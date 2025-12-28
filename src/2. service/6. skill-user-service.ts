@@ -1,13 +1,13 @@
-import prisma from "@_db/prisma";
-import skillUserSchema from "@1. validation/6. skill-user-schema";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import skillUserSchema from "../1. validation/6. skill-user-schema";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
-import { TQueryParamsPaginationList } from "@_lib/types";
+} from "../_lib/helpers/function";
+import { TQueryParamsPaginationList } from "../_lib/types";
 import { Level, Prisma, SkillUser } from "@prisma/client";
 
 type TParamsListSkillUserDto = TQueryParamsPaginationList<keyof SkillUser> & {

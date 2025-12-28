@@ -3,7 +3,7 @@ import {
   deleteMasterProfessionById,
   getListMasterProfession,
   upsertMasterProfession,
-} from "@3. controllers/0.2 master-profession-controller";
+} from "../3. controllers/0.2 master-profession-controller";
 import express from "express";
 
 export default (router: express.Router) => {

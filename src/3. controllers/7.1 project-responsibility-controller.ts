@@ -2,11 +2,11 @@ import {
   deleteProjectResponsibilityByIdService,
   getListProjectResponsibilityService,
   upsertProjectResponsibilityService,
-} from "@2. service/7.1 project-responsibility-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute } from "@_lib/types";
+} from "../2. service/7.1 project-responsibility-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute } from "../_lib/types";
 import { Response } from "express";
 
 export const getListProjectResponsibility = catchErrors(

@@ -2,10 +2,10 @@ import {
   deleteMasterComapnyById,
   getListMasterCompany,
   upsertMasterCompany,
-} from "@3. controllers/0.1 master-company-controller";
-import CONFIG from "@_lib/config";
-import { listCommonTypeFileImage } from "@_lib/constants";
-import uploadFile from "@_lib/middleware/upload-file";
+} from "../3. controllers/0.1 master-company-controller";
+import CONFIG from "../_lib/config";
+import { listCommonTypeFileImage } from "../_lib/constants";
+import uploadFile from "../_lib/middleware/upload-file";
 import express from "express";
 
 export default (router: express.Router) => {

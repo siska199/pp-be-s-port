@@ -1,11 +1,11 @@
-import { createBulkMasterEducationLevelDto } from "@2. service/0.4 master-education-level-service";
+import { createBulkMasterEducationLevelDto } from "../2. service/0.4 master-education-level-service";
 import {
   getListMasterEducationSchoolService,
   upsertMasterEducationSchoolByIdService,
-} from "@2. service/0.6 master-education-school-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
+} from "../2. service/0.6 master-education-school-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
 
 export const getListMasterEducationSchool = catchErrors(async (req, res) => {
   const id_level = req.query.id_level as string;

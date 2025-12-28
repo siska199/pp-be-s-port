@@ -1,5 +1,5 @@
 import { messageError } from "@1. validation";
-import { zArray, zEnum, zString } from "@1. validation/reusable-shema";
+import { zArray, zEnum, zString } from "../1. validation/reusable-shema";
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
 

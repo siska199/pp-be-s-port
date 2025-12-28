@@ -2,10 +2,10 @@ import {
   deleteProjectMenuById,
   getListProjectMenu,
   upsertProjectMenu,
-} from "@3. controllers/7.2 project-menu-controller";
-import authentication from "@_lib/middleware/authentication";
-import uploadFile from "@_lib/middleware/upload-file";
-import { TTypeFile } from "@_lib/types";
+} from "../3. controllers/7.2 project-menu-controller";
+import authentication from "../_lib/middleware/authentication";
+import uploadFile from "../_lib/middleware/upload-file";
+import { TTypeFile } from "../_lib/types";
 import express from "express";
 export default (router: express.Router) => {
   router.get("/project-menus", getListProjectMenu);

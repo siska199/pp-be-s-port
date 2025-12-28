@@ -1,4 +1,4 @@
-import { zArray, zString } from "@1. validation/reusable-shema";
+import { zArray, zString } from "../1. validation/reusable-shema";
 import { z } from "zod";
 
 const projectMenuSchema = (mandatory = true) =>

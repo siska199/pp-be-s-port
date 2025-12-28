@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { zPhoneNumber, zString } from "@1. validation/reusable-shema";
+import { zPhoneNumber, zString } from "../1. validation/reusable-shema";
 
 const userSchema = (mandatory = true) =>
   z

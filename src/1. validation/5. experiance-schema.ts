@@ -1,4 +1,4 @@
-import { zDate, zDatetime, zString } from "@1. validation/reusable-shema";
+import { zDate, zDatetime, zString } from "../1. validation/reusable-shema";
 import { z } from "zod";
 
 const experianceSchema = (mandatory = true) =>

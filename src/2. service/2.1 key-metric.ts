@@ -1,9 +1,9 @@
-import prisma from "@_db/prisma";
+import prisma from "../_db/prisma";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { KeyMetric } from "@prisma/client";
 
 export const getListKeyMetricService = async (params: { id_user: string }) => {

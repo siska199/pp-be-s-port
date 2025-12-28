@@ -1,12 +1,12 @@
 import {
   createBulkMasterCategorySocialLinkService,
   getListMasterCategorySocialLinkService,
-} from "@2. service/0.3 master-category-social-link-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { upsertMasterCategorySocialLinkService } from "@2. service/0.3 master-category-social-link-service";
-import { deleteMasterCategorySkillByIdService } from "@2. service/0.7 master-category-skill-service";
+} from "../2. service/0.3 master-category-social-link-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { upsertMasterCategorySocialLinkService } from "../2. service/0.3 master-category-social-link-service";
+import { deleteMasterCategorySkillByIdService } from "../2. service/0.7 master-category-skill-service";
 
 export const getListMasterCategorySocialLink = catchErrors(async (req, res) => {
   const result = await getListMasterCategorySocialLinkService();

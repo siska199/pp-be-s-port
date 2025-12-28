@@ -3,7 +3,7 @@ import {
   removeKeyWithUndifienedValue,
   trimObject,
 } from "../_lib/helpers/function";
-import prisma from "@_db/prisma";
+import prisma from "../_db/prisma";
 import { MasterEducationLevel, MasterEducationMajor, MasterLevelMajorEducation } from "@prisma/client";
 
 type TMasterEducationMajor = MasterEducationMajor & {

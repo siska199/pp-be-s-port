@@ -1,15 +1,15 @@
-import { deleteEducationByIdService } from "@2. service/4. education-service";
+import { deleteEducationByIdService } from "../2. service/4. education-service";
 import {
   createBulkSkillUserService,
   deleteSkillUserByIdService,
   getListSkillUserService,
   getSkillUserByIdService,
   upsertSkillUserService,
-} from "@2. service/6. skill-user-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute, TSort_dir } from "@_lib/types";
+} from "../2. service/6. skill-user-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute, TSort_dir } from "../_lib/types";
 import { Level, SkillUser } from "@prisma/client";
 import { Response } from "express";
 

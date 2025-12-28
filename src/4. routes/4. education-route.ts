@@ -4,8 +4,8 @@ import {
   getEducationById,
   getListEducation,
   upsertEducation,
-} from "@3. controllers/4. education-controller";
-import authentication from "@_lib/middleware/authentication";
+} from "../3. controllers/4. education-controller";
+import authentication from "../_lib/middleware/authentication";
 import express from "express";
 
 export default (router: express.Router) => {

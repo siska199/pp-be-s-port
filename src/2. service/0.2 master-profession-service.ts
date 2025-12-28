@@ -1,11 +1,11 @@
-import prisma from "@_db/prisma";
-import masterProfessionSchema from "@1. validation/0.2 master-profession-schema";
+import prisma from "../_db/prisma";
+import masterProfessionSchema from "../1. validation/0.2 master-profession-schema";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { MasterProfession } from "@prisma/client";
 
 export const getListMasterProfessionService = async () => {

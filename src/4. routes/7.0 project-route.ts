@@ -3,10 +3,10 @@ import {
   getListProject,
   getProjectById,
   upsertProject,
-} from "@3. controllers/7. project-controller";
-import { listCommonTypeFileImage } from "@_lib/constants";
-import authentication from "@_lib/middleware/authentication";
-import uploadFile from "@_lib/middleware/upload-file";
+} from "../3. controllers/7. project-controller";
+import { listCommonTypeFileImage } from "../_lib/constants";
+import authentication from "../_lib/middleware/authentication";
+import uploadFile from "../_lib/middleware/upload-file";
 import express from "express";
 
 export default (router: express.Router) => {

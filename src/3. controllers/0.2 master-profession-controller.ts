@@ -3,12 +3,12 @@ import {
   deleteMasterProfessionByIdService,
   getListMasterProfessionService,
   upsertMasterProfessionService,
-} from "@2. service/0.2 master-profession-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
+} from "../2. service/0.2 master-profession-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
 
-import { TRequestAuthRoute } from "@_lib/types";
+import { TRequestAuthRoute } from "../_lib/types";
 
 export const getListMasterProfession = catchErrors(async (req, res) => {
   const result = await getListMasterProfessionService();

@@ -2,10 +2,10 @@ import {
   deleteMasterCategorySocialLinkById,
   getListMasterCategorySocialLink,
   upsertMasterCategorySocialLink,
-} from "@3. controllers/0.3 master-category-social-link";
-import CONFIG from "@_lib/config";
-import { listCommonTypeFileImage } from "@_lib/constants";
-import uploadFile from "@_lib/middleware/upload-file";
+} from "../3. controllers/0.3 master-category-social-link";
+import CONFIG from "../_lib/config";
+import { listCommonTypeFileImage } from "../_lib/constants";
+import uploadFile from "../_lib/middleware/upload-file";
 import { Router } from "express";
 
 export default (router: Router) => {

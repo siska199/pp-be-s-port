@@ -1,10 +1,10 @@
-import prisma from "@_db/prisma";
-import masterCategorySkillSchema from "@1. validation/0.7 master-category-skill";
+import prisma from "../_db/prisma";
+import masterCategorySkillSchema from "../1. validation/0.7 master-category-skill";
 import {
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { MasterCategorySkill } from "@prisma/client";
 
 export const getListMasterCategorySkillService = async () => {

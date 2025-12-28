@@ -1,12 +1,12 @@
 import {
   getPersonalInfoByAnyParamService,
   upsertPersonalInformationService,
-} from "@2. service/2. personal-information-service";
+} from "../2. service/2. personal-information-service";
 
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute } from "@_lib/types";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute } from "../_lib/types";
 import { Response } from "express";
 
 export const getPersonalInformation = catchErrors<TRequestAuthRoute>(

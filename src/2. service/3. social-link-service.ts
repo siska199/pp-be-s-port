@@ -1,10 +1,10 @@
-import prisma from "@_db/prisma";
-import { getCloudinaryUrl } from "@_lib/helpers/claudinary";
+import prisma from "../_db/prisma";
+import { getCloudinaryUrl } from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { SocialLink } from "@prisma/client";
 
 export const getListSocialLinkService = async (params: { id_user: string }) => {

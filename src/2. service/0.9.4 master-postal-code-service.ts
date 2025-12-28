@@ -1,4 +1,4 @@
-import prisma from "@_db/prisma";
+import prisma from "../_db/prisma";
 import { MasterPostalCode } from "@prisma/client";
 
 export const getListMasterPostalCodeService = async (params: {

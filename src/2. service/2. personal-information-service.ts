@@ -1,15 +1,15 @@
-import prisma from "@_db/prisma";
-import personalInfoSchema from "@1. validation/2. personal-information-schema";
+import prisma from "../_db/prisma";
+import personalInfoSchema from "../1. validation/2. personal-information-schema";
 import {
   deleteFromCloudinary,
   getCloudinaryUrl,
-} from "@_lib/helpers/claudinary";
+} from "../_lib/helpers/claudinary";
 import {
   filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
   validationParse,
-} from "@_lib/helpers/function";
+} from "../_lib/helpers/function";
 import { PersonalInformation } from "@prisma/client";
 
 export const getPersonalInfoByAnyParamService = async (params: {

@@ -3,11 +3,11 @@ import {
   deleteSocialLinkByIdService,
   getListSocialLinkService,
   upsertSocialLinkService,
-} from "@2. service/3. social-link-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute } from "@_lib/types";
+} from "../2. service/3. social-link-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute } from "../_lib/types";
 import { SocialLink } from "@prisma/client";
 import { Response } from "express";
 

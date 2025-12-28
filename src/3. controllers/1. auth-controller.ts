@@ -1,11 +1,11 @@
-import prisma from "@_db/prisma";
-import { getUserByAnyParamService, upsertUserService } from "@2. service/1. user-service";
-import { upsertBulkSocialLinkService } from "@2. service/3. social-link-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import { dycriptBycrypt, encryptBycrypt } from "@_lib/helpers/encryption";
-import { successResponse } from "@_lib/helpers/response";
-import { generateTokenJwt } from "@_lib/helpers/token";
-import { CustomError } from "@_lib/middleware/error-handler";
+import prisma from "../_db/prisma";
+import { getUserByAnyParamService, upsertUserService } from "../2. service/1. user-service";
+import { upsertBulkSocialLinkService } from "../2. service/3. social-link-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import { dycriptBycrypt, encryptBycrypt } from "../_lib/helpers/encryption";
+import { successResponse } from "../_lib/helpers/response";
+import { generateTokenJwt } from "../_lib/helpers/token";
+import { CustomError } from "../_lib/middleware/error-handler";
 import { Request, Response } from "express";
 
 export const signUp = catchErrors(async (req: Request, res: Response) => {

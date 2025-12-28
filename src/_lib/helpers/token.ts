@@ -1,6 +1,6 @@
 
-import CONFIG from "@_lib/config";
-import { TGeneralObject } from "@_lib/types";
+import CONFIG from "../config";
+import { TGeneralObject } from "../types";
 import jwt, { SignOptions } from "jsonwebtoken";
 
 export const generateToken = () => {

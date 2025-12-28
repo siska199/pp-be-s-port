@@ -4,11 +4,11 @@ import {
   getExperianceByIdService,
   getListExperianceService,
   upsertExperianceService,
-} from "@2. service/5. experiance-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute, TSort_dir } from "@_lib/types";
+} from "../2. service/5. experiance-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute, TSort_dir } from "../_lib/types";
 import { Experiance } from "@prisma/client";
 import { Response } from "express";
 

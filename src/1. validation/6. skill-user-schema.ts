@@ -1,4 +1,4 @@
-import { zEnum, zNumber, zString } from "@1. validation/reusable-shema";
+import { zEnum, zNumber, zString } from "../1. validation/reusable-shema";
 import { Level } from "@prisma/client";
 import zod from "zod";
 

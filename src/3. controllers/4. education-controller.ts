@@ -5,11 +5,11 @@ import {
   getListEducationService,
   TParamsListEducationDto,
   upsertEducationService,
-} from "@2. service/4. education-service";
-import catchErrors from "@_lib/helpers/catch-error";
-import message from "@_lib/helpers/message";
-import { successResponse } from "@_lib/helpers/response";
-import { TRequestAuthRoute } from "@_lib/types";
+} from "../2. service/4. education-service";
+import catchErrors from "../_lib/helpers/catch-error";
+import message from "../_lib/helpers/message";
+import { successResponse } from "../_lib/helpers/response";
+import { TRequestAuthRoute } from "../_lib/types";
 import { Education } from "@prisma/client";
 import { Response } from "express";
 
