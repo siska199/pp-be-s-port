@@ -12,7 +12,7 @@ export const validateRequiredQueryPortofolio =
         value.toString().trim() === ""
       ) {
         return res.status(400).json({
-          message: `Query parameter '${key}' is required`,
+          message: `${key} is required`,
         })
       }
 
