@@ -24,7 +24,8 @@ export const mapSkillUserListQuery = (req:TRequestAuthRoute) => {
       level: req.query.level as Level,
       id_user: req.user?.id?.toString() || "",
       username: req.query.username?.toString(),
-      id_category : req.query.id_category?.toString() as string
+      id_category: req.query.id_category?.toString() as string,
+      keyword :req.query.keyword?.toString() as string,
   }
 }
 
