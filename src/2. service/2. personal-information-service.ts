@@ -22,7 +22,8 @@ export const getPersonalInfoByAnyParamService = async (params: {
     where: {
       ...(id_user && { id_user }),
       ...(id && { id }),
-      ...(username && {username})
+      ...(username && {user: {username}
+      })
     },
     include: {
       profession: {
