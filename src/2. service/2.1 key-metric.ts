@@ -6,11 +6,13 @@ import {
 } from "../_lib/helpers/function";
 import { KeyMetric } from "@prisma/client";
 
-export const getListKeyMetricService = async (params: { id_user: string }) => {
-  const { id_user } = params;
+interface TParamsListKeyMetric { id_user?: string;  username?:string}
+export const getListKeyMetricService = async (params: TParamsListKeyMetric) => {
+  const { id_user, username } = params;
   const result = await prisma.keyMetric.findMany({
     where: {
-      id_user,
+      ...(id_user && { id_user }),
+      ...(username && {user:{username}})
     },
   });
 

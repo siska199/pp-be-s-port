@@ -13,6 +13,7 @@ import message from "../_lib/helpers/message";
 import { successResponse } from "../_lib/helpers/response";
 import { TRequestAuthRoute } from "../_lib/types";
 import { Response } from "express";
+import { getListKeyMetricService } from '../2. service/2.1 key-metric';
 
 export const getPersonalInformationPortofolio = catchErrors<TRequestAuthRoute>(
   async (req: TRequestAuthRoute, res: Response) => {
@@ -41,6 +42,21 @@ export const getListSocialLinkPortofolio = catchErrors(
       res,
       data: result,
       message: "Success Get Social links User",
+    });
+  }
+);
+
+export const getListKeyMetricPortofolio = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const username = req.query.username?.toString();
+
+    const result = await getListKeyMetricService({
+      username
+    });
+    successResponse({
+      res,
+      data: result,
+      message: "Success Get Key Metric User",
     });
   }
 );
