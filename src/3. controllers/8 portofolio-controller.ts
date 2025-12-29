@@ -1,3 +1,4 @@
+import { getListSocialLinkService } from "@2. service/3. social-link-service";
 import { getPersonalInfoByAnyParamService } from "../2. service/2. personal-information-service";
 import { getListEducationService, TParamsListEducationDto } from "../2. service/4. education-service";
 import { getListExperianceService } from "../2. service/5. experiance-service";
@@ -28,6 +29,22 @@ export const getPersonalInformationPortofolio = catchErrors<TRequestAuthRoute>(
     });
   }
 );
+
+export const getListSocialLinkPortofolio = catchErrors(
+  async (req: TRequestAuthRoute, res: Response) => {
+    const username = req.query.username?.toString();
+
+    const result = await getListSocialLinkService({
+      username
+    });
+    successResponse({
+      res,
+      data: result,
+      message: "Success Get Social links User",
+    });
+  }
+);
+
 
 export const getListSkillUserCategoryPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {

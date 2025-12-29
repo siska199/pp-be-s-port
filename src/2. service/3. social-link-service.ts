@@ -7,11 +7,13 @@ import {
 } from "../_lib/helpers/function";
 import { SocialLink } from "@prisma/client";
 
-export const getListSocialLinkService = async (params: { id_user: string }) => {
-  const { id_user } = params;
+interface TParamsSocialLink { id_user?: string;username?:string }
+export const getListSocialLinkService = async (params:TParamsSocialLink ) => {
+  const { id_user, username } = params;
   const result = await prisma.socialLink.findMany({
     where: {
-      id_user,
+      ...(id_user && { id_user }),
+      ...(username && {username})
     },
     include: {
       category: {
