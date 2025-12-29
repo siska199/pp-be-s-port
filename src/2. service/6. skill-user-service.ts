@@ -123,7 +123,7 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
   const totalItems = await prisma.skillUser.count({ where: whereFilter });
   const totalPages = Math.ceil(totalItems / (items_perpage || 1));
 
-  const items = result.map(async(data) => {
+  const items = Promise.all(result.map(async(data) => {
     const image = data?.skill.image
       ? await getCloudinaryUrl({ publicId: data?.skill.image})
       : null;
@@ -143,7 +143,7 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
         image
        }
     })
-  });
+  }))
 
   return {
     items,
