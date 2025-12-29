@@ -123,18 +123,27 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
   const totalItems = await prisma.skillUser.count({ where: whereFilter });
   const totalPages = Math.ceil(totalItems / (items_perpage || 1));
 
-  const items = result.map((data) => ({
-    ...filterKeysObject({
-      object: data,
-      keys: ["created_at", "updated_at",],
-    }),
-    id_category: data.skill?.category?.id,
-    category_name: data.skill?.category?.name,
-    skill_name: data.skill?.name,
-    project_tech_stacks: data?.project_tech_stacks?.map((data) => ({
-       ...data?.project
-     }))
-  }));
+  const items = result.map(async(data) => {
+    const image = data?.skill.image
+      ? await getCloudinaryUrl({ publicId: data?.skill.image})
+      : null;
+    return ({
+      ...filterKeysObject({
+        object: data,
+        keys: ["created_at", "updated_at",],
+      }),
+      id_category: data.skill?.category?.id,
+      category_name: data.skill?.category?.name,
+      skill_name: data.skill?.name,
+      project_tech_stacks: data?.project_tech_stacks?.map((data) => ({
+        ...data?.project
+      })),
+      skill: {
+        ...data?.skill,
+        image
+       }
+    })
+  });
 
   return {
     items,
