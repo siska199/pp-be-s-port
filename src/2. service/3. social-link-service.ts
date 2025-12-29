@@ -13,7 +13,7 @@ export const getListSocialLinkService = async (params:TParamsSocialLink ) => {
   const result = await prisma.socialLink.findMany({
     where: {
       ...(id_user && { id_user }),
-      ...(username && {username})
+      ...(username && {user:{username}})
     },
     include: {
       category: {
