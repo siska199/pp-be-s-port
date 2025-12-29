@@ -4,7 +4,10 @@ model Project {
     name                        String          @db.VarChar(255)
     thumbnail_image             String          @db.VarChar(2083)
     description                 String          @db.Text
-    
+    start_at                    DateTime
+    end_at                      DateTime?
+    id_profession               String              @db.VarChar(36)
+
     category                    CategoryProject
     type                        TypeProject
     id_experiance               String?         @db.VarChar(36)
@@ -13,8 +16,10 @@ model Project {
     project_menus               ProjectMenu[]  
     project_responsibilities    ProjectResponsibility[]  
     tech_stacks                 ProjectTechStack[]
+    project_links               ProjectLink[]
 
     experiance                  Experiance?  @relation(fields: [id_experiance], references: [id])
+    profession                  MasterProfession     @relation(fields: [id_profession], references: [id])
 
     user                        User        @relation(fields: [id_user], references: [id])
 

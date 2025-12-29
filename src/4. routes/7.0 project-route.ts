@@ -22,7 +22,7 @@ export default (router: express.Router) => {
     }),
     upsertProject
   );
-  router.get("/project/:id", authentication(), getProjectById);
+  router.get("/project/:id", getProjectById);
   router.delete("/project/:id", authentication(), deleteProjectById);
 
   return router;

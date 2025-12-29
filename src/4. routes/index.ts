@@ -21,7 +21,9 @@ import projectMenuRoute from "./7.2 project-menu-route";
 import keyMetricRoute from "./2.1 key-metric-route"
 import express from "express";
 import projectResponsibilityRoute from "./7.1 project-responsibility-route";
-import portofolioRoute from "./8. portofolio-route"
+import portofolioRoute from "./8. portofolio-route";
+import projectLinkRoute from "./7.4 project-link-route";
+
 const router = express.Router();
 export default () => {
   masterCompanyRoute(router);
@@ -48,6 +50,7 @@ export default () => {
   projectRoute(router);
   projectMenuRoute(router);
   projectResponsibilityRoute(router);
+  projectLinkRoute(router);
 
   portofolioRoute(router);
   return router;
