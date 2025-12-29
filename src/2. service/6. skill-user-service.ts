@@ -112,6 +112,7 @@ export const getListSkillUserService = async (params: TParamsListSkillUserDto) =
         select: {
           id: true,
           name: true,
+          image:true,
           category: { select: { id: true, name: true } },
         },
       },
