@@ -1,4 +1,4 @@
-import { getListSocialLinkService } from "@2. service/3. social-link-service";
+import { getListSocialLinkService } from "../2. service/3. social-link-service";
 import { getPersonalInfoByAnyParamService } from "../2. service/2. personal-information-service";
 import { getListEducationService, TParamsListEducationDto } from "../2. service/4. education-service";
 import { getListExperianceService } from "../2. service/5. experiance-service";
