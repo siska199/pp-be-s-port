@@ -154,7 +154,9 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
       experiance: {
         select: {
           id: true,
-          company: { select: { id: true, name: true } },
+          company: { select: { id: true, name: true,  } },
+          start_at:true,
+          end_at:true
         },
       },
       tech_stacks: {
