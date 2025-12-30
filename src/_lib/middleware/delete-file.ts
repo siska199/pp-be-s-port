@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../middleware/error-handler";
-import { deleteFromCloudinary } from "@_lib/helpers/claudinary";
+import { deleteFromCloudinary } from "../../_lib/helpers/claudinary";
 
 export const deleteFile = async (
   req: Request,
