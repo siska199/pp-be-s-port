@@ -349,15 +349,33 @@ export const getProjectByIdService = async (param: string) => {
 
 export const deleteProjectByIdService = async (param: string) => {
   const id = param;
-  const result = await prisma.$transaction([
-    prisma.projectMenu.deleteMany({
-      where: { id_project: id }
-    }),
-    prisma.project.delete({
-      where: { id }
-    })
-  ]);
-  const resultDto = result;
 
-  return result ? resultDto : null;
+  return await prisma.$transaction(async (tx) => {
+    const menus = await tx.projectMenu.findMany({
+      where: { id_project: id },
+      select: { id: true },
+    });
+
+    const menuIds = menus.map((m) => m.id);
+
+    if (menuIds.length) {
+      await tx.projectMenuRelatedImage.deleteMany({
+        where: {
+          id_project_menu: { in: menuIds },
+        },
+      });
+    }
+
+    await tx.projectMenu.deleteMany({
+      where: { id_project: id },
+    });
+
+    await tx.projectTechStack.deleteMany({
+      where: { id_project: id },
+    });
+
+    return await tx.project.delete({
+      where: { id },
+    });
+  });
 };
