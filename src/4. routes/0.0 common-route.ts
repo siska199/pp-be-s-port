@@ -1,5 +1,5 @@
-import { deleteFile } from '@_lib/middleware/delete-file';
-import { uploadSingleFile } from '@_lib/middleware/upload-file-only';
+import { deleteFile } from '../_lib/middleware/delete-file';
+import { uploadSingleFile } from '../_lib/middleware/upload-file-only';
 import express from 'express';
 
 export default (router: express.Router) => {
