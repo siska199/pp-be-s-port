@@ -23,6 +23,7 @@ import express from "express";
 import projectResponsibilityRoute from "./7.1 project-responsibility-route";
 import portofolioRoute from "./8. portofolio-route";
 import projectLinkRoute from "./7.4 project-link-route";
+import commonRoute from "./0.0 common-route";
 
 const router = express.Router();
 export default () => {
@@ -51,7 +52,7 @@ export default () => {
   projectMenuRoute(router);
   projectResponsibilityRoute(router);
   projectLinkRoute(router);
-
+  commonRoute(router)
   portofolioRoute(router);
   return router;
 };
