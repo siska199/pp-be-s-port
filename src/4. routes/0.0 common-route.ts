@@ -9,7 +9,7 @@ export default (router: express.Router) => {
         (req, res) => {
             res.json({
                 success: true,
-                message: "Successfully ppload file",
+                message: "Successfully upload file",
                 data: {
                     public_id: req.body.public_id,
                 }
