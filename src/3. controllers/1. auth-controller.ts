@@ -26,14 +26,7 @@ export const signUp = catchErrors(async (req: Request, res: Response) => {
     password: hashPassword,
   });
 
-  const listCategorySocialLink = (
-    await prisma?.masterCategorySocialLink?.findMany()
-  )?.map((data) => ({
-    url: "",
-    id_category: data?.id,
-    id_user: result?.id,
-  }));
-  await upsertBulkSocialLinkService(listCategorySocialLink);
+
   successResponse({
     res,
     message: "Successfully Created User",
