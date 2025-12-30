@@ -349,12 +349,14 @@ export const getProjectByIdService = async (param: string) => {
 
 export const deleteProjectByIdService = async (param: string) => {
   const id = param;
-
-  const result = await prisma?.project?.delete({
-    where: {
-      id,
-    },
-  });
+  const result = await prisma.$transaction([
+    prisma.projectMenu.deleteMany({
+      where: { id_project: id }
+    }),
+    prisma.project.delete({
+      where: { id }
+    })
+  ]);
   const resultDto = result;
 
   return result ? resultDto : null;

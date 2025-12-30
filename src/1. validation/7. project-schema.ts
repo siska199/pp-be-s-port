@@ -1,5 +1,5 @@
 import { messageError } from "@1. validation";
-import { zArray, zEnum, zString } from "../1. validation/reusable-shema";
+import { zArray, zDatetime, zEnum, zString } from "../1. validation/reusable-shema";
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
 
@@ -46,6 +46,18 @@ const projectSchema = (mandatory = true) =>
       }),
       id_skill_users: zArray({
         name: "Tech Stack",
+        mandatory,
+      }),
+      start_at: zDatetime({
+        name: "Start At",
+        mandatory,
+      }),
+      end_at: zDatetime({
+        name: "End At",
+        mandatory: false,
+      }),
+      id_profession: zString({
+        name: "ID Profession",
         mandatory,
       }),
     })

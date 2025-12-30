@@ -15,7 +15,7 @@ const projectMenuSchema = (mandatory = true) =>
       }),
       main_image: zString({
         name: "Main Image",
-        mandatory,
+        mandatory: false,
       }),
       // related_images: zArray({
       //   name: "Related Images",
