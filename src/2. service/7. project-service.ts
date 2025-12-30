@@ -217,6 +217,9 @@ export const upsertProjectService = async (
     type: params.type,
     id_experiance: params.id_experiance,
     id_user: params.id_user,
+    id_profession:params?.id_profession,
+    start_at : params?.start_at,
+    end_at : params?.end_at
   });
 
   await validationParse({
