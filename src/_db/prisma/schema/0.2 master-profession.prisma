@@ -5,6 +5,7 @@ model MasterProfession{
     personal_information    PersonalInformation[]
     users                   User[]
     experiances             Experiance[]
+    projects                Project[]
 
     created_at              DateTime    @default(now())
     updated_at              DateTime    @updatedAt

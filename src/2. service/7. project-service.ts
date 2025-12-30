@@ -1,17 +1,16 @@
-import prisma from "../_db/prisma";
+import { CategoryProject, Prisma, Project, TypeProject } from "@prisma/client";
 import projectSchema from "../1. validation/7. project-schema";
+import prisma from "../_db/prisma";
 import {
   deleteFromCloudinary,
   getCloudinaryUrl,
 } from "../_lib/helpers/claudinary";
 import {
-  filterKeysObject,
   removeKeyWithUndifienedValue,
   trimObject,
-  validationParse,
+  validationParse
 } from "../_lib/helpers/function";
 import { TQueryParamsPaginationList } from "../_lib/types";
-import { CategoryProject, Prisma, Project, ProjectTechStack, TypeProject } from "@prisma/client";
 
 type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & {
   id_user: string;
@@ -205,7 +204,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
 };
 
 export const upsertProjectService = async (
-  params: Project & { id_skill_users: string[] }
+  params:Project & { id_skill_users: string[] }
 ) => {
   const id = params.id;
 

@@ -21,10 +21,10 @@ model Project {
     experiance                  Experiance?  @relation(fields: [id_experiance], references: [id])
     profession                  MasterProfession     @relation(fields: [id_profession], references: [id])
 
-    user                        User        @relation(fields: [id_user], references: [id])
 
     created_at                  DateTime    @default(now())
     updated_at                  DateTime    @updatedAt
+    user                        User        @relation(fields: [id_user], references: [id])
 
     @@map("project")
 }
