@@ -207,69 +207,76 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
 export const upsertProjectService = async (
   params: Project & { id_skill_users: string[] }
 ) => {
-  const id = params.id ?? "";
-  let dataDto = trimObject({
-    ...(id && { id }),
-    name: params?.name,
-    thumbnail_image: params?.thumbnail_image,
-    description: params?.description,
-    category: params?.category,
-    type: params?.type,
-    id_experiance: params?.id_experiance,
-    id_user: params?.id_user,
-    id_skill_users: params?.id_skill_users,
-    tech_stacks: {
-      create: params?.id_skill_users?.map((id_skill_user:string) => ({
-        skill_user: {
-          connect: {
-            id: id_skill_user,
-          },
-        },
-      })),
-    },
+  const id = params.id;
+
+  const projectDto = trimObject({
+    name: params.name,
+    thumbnail_image: params.thumbnail_image,
+    description: params.description,
+    category: params.category,
+    type: params.type,
+    id_experiance: params.id_experiance,
+    id_user: params.id_user,
   });
 
   await validationParse({
     schema: projectSchema(!id),
-    data: filterKeysObject({
-      object: { ...dataDto },
-      keys: ["tech_stacks"],
-    }),
+    data: projectDto,
   });
 
-  if (id && dataDto?.thumbnail_image) {
-    const existingData = await prisma?.project?.findUnique({
-      where: {
-        id,
-      },
+
+  if (id && params.thumbnail_image) {
+    const existing = await prisma.project.findUnique({
+      where: { id },
     });
-    await deleteFromCloudinary({
-      publicId:existingData?.thumbnail_image || ""
-    });
+
+    if (existing?.thumbnail_image) {
+      await deleteFromCloudinary({
+        publicId: existing.thumbnail_image,
+      });
+    }
   }
 
-  const result = id
-    ? await prisma?.project?.update({
-        where: {
-          id,
-        },
-
-        data: filterKeysObject({
-          object: removeKeyWithUndifienedValue(dataDto),
-          keys: ["id_user", "id_skill_users", "id"],
-        }),
+  const project = id
+    ? await prisma.project.update({
+        where: { id },
+        data: removeKeyWithUndifienedValue(projectDto),
       })
-    : await prisma?.project?.create({
-        data: {
-          ...filterKeysObject({
-            object: dataDto,
-            keys: ["id_skill_users"],
-          }),
-        },
+    : await prisma.project.create({
+        data: projectDto,
       });
 
-  const resultDto = result;
-  return result ? resultDto : null;
+
+  if (params.id_skill_users?.length) {
+    await prisma.$transaction([
+      prisma.projectTechStack.deleteMany({
+        where: {
+          id_project: project.id,
+          id_skill_user: {
+            notIn: params.id_skill_users,
+          },
+        },
+      }),
+
+      ...params.id_skill_users.map((id_skill_user) =>
+        prisma.projectTechStack.upsert({
+          where: {
+            id_project_id_skill_user: {
+              id_project: project.id,
+              id_skill_user,
+            },
+          },
+          update: {},
+          create: {
+            id_project: project.id,
+            id_skill_user,
+          },
+        })
+      ),
+    ]);
+  }
+
+  return project;
 };
 
 export const getProjectByIdService = async (param: string) => {
