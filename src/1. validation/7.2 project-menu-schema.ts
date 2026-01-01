@@ -23,7 +23,7 @@ const projectMenuSchema = (mandatory = true) =>
       // }),
       features: zString({
         name: "Features",
-        mandatory,
+        mandatory:false,
       }),
       id_project: zString({
         name: "ID Project",
