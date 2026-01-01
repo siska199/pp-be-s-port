@@ -25,6 +25,9 @@ export const getListMasterSkillService = async (params: {
         },
       },
     },
+    orderBy: {
+      name : "asc"
+    }
   });
 
   const resultDto = await Promise.all(
