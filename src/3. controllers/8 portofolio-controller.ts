@@ -2,7 +2,7 @@ import { getListSocialLinkService } from "../2. service/3. social-link-service";
 import { getPersonalInfoByAnyParamService } from "../2. service/2. personal-information-service";
 import { getListEducationService, TParamsListEducationDto } from "../2. service/4. education-service";
 import { getListExperianceService } from "../2. service/5. experiance-service";
-import { getListSkillUserCategoryService, getListSkillUserService } from "../2. service/6. skill-user-service";
+import { getListSkillUserCategoryService, getListSkillUserService, TParamsListSkillUserDto } from "../2. service/6. skill-user-service";
 import { getListProjectService } from "../2. service/7. project-service";
 import { mapEducationListQuery } from "../3. controllers/4. education-controller";
 import { mapExperianceListQuery } from "../3. controllers/5. experiance-controller";
@@ -67,7 +67,8 @@ export const getListSkillUserCategoryPortofolio = catchErrors(
     const username =req.query.username?.toString() 
 
     const queryObject = {
-        username 
+        username,
+        sort_dir :"asc"
     }
 
     const result = await getListSkillUserCategoryService(queryObject);
@@ -81,7 +82,10 @@ export const getListSkillUserCategoryPortofolio = catchErrors(
 
 export const getListSkillUserPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
-    const queryObject = mapSkillUserListQuery(req)
+    const queryObject = {
+      ...mapSkillUserListQuery(req),
+      sort_dir : "asc"
+    } as TParamsListSkillUserDto
     const result = await getListSkillUserService(queryObject);
     successResponse({
       res,

@@ -249,12 +249,13 @@ export const deleteSkillUserByIdService = async (param: string) => {
   return result ? resultDto : null;
 };
 interface TParamsListSkillUserCategory{
-  username? : string
+  username?: string;
+  sort_dir ? : string
 }
 export const getListSkillUserCategoryService = async (
 params: TParamsListSkillUserCategory
 ) => {
-  const { username} = params
+  const { username,sort_dir ="desc"} = params
   const skillUsers = await prisma.skillUser.findMany({
     where: {
       user: {
@@ -281,7 +282,7 @@ params: TParamsListSkillUserCategory
       },
     },
     orderBy: {
-      created_at: "desc",
+      created_at: sort_dir  as Prisma.SortOrder,
     },
   })
 
