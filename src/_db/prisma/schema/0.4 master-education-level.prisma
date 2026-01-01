@@ -1,15 +1,11 @@
 model MasterEducationLevel {
-    id                  String                  @id @default(uuid())
-    name                String                  @unique  @db.VarChar(255) 
+  id                String                       @id @default(uuid())
+  name              String                       @unique @db.VarChar(255)
+  created_at        DateTime                     @default(now())
+  updated_at        DateTime                     @updatedAt
+  educations        Education[]
+  majors            MasterLevelMajorEducation[]
+  education_schools MasterLevelSchoolEducation[]
 
-    majors              MasterLevelMajorEducation[]
-    education_schools   MasterLevelSchoolEducation[]
-
-    educations          Education[]
-
-    created_at      DateTime @default(now())
-    updated_at      DateTime @updatedAt  
-    @@map("master_education_level")
+  @@map("master_education_level")
 }
-
-

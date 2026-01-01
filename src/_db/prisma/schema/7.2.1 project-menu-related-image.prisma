@@ -1,12 +1,10 @@
-model ProjectMenuRelatedImage{
-    id                  String      @id @default(uuid())
-    image               String      @db.VarChar(2083)
+model ProjectMenuRelatedImage {
+  id              String      @id @default(uuid())
+  image           String      @db.VarChar(2083)
+  id_project_menu String      @db.VarChar(36)
+  created_at      DateTime    @default(now())
+  updated_at      DateTime    @updatedAt
+  menu_project    ProjectMenu @relation(fields: [id_project_menu], references: [id])
 
-    id_project_menu     String      @db.VarChar(36)
-    menu_project        ProjectMenu @relation(fields:[id_project_menu], references:[id])
-    
-    created_at          DateTime    @default(now())
-    updated_at          DateTime    @updatedAt
-
-    @@map("project_menu_related_image")
+  @@map("project_menu_related_image")
 }

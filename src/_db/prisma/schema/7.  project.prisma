@@ -1,45 +1,37 @@
 model Project {
-    id                          String          @id @default(uuid()) @unique
-    
-    name                        String          @db.VarChar(255)
-    thumbnail_image             String          @db.VarChar(2083)
-    description                 String          @db.Text
-    start_at                    DateTime
-    end_at                      DateTime?
-    id_profession               String              @db.VarChar(36)
+  id                       String                  @id @unique @default(uuid())
+  name                     String                  @db.VarChar(255)
+  thumbnail_image          String                  @db.VarChar(2083)
+  description              String
+  start_at                 DateTime
+  end_at                   DateTime
+  id_profession            String                  @db.VarChar(36)
+  category                 CategoryProject
+  type                     TypeProject
+  id_experiance            String                @db.VarChar(36)
+  id_user                  String                  @db.VarChar(36)
+  created_at               DateTime                @default(now())
+  updated_at               DateTime                @updatedAt
+  experiance               Experiance             @relation(fields: [id_experiance], references: [id])
+  profession               MasterProfession        @relation(fields: [id_profession], references: [id])
+  user                     User                    @relation(fields: [id_user], references: [id])
+  project_links            ProjectLink[]
+  project_menus            ProjectMenu[]
+  project_responsibilities ProjectResponsibility[]
+  tech_stacks              ProjectTechStack[]
 
-    category                    CategoryProject
-    type                        TypeProject
-    id_experiance               String?         @db.VarChar(36)
-    id_user                     String          @db.VarChar(36)
-
-    project_menus               ProjectMenu[]  
-    project_responsibilities    ProjectResponsibility[]  
-    tech_stacks                 ProjectTechStack[]
-    project_links               ProjectLink[]
-
-    experiance                  Experiance?  @relation(fields: [id_experiance], references: [id])
-    profession                  MasterProfession     @relation(fields: [id_profession], references: [id])
-
-
-    created_at                  DateTime    @default(now())
-    updated_at                  DateTime    @updatedAt
-    user                        User        @relation(fields: [id_user], references: [id])
-
-    @@map("project")
+  @@map("project")
 }
 
-
-enum CategoryProject{
-    WEBSITE
-    MOBILE
-    API
-    UI_UX
+enum CategoryProject {
+  WEBSITE
+  MOBILE
+  API
+  UI_UX
 }
-
 
 enum TypeProject {
-    PERSONAL_PROJECT
-    COMPANY_PROJECT
-    FREELANCE
+  PERSONAL_PROJECT
+  COMPANY_PROJECT
+  FREELANCE
 }

@@ -1,17 +1,12 @@
-model ProjectTechStack{
-    id              String      @id @default(uuid())
+model ProjectTechStack {
+  id            String    @id @default(uuid())
+  id_project    String    @db.VarChar(36)
+  id_skill_user String    @db.VarChar(36)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  project       Project   @relation(fields: [id_project], references: [id])
+  skill_user    SkillUser @relation(fields: [id_skill_user], references: [id])
 
-    id_project      String      @db.VarChar(36)
-    id_skill_user   String      @db.VarChar(36)
-
-    project         Project     @relation(fields: [id_project], references: [id])
-    skill_user      SkillUser   @relation(fields: [id_skill_user], references: [id])
-
-    created_at      DateTime    @default(now())
-    updated_at      DateTime    @updatedAt
-
-
-    @@map("project_tech_stack")
-    @@unique([id_project, id_skill_user])
-
+  @@unique([id_project, id_skill_user])
+  @@map("project_tech_stack")
 }

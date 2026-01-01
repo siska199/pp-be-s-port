@@ -1,16 +1,12 @@
-model MasterCity{
-    id          String @unique
-    name        String 
+model MasterCity {
+  id                   String                @unique
+  name                 String
+  id_province          String
+  created_at           DateTime              @default(now())
+  updated_at           DateTime              @updatedAt
+  province             MasterProvince        @relation(fields: [id_province], references: [id])
+  districts            MasterDistrict[]
+  personal_information PersonalInformation[]
 
-    id_province String
-
-    province    MasterProvince @relation(fields: [id_province], references: [id])
-
-    districts      MasterDistrict[]
-    personal_information    PersonalInformation[]
-
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-
-    @@map("master_city")
+  @@map("master_city")
 }

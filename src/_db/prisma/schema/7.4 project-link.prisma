@@ -1,17 +1,12 @@
-model ProjectLink{
-    id              String      @id @default(uuid())
+model ProjectLink {
+  id         String   @id @default(uuid())
+  id_project String   @db.VarChar(36)
+  url        String   @db.VarChar(2083)
+  label      String   @db.VarChar(50)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  project    Project  @relation(fields: [id_project], references: [id])
 
-    id_project      String      @db.VarChar(36)
-    url             String      @db.VarChar(2083)
-    label           String      @db.VarChar(50)
-
-
-    created_at      DateTime    @default(now())
-    updated_at      DateTime    @updatedAt
-    
-    project         Project     @relation(fields: [id_project], references: [id])
-
-    @@map("project_link")
-    @@unique([id_project, id])
-
+  @@unique([id_project, id])
+  @@map("project_link")
 }

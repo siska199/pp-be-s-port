@@ -1,16 +1,12 @@
 model KeyMetric {
-    id                  String      @id @default(uuid())
+  id         String   @id @default(uuid())
+  id_user    String   @db.VarChar(36)
+  key        String   @db.VarChar(50)
+  value      String   @db.VarChar(50)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [id_user], references: [id])
 
-    id_user             String      @db.VarChar(36)
-    user                User        @relation(fields: [id_user], references: [id])
-
-    key                 String      @db.VarChar(50)
-    value               String      @db.VarChar(50)
-    
-    created_at          DateTime    @default(now())
-    updated_at          DateTime    @updatedAt
-    
-    @@unique(name:"userKeyMetric",[key,value, id_user])
-    @@map("key_metric")
-
+  @@unique([key, value, id_user], name: "userKeyMetric")
+  @@map("key_metric")
 }

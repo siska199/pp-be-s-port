@@ -1,11 +1,9 @@
 model MasterCategorySkill {
-    id          String      @id         @default(uuid())
-    name        String      @unique     @db.VarChar(255) 
+  id         String        @id @default(uuid())
+  name       String        @unique @db.VarChar(255)
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+  skills     MasterSkill[]
 
-    skills      MasterSkill[]
-
-    created_at  DateTime    @default(now())
-    updated_at  DateTime    @updatedAt
-
-    @@map("master_category_skill")
+  @@map("master_category_skill")
 }

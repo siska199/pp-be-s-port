@@ -1,28 +1,21 @@
 model SkillUser {
-    id                  String      @id @default(uuid())
+  id                  String             @id @default(uuid())
+  id_skill            String             @db.VarChar(36)
+  years_of_experiance Float
+  level               Level
+  id_user             String             @db.VarChar(36)
+  created_at          DateTime           @default(now())
+  updated_at          DateTime           @updatedAt
+  project_tech_stacks ProjectTechStack[]
+  skill               MasterSkill        @relation(fields: [id_skill], references: [id])
+  user                User               @relation(fields: [id_user], references: [id])
 
-    id_skill            String      @db.VarChar(36)
-
-    years_of_experiance Float       @db.DoublePrecision()        
-    level               Level
-
-    id_user             String      @db.VarChar(36)
-
-    skill               MasterSkill @relation(fields: [id_skill], references: [id])
-    user                User        @relation(fields: [id_user], references: [id])
-
-    project_tech_stacks   ProjectTechStack[]
-
-    created_at          DateTime    @default(now())
-    updated_at          DateTime    @updatedAt
-
-    @@unique([id_skill, id_user])
-    @@map("skill_user")
+  @@unique([id_skill, id_user])
+  @@map("skill_user")
 }
 
-
-enum Level{
-    BEGINNER
-    INTERMEDIATE
-    ADVANCE
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCE
 }

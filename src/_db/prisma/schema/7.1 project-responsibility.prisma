@@ -1,13 +1,10 @@
 model ProjectResponsibility {
-    id              String      @id @default(uuid()) @unique
-    description     String      @db.VarChar(255)
-    
-    id_project      String      @db.VarChar(36)
-    
-    project         Project     @relation(fields:[id_project],references:[id])
+  id          String   @id @unique @default(uuid())
+  description String   @db.VarChar(255)
+  id_project  String   @db.VarChar(36)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  project     Project  @relation(fields: [id_project], references: [id])
 
-    created_at      DateTime    @default(now())
-    updated_at      DateTime    @updatedAt
-
-    @@map("project_responsibility")
+  @@map("project_responsibility")
 }

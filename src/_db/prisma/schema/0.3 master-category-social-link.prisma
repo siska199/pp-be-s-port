@@ -1,14 +1,12 @@
 model MasterCategorySocialLink {
-    id              String      @id @default(uuid())
-    name            String      @db.VarChar(255) @unique
-    image           String      @db.VarChar(2083)
-    placeholder     String      @db.VarChar(255)
-    default_value    String     @db.VarChar(255)
+  id            String       @id @default(uuid())
+  name          String       @unique @db.VarChar(255)
+  image         String       @db.VarChar(2083)
+  placeholder   String       @db.VarChar(255)
+  default_value String       @db.VarChar(255)
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+  social_links  SocialLink[]
 
-    social_links    SocialLink[]
-
-    created_at      DateTime @default(now())
-    updated_at      DateTime @updatedAt  
-
-    @@map("master_category_social_link")
+  @@map("master_category_social_link")
 }

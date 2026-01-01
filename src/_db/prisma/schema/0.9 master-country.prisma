@@ -1,12 +1,9 @@
-model MasterCountry{
-    id              String      @unique
-    name            String      
+model MasterCountry {
+  id         String           @unique
+  name       String
+  created_at DateTime         @default(now())
+  updated_at DateTime         @updatedAt
+  provinces  MasterProvince[]
 
-    provinces         MasterProvince[]
-
-
-    created_at      DateTime @default(now())
-    updated_at      DateTime @updatedAt
-
-    @@map("master_country")
+  @@map("master_country")
 }

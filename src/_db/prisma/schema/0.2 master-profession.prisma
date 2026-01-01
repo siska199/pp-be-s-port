@@ -1,14 +1,12 @@
-model MasterProfession{
-    id                      String      @id @default(uuid())
-    name                    String      @db.VarChar(255) @unique
+model MasterProfession {
+  id                   String                @id @default(uuid())
+  name                 String                @unique @db.VarChar(255)
+  created_at           DateTime              @default(now())
+  updated_at           DateTime              @updatedAt
+  experiances          Experiance[]
+  users                User[]
+  personal_information PersonalInformation[]
+  projects             Project[]
 
-    personal_information    PersonalInformation[]
-    users                   User[]
-    experiances             Experiance[]
-    projects                Project[]
-
-    created_at              DateTime    @default(now())
-    updated_at              DateTime    @updatedAt
-    
-    @@map("master_profession")
+  @@map("master_profession")
 }

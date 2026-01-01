@@ -1,26 +1,22 @@
-model MasterEducationMajor{
-    id         String               @id @default(uuid())
-    name       String               @db.VarChar(255) @unique
+model MasterEducationMajor {
+  id         String                      @id @default(uuid())
+  name       String                      @unique @db.VarChar(255)
+  created_at DateTime                    @default(now())
+  updated_at DateTime                    @updatedAt
+  education  Education[]
+  levels     MasterLevelMajorEducation[]
 
-    levels      MasterLevelMajorEducation[]
-
-    education   Education[]
-
-    created_at  DateTime @default(now())
-    updated_at  DateTime @updatedAt  
-
-    @@map("master_education_major")
+  @@map("master_education_major")
 }
 
-model MasterLevelMajorEducation{
-    id          String               @id @default(uuid())
-    level       MasterEducationLevel       @relation(fields: [id_level], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    major       MasterEducationMajor       @relation(fields: [id_major], references: [id],onDelete: Cascade, onUpdate: Cascade)
-    
-    id_level    String      @db.VarChar(36)
-    id_major    String      @db.VarChar(36)
+model MasterLevelMajorEducation {
+  id       String               @id @default(uuid())
+  id_level String               @db.VarChar(36)
+  id_major String               @db.VarChar(36)
+  level    MasterEducationLevel @relation(fields: [id_level], references: [id], onDelete: Cascade)
+  major    MasterEducationMajor @relation(fields: [id_major], references: [id], onDelete: Cascade)
 
-    @@index([id_level, id_major])
-    @@unique([id_level, id_major])
-    @@map("master_level_major_education")
+  @@unique([id_level, id_major])
+  @@index([id_level, id_major])
+  @@map("master_level_major_education")
 }

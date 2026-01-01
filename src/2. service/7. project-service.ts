@@ -233,11 +233,10 @@ export const upsertProjectService = async (
       where: { id },
     });
 
-    if (existing?.thumbnail_image) {
-      await deleteFromCloudinary({
-        publicId: existing.thumbnail_image,
-      });
-    }
+    existing?.thumbnail_image&& await deleteFromCloudinary({
+       publicId: existing.thumbnail_image,
+     });
+
   }
 
   const project = id

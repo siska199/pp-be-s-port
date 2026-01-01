@@ -4,6 +4,11 @@
  - npx prisma db push --schema=src/db/prisma
  - npx prisma db seed
 
+
+-- If local migration not sync with origin:
+- npx prisma db pull
+- npx prisma generate
+
  ---Running Postgress in Dockerfile:
  if you running postgress in dockerfile the host should be named as <service name: postgress> if in your local a.ka not using dockerfile
  you can use localhost

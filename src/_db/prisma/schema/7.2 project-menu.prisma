@@ -1,19 +1,14 @@
-model ProjectMenu{
-    id                  String      @id @default(uuid()) @unique
-    
-    name                String      @db.VarChar(255)
-    description         String      @db.Text
-    main_image          String      @db.VarChar(2083)
-    features            String      @db.Text
+model ProjectMenu {
+  id             String                    @id @unique @default(uuid())
+  name           String                    @db.VarChar(255)
+  description    String
+  main_image     String                    @db.VarChar(2083)
+  features       String
+  id_project     String                    @db.VarChar(36)
+  created_at     DateTime                  @default(now())
+  updated_at     DateTime                  @updatedAt
+  project        Project                   @relation(fields: [id_project], references: [id])
+  related_images ProjectMenuRelatedImage[]
 
-    id_project          String      @db.VarChar(36)
-    project             Project     @relation(fields:[id_project],references:[id] )
-
-    related_images      ProjectMenuRelatedImage[]
-
-
-    created_at          DateTime    @default(now())
-    updated_at          DateTime    @updatedAt
-
-    @@map("project_menu")
+  @@map("project_menu")
 }
