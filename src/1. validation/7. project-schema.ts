@@ -16,6 +16,7 @@ const projectSchema = (mandatory = true) =>
         mandatory,
       }),
       description: zString({
+        max:10000,
         name: "Description",
         mandatory,
       }),
