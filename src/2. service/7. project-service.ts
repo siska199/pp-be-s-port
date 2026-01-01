@@ -204,49 +204,65 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
 };
 
 export const upsertProjectService = async (
-  params:Project & { id_skill_users: string[] }
+  params: Project & { id_skill_users: string[] }
 ) => {
   const id = params.id;
 
-  const projectDto = trimObject({
+  const scalarDto = trimObject({
     name: params.name,
     thumbnail_image: params.thumbnail_image,
     description: params.description,
     category: params.category,
     type: params.type,
-    id_experiance: params.id_experiance,
-    id_user: params.id_user,
-    id_profession:params?.id_profession,
-    start_at : params?.start_at,
-    end_at: params?.end_at,
+    start_at: params.start_at,
+    end_at: params.end_at,
   });
 
   await validationParse({
     schema: projectSchema(!id),
-    data: projectDto,
+    data: {
+      ...scalarDto,
+      id_experiance: params.id_experiance,
+      id_user: params.id_user,
+      id_profession: params.id_profession,
+    },
   });
 
-
   if (id && params.thumbnail_image) {
-    const existing = await prisma.project.findUnique({
-      where: { id },
-    });
+    const existing = await prisma.project.findUnique({ where: { id } });
 
-    existing?.thumbnail_image&& await deleteFromCloudinary({
-       publicId: existing.thumbnail_image,
-     });
-
+    if (existing?.thumbnail_image) {
+      await deleteFromCloudinary({
+        publicId: existing.thumbnail_image,
+      });
+    }
   }
+
+  const prismaData = {
+    ...removeKeyWithUndifienedValue(scalarDto) as typeof scalarDto,
+
+    experiance: {
+      connect: { id: params.id_experiance },
+    },
+
+    user: {
+      connect: { id: params.id_user },
+    },
+
+    profession: {
+      connect: { id: params.id_profession },
+    },
+
+  };
 
   const project = id
     ? await prisma.project.update({
         where: { id },
-        data: removeKeyWithUndifienedValue(projectDto),
+        data: prismaData,
       })
     : await prisma.project.create({
-        data: projectDto,
+        data: prismaData,
       });
-
 
   if (params.id_skill_users?.length) {
     await prisma.$transaction([
