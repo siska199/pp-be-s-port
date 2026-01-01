@@ -1,5 +1,5 @@
- - npx prisma migrate --schema=src/_db/prisma // -> npx prisma migrate dev
  - npx prisma migrate reset --schema=src/db/prisma
+ - npx prisma migrate --schema=src/_db/prisma // -> npx prisma migrate dev
  - npx prisma generate --schema=src/db/prisma
  - npx prisma db push --schema=src/db/prisma (untuk local only waktu experimanetal)
    genakan ini "npx prisma migrate deploy"
