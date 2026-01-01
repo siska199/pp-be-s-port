@@ -332,6 +332,10 @@ export const getProjectByIdService = async (param: string) => {
           },
         },
       },
+      profession: true,
+      project_responsibilities: true,
+      project_links: true,
+      project_menus:true
     },
   });
 
