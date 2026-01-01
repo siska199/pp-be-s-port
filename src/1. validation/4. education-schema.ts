@@ -33,7 +33,7 @@ const educationSchema = (mandatory = true) =>
       description: zString({
         name: "Description",
         mandatory,
-        max: 5000,
+        max: 10000,
       }),
       start_at: zDatetime({
         name: "Start At",

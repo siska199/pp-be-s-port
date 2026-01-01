@@ -29,6 +29,7 @@ const experianceSchema = (mandatory = true) =>
       description: zString({
         name: "Description",
         mandatory,
+        max: 10000,
       }),
     })
     .superRefine((data, ctx) => {
