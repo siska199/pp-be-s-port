@@ -45,10 +45,7 @@ const projectSchema = (mandatory = true) =>
         name: "ID User",
         mandatory,
       }),
-      id_skill_users: zArray({
-        name: "Tech Stack",
-        mandatory,
-      }),
+
       start_at: zDatetime({
         name: "Start At",
         mandatory,
