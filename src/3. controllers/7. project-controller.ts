@@ -2,6 +2,7 @@ import {
   deleteProjectByIdService,
   getListProjectService,
   getProjectByIdService,
+  TParamsListProjectDto,
   upsertProjectService,
 } from "../2. service/7. project-service";
 import catchErrors from "../_lib/helpers/catch-error";
@@ -25,8 +26,7 @@ export const mapProjectListQuery = (req:TRequestAuthRoute) => {
     id_skills: req.query.id_skills?.toString() || "",
     keyword: req.query.keyword?.toString() || "",
     id_user: req.user?.id || "",
-    username : req.query.username?.toString()
-
+    username : req.query.username?.toString(),
   }
 }
 
@@ -34,7 +34,10 @@ export const getListProject = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const queryObject = mapProjectListQuery(req)
 
-    const result = await getListProjectService(queryObject);
+    const result = await getListProjectService({
+      ...queryObject,
+      is_show_project:true
+    });
 
     successResponse({
       res,

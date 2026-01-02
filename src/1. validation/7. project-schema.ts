@@ -57,6 +57,10 @@ const projectSchema = (mandatory = true) =>
         name: "ID Profession",
         mandatory,
       }),
+      is_show_project: zString({
+        name: "Is Show Project",
+        mandatory,
+      }),
     })
     ?.strict();
 

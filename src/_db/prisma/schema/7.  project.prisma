@@ -12,6 +12,7 @@ model Project {
   end_at                   DateTime
   id_profession            String                  @db.VarChar(36)
   start_at                 DateTime
+  is_show_project          Boolean                 @default(true)
   experiance               Experiance              @relation(fields: [id_experiance], references: [id])
   profession               MasterProfession        @relation(fields: [id_profession], references: [id])
   user                     User                    @relation(fields: [id_user], references: [id])
