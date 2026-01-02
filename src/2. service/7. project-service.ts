@@ -367,7 +367,7 @@ export const getProjectByIdService = async (param: string) => {
     ...result,
     thumbnail_image,
     tech_stacks: techStacks,
-    id_skill_users :  techStacks?.map((techStack)=>techStack?.id)
+    id_skill_users :  techStacks?.map((techStack)=>techStack?.skill_user.id)
   };
 
   return result ? resultDto : null;

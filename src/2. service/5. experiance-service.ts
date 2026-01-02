@@ -134,6 +134,7 @@ export const getListExperianceService = async (
     }))
     return ({
       ...data,
+      description:data?.description,
       company_name: data.company?.name,
       profession_name: data.profession?.name,
       tech_stacks :  uniqueByKey(techStacks, 'name')
