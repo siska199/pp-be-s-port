@@ -99,7 +99,10 @@ export const getListProjectPortofolio = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
 
     const queryObject = mapProjectListQuery(req)
-    const result = await getListProjectService(queryObject);
+    const result = await getListProjectService({
+      ...queryObject,
+      is_show_project:true
+    });
     successResponse({
       res,
       data: result,

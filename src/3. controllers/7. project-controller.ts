@@ -36,7 +36,6 @@ export const getListProject = catchErrors(
 
     const result = await getListProjectService({
       ...queryObject,
-      is_show_project:true
     });
 
     successResponse({
