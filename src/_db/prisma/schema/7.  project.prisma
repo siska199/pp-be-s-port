@@ -1,7 +1,7 @@
 model Project {
   id                       String                  @id @unique @default(uuid())
   name                     String                  @db.VarChar(255)
-  thumbnail_image          String                  @db.VarChar(2083)
+  thumbnail_image          String?                  @db.VarChar(2083)
   description              String
   category                 CategoryProject
   type                     TypeProject

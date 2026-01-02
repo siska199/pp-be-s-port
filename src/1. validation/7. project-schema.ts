@@ -13,7 +13,7 @@ const projectSchema = (mandatory = true) =>
       }),
       thumbnail_image: zString({
         name: "Thumbnail Image",
-        mandatory,
+        mandatory:false,
       }),
       description: zString({
         max:10000,
