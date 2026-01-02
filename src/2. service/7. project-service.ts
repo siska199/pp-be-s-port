@@ -19,7 +19,7 @@ export type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & 
   id_skills?: string;
   keyword?: string;
   username?: string;
-  is_show_project?: boolean;
+  is_show_project?: string;
 };
 
 export const getListProjectService = async (params: TParamsListProjectDto) => {
@@ -134,7 +134,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
           ]
         : []),
       (is_show_project ? {
-          is_show_project
+          is_show_project : is_show_project==="true"
         } : {})
     ],
   };
@@ -209,7 +209,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
 };
 
 export const upsertProjectService = async (
-  params: Project & { id_skill_users: string[] }
+  params: Omit<Project, "is_show_project"> & { id_skill_users: string[];is_show_project:string }
 ) => {
   const id = params.id;
 
@@ -221,7 +221,7 @@ export const upsertProjectService = async (
     type: params.type,
     start_at: params.start_at,
     end_at: params.end_at,
-    is_show_project:params?.is_show_project
+    is_show_project:params?.is_show_project==="true"
   });
 
   await validationParse({
@@ -347,41 +347,17 @@ export const getProjectByIdService = async (param: string) => {
     },
   });
 
- const skillMap = new Map<
-    string,
-    {
-      id: string;
-      name: string;
-      color: string;
-      image?: string;
-      id_skill_user: string;
-    }
-  >();
-
-  for (const tech of result?.tech_stacks ?? []) {
-    const skill = tech.skill_user?.skill;
-    if (!skill) continue;
-
-    if (!skillMap.has(skill.id)) {
-      skillMap.set(skill.id, {
-        id: skill.id,
-        name: skill.name,
-        color: skill.color||'',
-        image: skill.image,
-        id_skill_user: tech.skill_user.id,
-      });
-    }
-  }
 
 
-  const tech_stacks = await Promise.all(
-    Array.from(skillMap.values()).map(async (skill) => ({
-      ...skill,
-      image: skill.image
-        ? await getCloudinaryUrl({ publicId: skill.image })
-        : null,
-    }))
-  );
+  const techStacks = result?.tech_stacks
+    ? await Promise.all(
+        result.tech_stacks.map(async (skill) => ({
+          ...skill,
+          image: await getCloudinaryUrl({ publicId: skill.skill_user.skill.image })
+        }))
+      )
+    : [];
+
 
 
   const thumbnail_image = await getCloudinaryUrl({
@@ -390,8 +366,8 @@ export const getProjectByIdService = async (param: string) => {
   const resultDto = {
     ...result,
     thumbnail_image,
-    tech_stacks,
-    id_skill_users : tech_stacks?.map((techStack)=>techStack?.id)
+    tech_stacks: techStacks,
+    id_skill_users :  techStacks?.map((techStack)=>techStack?.id)
   };
 
   return result ? resultDto : null;

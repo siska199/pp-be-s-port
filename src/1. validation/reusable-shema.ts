@@ -129,3 +129,17 @@ export const zArray = (params: { name: string; mandatory?: boolean }) => {
     ? dateSchema.nonempty(messageError.required(name))
     : dateSchema.optional();
 };
+
+export const zBoolean = (params: {
+  name: string;
+  mandatory?: boolean;
+}) => {
+  const { name, mandatory = true } = params;
+
+  const booleanSchema = z.boolean({
+    required_error: messageError.required(name),
+    invalid_type_error: `${name} must be a boolean`,
+  });
+
+  return mandatory ? booleanSchema : booleanSchema.optional();
+};

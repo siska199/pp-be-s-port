@@ -10,6 +10,7 @@ import {
   validationParse,
 } from "../_lib/helpers/function";
 import { TQueryParamsPaginationList } from "../_lib/types/index";
+import { uniqueByKey } from '../_lib/helpers/function';
 
 type TParamsListExperianceDto = TQueryParamsPaginationList<keyof Experiance> & {
   start_at?: string;
@@ -121,11 +122,8 @@ export const getListExperianceService = async (
     },
   });
 
-  const items = result.map((data) => ({
-    ...data,
-    company_name: data.company?.name,
-    profession_name: data.profession?.name,
-    tech_stacks :  [
+  const items = result.map((data) => {
+    const techStacks = [
     ...new Set(
       data?.projects?.flatMap((project ) => project.tech_stacks) ?? [],
     )
@@ -133,7 +131,14 @@ export const getListExperianceService = async (
       ...data,
       name: data?.skill_user.skill.name,
       color : data?.skill_user?.skill?.color
-  })) }));
+    }))
+    return ({
+      ...data,
+      company_name: data.company?.name,
+      profession_name: data.profession?.name,
+      tech_stacks :  uniqueByKey(techStacks, 'name')
+    })
+  });
 
   const totalItems = await prisma.experiance.count({ where: whereFilter });
 

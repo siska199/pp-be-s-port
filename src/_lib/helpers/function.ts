@@ -105,3 +105,16 @@ export const deepCopy = <T extends object>(input: T): T => {
 };
 
 
+export function uniqueByKey<T, K extends keyof T>(
+  items: T[],
+  key: K
+): T[] {
+  const seen = new Set<T[K]>();
+
+  return items.filter(item => {
+    const value = item[key];
+    if (seen.has(value)) return false;
+    seen.add(value);
+    return true;
+  });
+}

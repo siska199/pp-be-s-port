@@ -1,6 +1,6 @@
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
-import { zDatetime, zEnum, zString } from "../1. validation/reusable-shema";
+import { zBoolean, zDatetime, zEnum, zString } from "../1. validation/reusable-shema";
 
 const projectSchema = (mandatory = true) =>
   z
@@ -57,7 +57,7 @@ const projectSchema = (mandatory = true) =>
         name: "ID Profession",
         mandatory,
       }),
-      is_show_project: zString({
+      is_show_project: zBoolean({
         name: "Is Show Project",
         mandatory,
       }),
