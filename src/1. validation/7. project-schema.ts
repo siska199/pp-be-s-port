@@ -1,12 +1,11 @@
-import { messageError } from "../1. validation";
-import { zArray, zDatetime, zEnum, zString } from "../1. validation/reusable-shema";
 import { CategoryProject, TypeProject } from "@prisma/client";
 import { z } from "zod";
+import { zDatetime, zEnum, zString } from "../1. validation/reusable-shema";
 
 const projectSchema = (mandatory = true) =>
   z
     ?.object({
-      id: zString({ name: "ID", mandatory: !mandatory }),
+      id: zString({ name: "ID", mandatory: false }),
       name: zString({
         name: "Name",
         mandatory,

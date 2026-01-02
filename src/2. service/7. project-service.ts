@@ -218,6 +218,8 @@ export const upsertProjectService = async (
     end_at: params.end_at,
   });
 
+  console.log("id: ", id)
+
   await validationParse({
     schema: projectSchema(!id),
     data: {
@@ -258,7 +260,9 @@ export const upsertProjectService = async (
   const project = id
     ? await prisma.project.update({
         where: { id },
-        data: prismaData,
+      data: {
+          ...prismaData
+        },
       })
     : await prisma.project.create({
         data: prismaData,
