@@ -218,8 +218,6 @@ export const upsertProjectService = async (
     end_at: params.end_at,
   });
 
-  console.log("id: ", id)
-
   await validationParse({
     schema: projectSchema(!id),
     data: {
