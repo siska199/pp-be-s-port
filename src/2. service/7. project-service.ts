@@ -19,7 +19,7 @@ export type TParamsListProjectDto = TQueryParamsPaginationList<keyof Project> & 
   id_skills?: string;
   keyword?: string;
   username?: string;
-  is_show_project?: string;
+  is_show?: string;
 };
 
 export const getListProjectService = async (params: TParamsListProjectDto) => {
@@ -33,7 +33,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
     types,
     id_skills,
     keyword,
-    is_show_project
+    is_show
   } = params;
 
   const skip = (page_no - 1) * items_perpage;
@@ -133,8 +133,8 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
             },
           ]
         : []),
-      (is_show_project ? {
-          is_show_project : is_show_project==="true"
+      (is_show ? {
+          is_show : is_show==="true"
         } : {})
     ],
   };
@@ -209,7 +209,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
 };
 
 export const upsertProjectService = async (
-  params: Omit<Project, "is_show_project"> & { id_skill_users: string[];is_show_project:string }
+  params: Omit<Project, "is_show"> & { id_skill_users: string[];is_show:string }
 ) => {
   const id = params.id;
 
@@ -221,7 +221,7 @@ export const upsertProjectService = async (
     type: params.type,
     start_at: params.start_at,
     end_at: params.end_at,
-    is_show_project:params?.is_show_project==="true"
+    is_show:params?.is_show==="true"
   });
 
   await validationParse({
