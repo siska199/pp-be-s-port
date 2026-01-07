@@ -87,6 +87,7 @@ export const upsertPersonalInformationService = async (
         id,
       },
     });
+    
 
     dataDTO.professional_image && await deleteFromCloudinary(
       {
@@ -96,7 +97,6 @@ export const upsertPersonalInformationService = async (
     dataDTO.resume && await deleteFromCloudinary(
       {
         publicId: currentPersonalInfo?.resume || "",
-        resourceType: 'raw'
       }
     );
   }

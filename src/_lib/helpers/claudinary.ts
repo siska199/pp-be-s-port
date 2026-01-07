@@ -70,23 +70,20 @@ export const deleteFromCloudinary = async (params: {
   publicId: string;
   resourceType?: CloudinaryResourceType;
 }): Promise<void> => {
-  const { publicId, resourceType = 'image' } = params;
-
+  const { publicId, } = params;
   if (!publicId) return;
 
   try {
-    const result = await cloudinary.uploader.destroy(publicId, {
-      resource_type: resourceType,
-    });
+    const result = await cloudinary.uploader.destroy(publicId);
 
     if (result.result !== 'ok') {
       throw new CustomError(
-        `Failed to delete ${resourceType} from Cloudinary: ${result.result}`
+        `Failed to delete from Cloudinary: ${result.result}`
       );
     }
   } catch (error: any) {
     throw new CustomError(
-      `Error deleting ${resourceType} from Cloudinary: ${error?.message ?? error}`
+      `Error deleting data from Cloudinary: ${error?.message ?? error}`
     );
   }
 };
