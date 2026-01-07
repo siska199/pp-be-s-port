@@ -17,7 +17,8 @@ export type TParamsListEducationDto = TQueryParamsPaginationList<
   id_user: string;
   start_at?: string;
   end_at?: string;
-  is_show? :  string;
+  is_show?: string;
+  username?:string
 };
 
 export const getListEducationService = async (params: TParamsListEducationDto) => {
@@ -31,7 +32,8 @@ export const getListEducationService = async (params: TParamsListEducationDto) =
     id_user,
     start_at,
     end_at,
-    is_show
+    is_show,
+    username
   } = params;
 
   const skip = (Number(page_no) - 1) * Number(items_perpage);
@@ -90,7 +92,13 @@ export const getListEducationService = async (params: TParamsListEducationDto) =
         : []),
       (is_show ? {
           is_show : is_show==="true"
-        } : {})
+      } : {}),
+      (username ? {
+          user: {
+            username
+          }
+        } : {}
+      )
     ],
   };
 

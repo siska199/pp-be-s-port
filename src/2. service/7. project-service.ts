@@ -33,7 +33,8 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
     types,
     id_skills,
     keyword,
-    is_show
+    is_show,
+    username
   } = params;
 
   const skip = (page_no - 1) * items_perpage;
@@ -135,7 +136,13 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
         : []),
       (is_show ? {
           is_show : is_show==="true"
-        } : {})
+      } : {}),
+      (username ? {
+          user: {
+            username
+          }
+        } : {}
+      )
     ],
   };
 
