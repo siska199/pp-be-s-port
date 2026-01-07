@@ -38,7 +38,7 @@ const projectSchema = (mandatory = true) =>
       }),
       id_experiance: zString({
         name: "ID Experiance",
-        mandatory,
+        mandatory:false,
       }),
       id_user: zString({
         name: "ID User",

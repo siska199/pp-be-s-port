@@ -5,15 +5,15 @@ model Project {
   description              String
   category                 CategoryProject
   type                     TypeProject
-  id_experiance            String                  @db.VarChar(36)
+  id_experiance            String?                 @db.VarChar(36)
+  id_profession            String                  @db.VarChar(36)
   id_user                  String                  @db.VarChar(36)
   created_at               DateTime                @default(now())
   updated_at               DateTime                @updatedAt
   end_at                   DateTime
-  id_profession            String                  @db.VarChar(36)
   start_at                 DateTime
   is_show                  Boolean                 @default(true)
-  experiance               Experiance              @relation(fields: [id_experiance], references: [id])
+  experiance               Experiance?              @relation(fields: [id_experiance], references: [id])
   profession               MasterProfession        @relation(fields: [id_profession], references: [id])
   user                     User                    @relation(fields: [id_user], references: [id])
   project_links            ProjectLink[]
