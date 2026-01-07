@@ -129,6 +129,8 @@ export const getListEducationPortofolio = catchErrors(
     const queryObject: TParamsListEducationDto = mapEducationListQuery(req)
     const result = await getListEducationService({
       ...queryObject,
+      is_show:'true'
+
     });
 
     successResponse({
