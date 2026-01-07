@@ -57,7 +57,7 @@ const projectSchema = (mandatory = true) =>
         name: "ID Profession",
         mandatory,
       }),
-      is_show_project: zBoolean({
+      is_show: zBoolean({
         name: "Is Show Project",
         mandatory,
       }),

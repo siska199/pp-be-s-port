@@ -101,7 +101,7 @@ export const getListProjectPortofolio = catchErrors(
     const queryObject = mapProjectListQuery(req)
     const result = await getListProjectService({
       ...queryObject,
-      is_show_project:'true'
+      is_show:'true'
     });
     successResponse({
       res,
