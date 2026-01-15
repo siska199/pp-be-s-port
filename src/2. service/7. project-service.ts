@@ -253,10 +253,11 @@ export const upsertProjectService = async (
 
   const prismaData = {
     ...removeKeyWithUndifienedValue(scalarDto) as typeof scalarDto,
-
-    experiance: {
-      connect: { id: params.id_experiance },
-    },
+    ...(params.id_experiance && {
+      experiance: {
+        connect: { id: params.id_experiance },
+      },
+    }),
 
     user: {
       connect: { id: params.id_user },
