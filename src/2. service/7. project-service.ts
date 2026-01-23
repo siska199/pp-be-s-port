@@ -181,6 +181,13 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
           },
         },
       },
+      project_links: true,
+      project_menus: {
+        select: {
+          related_images:true
+        }
+      }
+
     },
   });
 
