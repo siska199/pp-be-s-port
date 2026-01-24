@@ -48,7 +48,7 @@ const uploadFile = (fileRules: TFileRules) => {
       cb(null, true);
     },
   });
-  const listFieldFile = Object.entries(fileRules).map(([key, value]) => ({
+  const listFieldFile = Object.entries(fileRules)?.map(([key, value]) => ({
     name: key,
     maxCount: value?.maxCount,
   }));
@@ -73,7 +73,7 @@ const uploadFileToClaudinary = async (
     const fileArray = req?.files?.[field];
     if (!Array.isArray(fileArray)) return null;
     await Promise.all(
-      fileArray?.map(async (file, i) => {
+      fileArray?.map?.(async (file, i) => {
         const fileSize = file.buffer.length;
         const rules = fileRules[field];
 
@@ -91,7 +91,7 @@ const uploadFileToClaudinary = async (
           fileRules[field].folder
         );
 
-        if (fileArray?.length > 1) {
+        if (fileArray?.length > 1 || (fileRules?.[field]?.maxCount||0)>1) {
           req.body[field] = (
             Array.isArray(req.body[field])
               ? req.body[field].concat(result?.public_id)

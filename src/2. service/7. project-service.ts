@@ -358,11 +358,16 @@ export const getProjectByIdService = async (param: string) => {
       profession: true,
       project_responsibilities: true,
       project_links: true,
-      project_menus:true
+      project_menus:{
+        include: {
+          related_images:true
+        },
+        orderBy: {
+          created_at: 'asc',
+        }
+      }
     },
   });
-
-
 
   const techStacks = result?.tech_stacks
     ? await Promise.all(
@@ -373,16 +378,38 @@ export const getProjectByIdService = async (param: string) => {
       )
     : [];
 
-
+    
 
   const thumbnail_image = await getCloudinaryUrl({
     publicId: result?.thumbnail_image || "",
   });
+
+  const projectMenus = result?.project_menus? await Promise.all(result?.project_menus?.map(async(projectMenu) => {
+    const mainImage = await getCloudinaryUrl({
+      publicId: projectMenu.main_image,
+    });
+
+    const realtedImages = await Promise.all(projectMenu?.related_images?.map(async (relatedImage) => {
+      const img = await getCloudinaryUrl({
+        publicId: relatedImage.image,
+      });
+      return {
+        ...relatedImage,
+        image: img
+      }
+    }))
+    return {
+      ...projectMenu,
+      main_image: mainImage,
+      related_images : realtedImages
+    }
+  })):[]
   const resultDto = {
     ...result,
     thumbnail_image,
     tech_stacks: techStacks,
-    id_skill_users :  techStacks?.map((techStack)=>techStack?.skill_user.id)
+    id_skill_users: techStacks?.map((techStack) => techStack?.skill_user.id),
+    project_menus : projectMenus
   };
 
   return result ? resultDto : null;

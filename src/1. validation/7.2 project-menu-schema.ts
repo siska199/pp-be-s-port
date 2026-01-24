@@ -17,13 +17,10 @@ const projectMenuSchema = (mandatory = true) =>
         name: "Main Image",
         mandatory: false,
       }),
-      // related_images: zArray({
-      //   name: "Related Images",
-      //   mandatory,
-      // }),
       features: zString({
         name: "Features",
-        mandatory:false,
+        mandatory: false,
+        max:10000
       }),
       id_project: zString({
         name: "ID Project",

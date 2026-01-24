@@ -27,17 +27,17 @@ export const getListProjectMenuService = async (param: string) => {
       },
     },
     orderBy: {
-      created_at: "desc"
+      created_at: "asc"
     }
   });
 
   const resultDto = await Promise.all(
-    result?.map(async (projectMenu) => {
+    result?.map?.(async (projectMenu) => {
       const main_image = await getCloudinaryUrl({
         publicId: projectMenu?.main_image || "",
       });
       const related_images = await Promise.all(
-        projectMenu?.related_images?.map(async (related_image) => {
+        projectMenu?.related_images?.map?.(async (related_image) => {
           const related_image_url = await getCloudinaryUrl({
             publicId: related_image?.image,
           });
@@ -73,7 +73,7 @@ export const upsertProjectMenuService = async (
     features: params?.features,
     id_project: params?.id_project,
     related_images: {
-      create: params?.related_images?.map((relatedImage) => ({
+      create: params?.related_images?.map?.((relatedImage) => ({
         image: relatedImage,
       })),
     },
@@ -94,7 +94,7 @@ export const upsertProjectMenuService = async (
       },
     });
     await Promise.all(
-      prev_related_images?.map(async (rm:ProjectMenuRelatedImage) => {
+      prev_related_images?.map?.(async (rm:ProjectMenuRelatedImage) => {
         await deleteFromCloudinary({
           publicId : rm.image
         });

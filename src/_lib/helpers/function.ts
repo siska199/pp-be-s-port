@@ -91,7 +91,7 @@ export const deepCopy = <T extends object>(input: T): T => {
   if (input === null || typeof input !== "object") return input;
   if (input instanceof Date) return new Date(input.getTime()) as T;
   if (Array.isArray(input))
-    return input.map((item) => deepCopy(item)) as unknown as T;
+    return input?.map((item) => deepCopy(item)) as unknown as T;
 
   const result: any = {};
   for (const key in input) {

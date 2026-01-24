@@ -25,7 +25,7 @@ export const getListProjectMenu = catchErrors(
 export const upsertProjectMenu = catchErrors(
   async (req: TRequestAuthRoute, res: Response) => {
     const payload = req.body;
-
+    
     const result = await upsertProjectMenuService({
       ...payload,
     });
