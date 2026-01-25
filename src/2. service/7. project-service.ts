@@ -162,6 +162,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
     where: whereFilter,
     orderBy,
     include: {
+      profession:true,
       experiance: {
         select: {
           id: true,
@@ -186,7 +187,8 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
         select: {
           related_images:true
         }
-      }
+      },
+      
 
     },
   });
