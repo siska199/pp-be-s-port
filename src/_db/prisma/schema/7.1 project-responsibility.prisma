@@ -1,6 +1,6 @@
 model ProjectResponsibility {
   id          String   @id @unique @default(uuid())
-  description String   
+  description String
   id_project  String   @db.VarChar(36)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt

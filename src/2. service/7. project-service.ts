@@ -26,7 +26,7 @@ export const getListProjectService = async (params: TParamsListProjectDto) => {
   const {
     page_no = 1,
     items_perpage = 10,
-    sort_by = "created_at",
+    sort_by = "start_at",
     sort_dir = "desc",
     id_user,
     categories,
@@ -358,7 +358,11 @@ export const getProjectByIdService = async (param: string) => {
         },
       },
       profession: true,
-      project_responsibilities: true,
+      project_responsibilities: {
+        orderBy: {
+          created_at: 'asc',
+        }
+      },
       project_links: true,
       project_menus:{
         include: {

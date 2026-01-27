@@ -10,8 +10,7 @@ model Education {
   end_at      DateTime
   created_at  DateTime              @default(now())
   updated_at  DateTime              @updatedAt
-  is_show     Boolean                 @default(true)
-
+  is_show     Boolean               @default(true)
   level       MasterEducationLevel  @relation(fields: [id_level], references: [id])
   major       MasterEducationMajor  @relation(fields: [id_major], references: [id])
   school      MasterEducationSchool @relation(fields: [id_school], references: [id])

@@ -1,7 +1,7 @@
 model ProjectMenu {
   id             String                    @id @unique @default(uuid())
   name           String                    @db.VarChar(255)
-  description    String                     
+  description    String
   main_image     String                    @db.VarChar(2083)
   features       String
   id_project     String                    @db.VarChar(36)

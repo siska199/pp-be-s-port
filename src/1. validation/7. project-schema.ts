@@ -47,7 +47,7 @@ const projectSchema = (mandatory = true) =>
 
       start_at: zDatetime({
         name: "Start At",
-        mandatory,
+        mandatory:false,
       }),
       end_at: zDatetime({
         name: "End At",

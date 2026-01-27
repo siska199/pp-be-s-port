@@ -25,7 +25,7 @@ export const getListExperianceService = async (
   const {
     page_no = 1,
     items_perpage = 10,
-    sort_by,
+    sort_by = "start_at",
     sort_dir = "desc",
     keyword,
     start_at,
