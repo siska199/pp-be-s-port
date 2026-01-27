@@ -9,9 +9,9 @@ model Project {
   id_user                  String                  @db.VarChar(36)
   created_at               DateTime                @default(now())
   updated_at               DateTime                @updatedAt
-  end_at                   DateTime
+  end_at                   DateTime?
   id_profession            String                  @db.VarChar(36)
-  start_at                 DateTime
+  start_at                 DateTime?
   is_show                  Boolean                 @default(true)
   experiance               Experiance?             @relation(fields: [id_experiance], references: [id])
   profession               MasterProfession        @relation(fields: [id_profession], references: [id])

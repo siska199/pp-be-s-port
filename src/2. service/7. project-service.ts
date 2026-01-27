@@ -267,14 +267,17 @@ export const upsertProjectService = async (
         connect: { id: params.id_experiance },
       },
     }),
+    ...(params?.id_user && {
+      user: {
+        connect: { id: params.id_user },
+      },
+    }),
+    ...(params?.id_profession && {
+      profession: {
+        connect: { id: params.id_profession },
+      },
+    })
 
-    user: {
-      connect: { id: params.id_user },
-    },
-
-    profession: {
-      connect: { id: params.id_profession },
-    },
 
   };
 
@@ -286,7 +289,7 @@ export const upsertProjectService = async (
         },
       })
     : await prisma.project.create({
-        data: prismaData,
+        data: prismaData as unknown as any,
       });
 
   if (params.id_skill_users?.length) {

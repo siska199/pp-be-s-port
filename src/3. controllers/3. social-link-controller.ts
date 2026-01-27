@@ -3,6 +3,7 @@ import {
   deleteSocialLinkByIdService,
   getListSocialLinkService,
   upsertSocialLinkService,
+  deleteSocialLinkByIdsService,
 } from "../2. service/3. social-link-service";
 import catchErrors from "../_lib/helpers/catch-error";
 import message from "../_lib/helpers/message";
@@ -67,6 +68,18 @@ export const deleteSocialLink = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
   const result = await deleteSocialLinkByIdService(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.deleteData,
+  });
+});
+
+export const deleteSocialLinks = catchErrors(async (req, res) => {
+  const ids = req.body;
+
+  const result = await deleteSocialLinkByIdsService(ids);
 
   successResponse({
     res,

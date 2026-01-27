@@ -103,3 +103,16 @@ export const deleteKeyMetricByIdService = async (param: string) => {
 
   return result;
 };
+
+
+export const deleteKeyMetricByIdsService = async (ids: string[]) => {
+  const result = await prisma.keyMetric.deleteMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+  });
+
+  return result;
+};

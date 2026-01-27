@@ -126,3 +126,17 @@ export const deleteSocialLinkByIdService = async (param: string) => {
 
   return result;
 };
+
+
+export const deleteSocialLinkByIdsService = async (ids: string[]) => {
+  const result = await prisma.socialLink.deleteMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+  });
+
+  return result;
+};
+

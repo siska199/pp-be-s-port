@@ -1,5 +1,5 @@
 
-import { deleteKeyMetricByIdService, getListKeyMetricService, upsertBulkKeyMetricService, upsertKeyMetricService } from "../2. service/2.1 key-metric";
+import { deleteKeyMetricByIdService, deleteKeyMetricByIdsService, getListKeyMetricService, upsertBulkKeyMetricService, upsertKeyMetricService } from "../2. service/2.1 key-metric";
 import catchErrors from "../_lib/helpers/catch-error";
 import message from "../_lib/helpers/message";
 import { successResponse } from "../_lib/helpers/response";
@@ -63,6 +63,18 @@ export const deleteKeyMetric = catchErrors(async (req, res) => {
   const id = req.params?.id;
 
   const result = await deleteKeyMetricByIdService(id);
+
+  successResponse({
+    res,
+    data: result,
+    message: message?.success?.deleteData,
+  });
+});
+
+export const deleteKeyMetrics = catchErrors(async (req, res) => {
+  const ids = req.body;
+
+  const result = await deleteKeyMetricByIdsService(ids);
 
   successResponse({
     res,

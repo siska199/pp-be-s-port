@@ -65,3 +65,7 @@ TER ',' CSV HEADER;
 
 >> Step by step to connect to database from vercel in locale:
 https://www.prisma.io/docs/postgres/database/tooling#connecting-to-prisma-postgres-instance-with-3rd-party-database-editors
+
+
+
+> 
