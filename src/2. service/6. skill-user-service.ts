@@ -276,6 +276,7 @@ params: TParamsListSkillUserCategory
             select: {
               id: true,
               name: true,
+              priority:true
             },
           },
         },
@@ -295,6 +296,7 @@ params: TParamsListSkillUserCategory
       categoryMap.set(category.id, {
         categoryId: category.id,
         categoryName: category.name,
+        priority : category.priority,
         skills: [],
       })
     }
@@ -310,5 +312,9 @@ params: TParamsListSkillUserCategory
     })
   }
 
-  return Array.from(categoryMap.values())
+  const listCategory = Array.from(categoryMap.values()).sort(
+    (a, b) => a.priority - b.priority
+  );
+
+  return listCategory
 }
