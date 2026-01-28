@@ -6,6 +6,7 @@ model MasterSkill {
   id_category String              @db.VarChar(36)
   created_at  DateTime            @default(now())
   updated_at  DateTime            @updatedAt
+  priority    Int?              
   category    MasterCategorySkill @relation(fields: [id_category], references: [id])
   skillsUser  SkillUser[]
 

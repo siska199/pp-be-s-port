@@ -5,6 +5,9 @@
    genakan ini "npx prisma migrate deploy"
  - npx prisma db seed
 
+>>Manually Create File Migration:
+ - npx prisma migrate dev --create-only --name <file_title_migration>
+ - 
 
 -- If local migration not sync with origin:
 - npx prisma db pull

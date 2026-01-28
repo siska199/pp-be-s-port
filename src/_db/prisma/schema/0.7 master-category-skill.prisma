@@ -3,6 +3,8 @@ model MasterCategorySkill {
   name       String        @unique @db.VarChar(255)
   created_at DateTime      @default(now())
   updated_at DateTime      @updatedAt
+  priority    Int?              
+
   skills     MasterSkill[]
 
   @@map("master_category_skill")
