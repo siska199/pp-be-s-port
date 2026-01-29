@@ -3,7 +3,7 @@ model ProjectMenu {
   name           String                    @db.VarChar(255)
   description    String
   main_image     String                    @db.VarChar(2083)
-  features       String
+  features       String?
   id_project     String                    @db.VarChar(36)
   created_at     DateTime                  @default(now())
   updated_at     DateTime                  @updatedAt
