@@ -228,16 +228,16 @@ export const upsertProjectService = async (
   params: Omit<Project, "is_show"> & { id_skill_users: string[];is_show:string }
 ) => {
   const id = params.id;
-
+  const updateParams = removeKeyWithUndifienedValue(params)
   const scalarDto = trimObject({
-    name: params.name,
-    thumbnail_image: params.thumbnail_image,
-    description: params.description,
-    category: params.category,
-    type: params.type,
-    start_at: params.start_at,
-    end_at: params.end_at,
-    is_show:params?.is_show==="true"
+    name: updateParams.name,
+    thumbnail_image: updateParams.thumbnail_image,
+    description: updateParams.description,
+    category: updateParams.category,
+    type: updateParams.type,
+    start_at: updateParams.start_at,
+    end_at: updateParams.end_at,
+    is_show:updateParams?.is_show==="true"
   });
 
   await validationParse({
